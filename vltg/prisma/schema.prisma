@@ -1,0 +1,175 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  SUPER_ADMIN
+  ADMIN
+  CUSTOMER
+}
+
+enum OrderStatus {
+  PENDING_PAYMENT
+  PAYMENT_CONFIRMED
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
+
+model User {
+  id        String    @id @default(cuid())
+  email     String    @unique
+  password  String
+  name      String
+  role      Role      @default(CUSTOMER)
+  customer  Customer?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Category {
+  id          String    @id @default(cuid())
+  name        String
+  slug        String    @unique
+  description String?
+  products    Product[]
+  createdAt   DateTime  @default(now())
+}
+
+model Collection {
+  id          String    @id @default(cuid())
+  name        String
+  slug        String    @unique
+  description String?
+  coverImage  String?
+  isActive    Boolean   @default(true)
+  products    Product[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Product {
+  id           String      @id @default(cuid())
+  name         String
+  slug         String      @unique
+  description  String      @db.Text
+  price        Decimal     @db.Decimal(10, 2)
+  comparePrice Decimal?    @db.Decimal(10, 2)
+  images       String[]
+  sizes        String[]
+  colors       Json        @default("[]")
+  stock        Int         @default(0)
+  sku          String?     @unique
+  categoryId   String
+  category     Category    @relation(fields: [categoryId], references: [id])
+  collectionId String?
+  collection   Collection? @relation(fields: [collectionId], references: [id])
+  isNewArrival Boolean     @default(false)
+  isFeatured   Boolean     @default(false)
+  isBestSeller Boolean     @default(false)
+  isTrending   Boolean     @default(false)
+  isPublished  Boolean     @default(true)
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  orderItems   OrderItem[]
+  wishlists    Wishlist[]
+}
+
+model Customer {
+  id        String   @id @default(cuid())
+  userId    String?  @unique
+  user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name      String
+  email     String   @unique
+  phone     String?
+  orders    Order[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Order {
+  id          String      @id @default(cuid())
+  orderNumber String      @unique
+  customerId  String
+  customer    Customer    @relation(fields: [customerId], references: [id])
+  items       OrderItem[]
+  status      OrderStatus @default(PENDING_PAYMENT)
+  totalAmount Decimal     @db.Decimal(10, 2)
+  address     String
+  city        String
+  state       String
+  country     String
+  notes       String?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
+
+model OrderItem {
+  id        String  @id @default(cuid())
+  orderId   String
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+  quantity  Int
+  size      String
+  color     String
+  price     Decimal @db.Decimal(10, 2)
+}
+
+model Wishlist {
+  id        String   @id @default(cuid())
+  sessionId String
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([sessionId, productId])
+}
+
+model HeroBanner {
+  id       String  @id @default(cuid())
+  title    String
+  subtitle String?
+  image    String
+  ctaText  String? @default("Shop Now")
+  ctaLink  String? @default("/shop")
+  isActive Boolean @default(true)
+  order    Int     @default(0)
+}
+
+model LookbookImage {
+  id        String   @id @default(cuid())
+  image     String
+  caption   String?
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+}
+
+model Setting {
+  key   String @id
+  value String @db.Text
+}
+
+model VerificationToken {
+  id        String   @id @default(cuid())
+  email     String
+  token     String   @unique
+  expiresAt DateTime
+
+  @@unique([email, token])
+}
+
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  email     String
+  token     String   @unique
+  expiresAt DateTime
+
+  @@unique([email, token])
+}
+
