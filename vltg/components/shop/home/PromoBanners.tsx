@@ -50,7 +50,7 @@ export function PromoBanners() {
                     sizes="(max-width: 768px) 100vw, 50vw"
                     className="object-cover transition-transform duration-700 group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/40 to-transparent z-10" />
+                  <div className="absolute inset-0 bg-linear-to-r from-black/75 via-black/40 to-transparent z-10" />
                   <div className="absolute inset-0 z-20 flex flex-col justify-end p-8">
                     <span
                       className="inline-block text-[10px] font-bold uppercase tracking-[0.15em] px-3 py-1 rounded-sm mb-4 w-fit"

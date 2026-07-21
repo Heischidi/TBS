@@ -188,7 +188,7 @@ export function ProductDetailClient({ product, related }: { product: Product; re
                       priority
                     />
                   ) : (
-                    <div className="w-full h-full bg-gradient-to-br from-surface-3 to-brand-green/20 flex items-center justify-center">
+                    <div className="w-full h-full bg-linear-to-br from-surface-3 to-brand-green/20 flex items-center justify-center">
                       <span className="font-display text-8xl text-white/5 tracking-widest">TBS</span>
                     </div>
                   )}
@@ -506,7 +506,7 @@ export function ProductDetailClient({ product, related }: { product: Product; re
               onClick={handleAddToCart}
               disabled={outOfStock}
               className={cn(
-                "flex items-center gap-2 px-6 py-3 font-semibold uppercase tracking-wider text-xs flex-shrink-0 transition-all",
+                "flex items-center gap-2 px-6 py-3 font-semibold uppercase tracking-wider text-xs shrink-0 transition-all",
                 added ? "bg-brand-green text-white" : outOfStock ? "bg-surface-3 text-text-muted" : "bg-brand-pink text-white"
               )}
             >

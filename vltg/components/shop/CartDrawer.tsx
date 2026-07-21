@@ -182,7 +182,7 @@ export function CartDrawer() {
                 {!couponApplied ? (
                   <form onSubmit={handleCoupon} className="flex gap-2">
                     <div className="flex-1 flex items-center border border-white/10 bg-white/3 px-3 gap-2">
-                      <Tag size={13} className="text-text-muted flex-shrink-0" />
+                      <Tag size={13} className="text-text-muted shrink-0" />
                       <input
                         type="text"
                         value={coupon}

@@ -83,7 +83,7 @@ export function FeaturedCollection({ products, collections }: Props) {
                         className="object-cover transition-transform duration-700 group-hover:scale-105"
                       />
                     ) : (
-                      <div className="w-full h-full bg-gradient-to-br from-surface-3 to-brand-green/20" />
+                      <div className="w-full h-full bg-linear-to-br from-surface-3 to-brand-green/20" />
                     )}
                     <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors" />
                     <div className="absolute bottom-5 left-5 right-5">

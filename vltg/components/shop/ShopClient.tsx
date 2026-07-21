@@ -187,7 +187,7 @@ export function ShopClient({ categories, collections }: { categories: Category[]
             {/* Category chips */}
             <button
               onClick={() => setSelectedCategory("")}
-              className={cn("filter-chip flex-shrink-0", !selectedCategory && "active")}
+              className={cn("filter-chip shrink-0", !selectedCategory && "active")}
             >
               All
             </button>
@@ -195,7 +195,7 @@ export function ShopClient({ categories, collections }: { categories: Category[]
               <button
                 key={cat.id}
                 onClick={() => setSelectedCategory(selectedCategory === cat.slug ? "" : cat.slug)}
-                className={cn("filter-chip flex-shrink-0", selectedCategory === cat.slug && "active")}
+                className={cn("filter-chip shrink-0", selectedCategory === cat.slug && "active")}
               >
                 {cat.name}
                 {selectedCategory === cat.slug && (
@@ -209,7 +209,7 @@ export function ShopClient({ categories, collections }: { categories: Category[]
               <button
                 key={col.id}
                 onClick={() => setSelectedCollection(selectedCollection === col.slug ? "" : col.slug)}
-                className={cn("filter-chip flex-shrink-0", selectedCollection === col.slug && "active")}
+                className={cn("filter-chip shrink-0", selectedCollection === col.slug && "active")}
               >
                 {col.name}
                 {selectedCollection === col.slug && (
@@ -227,7 +227,7 @@ export function ShopClient({ categories, collections }: { categories: Category[]
                     prev.includes(size) ? prev.filter((s) => s !== size) : [...prev, size]
                   )
                 }
-                className={cn("filter-chip flex-shrink-0 text-[10px] px-2.5 py-1", selectedSizes.includes(size) && "active")}
+                className={cn("filter-chip shrink-0 text-[10px] px-2.5 py-1", selectedSizes.includes(size) && "active")}
               >
                 {size}
               </button>
@@ -237,7 +237,7 @@ export function ShopClient({ categories, collections }: { categories: Category[]
             {hasFilters && (
               <button
                 onClick={clearFilters}
-                className="filter-chip flex-shrink-0 text-[10px] border-red-400/30 text-red-400 hover:border-red-400"
+                className="filter-chip shrink-0 text-[10px] border-red-400/30 text-red-400 hover:border-red-400"
               >
                 <X size={10} />
                 Clear All

@@ -76,7 +76,7 @@ export function BestSellers({ products }: { products: Product[] }) {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.05 }}
-              className="flex-shrink-0 w-44"
+              className="shrink-0 w-44"
             >
               <ProductCard
                 id={product.id} slug={product.slug} name={product.name}

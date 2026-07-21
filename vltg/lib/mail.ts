@@ -40,7 +40,8 @@ export async function sendVerificationEmail(email: string, token: string) {
     });
   } catch (error) {
     console.error("Failed to send verification email:", error);
-    throw new Error("Could not send verification email");
+    // Don't throw — allow the signup flow to continue even if email fails
+    return;
   }
 }
 
@@ -78,6 +79,7 @@ export async function sendPasswordResetEmail(email: string, token: string) {
     });
   } catch (error) {
     console.error("Failed to send password reset email:", error);
-    throw new Error("Could not send password reset email");
+    // Don't throw — allow the flow to continue even if email fails
+    return;
   }
 }

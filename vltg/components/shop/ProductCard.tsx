@@ -199,12 +199,12 @@ export function ProductCard({
                 onClick={handleQuickAdd}
                 disabled={outOfStock}
                 className={cn(
-                  "w-full py-2.5 text-[11px] font-semibold uppercase tracking-widest transition-all",
+                  "w-full py-3 text-[10px] font-semibold uppercase tracking-widest transition-all border-t border-white/10 backdrop-blur-md",
                   added
-                    ? "bg-brand-green text-white"
+                    ? "bg-white/10 text-white"
                     : outOfStock
                     ? "bg-black/70 text-text-muted cursor-not-allowed"
-                    : "bg-white text-black hover:bg-brand-pink hover:text-white"
+                    : "bg-black/40 text-white hover:bg-white hover:text-black"
                 )}
                 id={`quick-add-${slug}`}
               >
@@ -244,11 +244,7 @@ export function ProductCard({
             {name}
           </h3>
 
-          {/* Rating + sold count */}
-          <div className="flex items-center gap-1.5 mt-1">
-            <StarRow rating={rating} />
-            <span className="text-[10px] text-text-muted">({soldCount.toLocaleString()})</span>
-          </div>
+          {/* Removed rating and sold count for a more premium look */}
 
           {/* Price row */}
           <div className="flex items-center gap-2 mt-1 flex-wrap">
@@ -272,7 +268,7 @@ export function ProductCard({
                 <div
                   key={color.name}
                   title={color.name}
-                  className="w-3 h-3 rounded-full border border-white/20 flex-shrink-0"
+                  className="w-3 h-3 rounded-full border border-white/20 shrink-0"
                   style={{ backgroundColor: color.hex }}
                 />
               ))}

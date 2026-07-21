@@ -69,7 +69,7 @@ export function Newsletter() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="bg-brand-pink text-white px-8 py-4 text-xs font-bold uppercase tracking-widest hover:bg-brand-pink/85 transition-colors disabled:opacity-50 flex-shrink-0"
+                  className="bg-brand-pink text-white px-8 py-4 text-xs font-bold uppercase tracking-widest hover:bg-brand-pink/85 transition-colors disabled:opacity-50 shrink-0"
                   id="newsletter-submit"
                 >
                   {loading ? "..." : "Subscribe"}

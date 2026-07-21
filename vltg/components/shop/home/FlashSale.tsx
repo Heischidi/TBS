@@ -56,8 +56,8 @@ export function FlashSale({ products }: { products?: FlashProduct[] }) {
             viewport={{ once: true }}
             className="flex items-center gap-4"
           >
-            <div className="flex items-center justify-center w-12 h-12 rounded-full bg-brand-pink/15 border border-brand-pink/30">
-              <Zap size={20} className="text-brand-pink fill-brand-pink" />
+            <div className="flex items-center justify-center w-12 h-12 border border-white/10 rounded-full">
+              <Zap size={20} className="text-white" />
             </div>
             <div>
               <p className="text-brand-pink text-[10px] font-bold uppercase tracking-[0.4em]">Limited Time</p>
@@ -93,7 +93,7 @@ export function FlashSale({ products }: { products?: FlashProduct[] }) {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.06 }}
-                className="flex-shrink-0 w-44 md:w-52 group"
+                className="shrink-0 w-44 md:w-52 group"
               >
                 <Link href={`/products/${product.slug}`}>
                   <div className="relative aspect-3/4 overflow-hidden bg-surface-3 rounded-md mb-3">
@@ -110,16 +110,10 @@ export function FlashSale({ products }: { products?: FlashProduct[] }) {
                       <span className="absolute top-3 left-3 sale-badge-red">-{discount}%</span>
                     )}
                     {lowStock && product.stock !== undefined && product.stock > 0 && (
-                      <div className="absolute bottom-3 left-3 right-3">
-                        <div className="bg-black/80 rounded-sm px-2.5 py-1.5">
-                          <div className="flex justify-between text-[9px] text-text-secondary mb-1.5">
-                            <span>Stock</span>
-                            <span className="text-brand-pink font-bold">Only {product.stock} left!</span>
-                          </div>
-                          <div className="free-ship-bar">
-                            <div className="free-ship-fill" style={{ width: `${Math.min(100, ((product.stock ?? 0) / 20) * 100)}%`, background: "linear-gradient(90deg, #CC0000, #FF1493)" }} />
-                          </div>
-                        </div>
+                      <div className="absolute bottom-3 left-3 right-3 flex justify-center">
+                        <span className="bg-white/10 backdrop-blur-md border border-white/20 text-white text-[9px] uppercase tracking-widest px-3 py-1 rounded-sm">
+                          Low Stock
+                        </span>
                       </div>
                     )}
                   </div>
@@ -144,7 +138,7 @@ export function FlashSale({ products }: { products?: FlashProduct[] }) {
         <div className="mt-10 text-center">
           <Link
             href="/best-sellers"
-            className="inline-flex items-center gap-2.5 border border-brand-pink/40 text-brand-pink hover:bg-brand-pink hover:text-white px-10 py-3.5 text-xs font-bold uppercase tracking-widest transition-all duration-300 rounded-sm"
+            className="inline-flex items-center gap-2.5 border border-white/20 text-white hover:bg-white hover:text-black px-10 py-3.5 text-xs font-medium uppercase tracking-widest transition-all duration-300 rounded-sm"
             id="flash-sale-view-all"
           >
             View All Deals

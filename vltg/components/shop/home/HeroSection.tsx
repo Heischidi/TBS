@@ -89,10 +89,6 @@ export function HeroSection({ banners }: { banners: HeroBanner[] }) {
         }}
       />
 
-      {/* Decorative glow blobs */}
-      <div className="absolute top-20 right-10 w-64 h-64 bg-brand-pink/10 rounded-full blur-3xl pointer-events-none z-2" />
-      <div className="absolute bottom-20 left-10 w-96 h-96 bg-brand-green/10 rounded-full blur-3xl pointer-events-none z-2" />
-
       {/* Content */}
       <div className="relative z-10 h-full flex items-center">
         <div className="max-w-7xl mx-auto px-6 md:px-12 w-full">
@@ -162,7 +158,7 @@ export function HeroSection({ banners }: { banners: HeroBanner[] }) {
               >
                 <Link
                   href={banner.ctaLink || "/shop"}
-                  className="bg-white text-black px-10 py-4 font-semibold uppercase tracking-widest text-sm hover:bg-brand-pink hover:text-white transition-all duration-300 hover:shadow-glow-pink"
+                  className="bg-white text-black px-10 py-4 font-semibold uppercase tracking-widest text-sm transition-all duration-300 hover:bg-white/90"
                   id="hero-cta-primary"
                 >
                   {banner.ctaText || "Shop Now"}

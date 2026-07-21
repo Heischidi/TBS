@@ -209,44 +209,36 @@ a, button {
 
 /* Announcement Bar */
 .announcement-bar {
-  background: linear-gradient(90deg, #800020, #FF1493, #800020);
-  background-size: 200% 100%;
-  animation: gradientShift 4s ease infinite;
-}
-@keyframes gradientShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  background: var(--surface-1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 .announcement-scroll {
   display: flex;
   gap: 0;
-  animation: announcementScroll 20s linear infinite;
-}
-@keyframes announcementScroll {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
 }
 
 /* Sale / Discount Badge */
 .sale-badge {
-  background: #FF1493;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
   color: #fff;
-  font-size: 10px;
-  font-weight: 800;
-  padding: 2px 6px;
-  letter-spacing: 0.05em;
+  font-size: 9px;
+  font-weight: 500;
+  padding: 3px 8px;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   display: inline-block;
 }
 .sale-badge-red {
-  background: #CC0000;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
   color: #fff;
-  font-size: 11px;
-  font-weight: 800;
-  padding: 2px 7px;
-  border-radius: 2px;
-  letter-spacing: 0.03em;
+  font-size: 9px;
+  font-weight: 500;
+  padding: 3px 8px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  display: inline-block;
 }
 
 /* Countdown Timer */
@@ -254,31 +246,31 @@ a, button {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,20,147,0.3);
-  border-radius: 4px;
-  padding: 4px 10px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  padding: 6px 10px;
   min-width: 44px;
 }
 .countdown-digit {
   font-family: 'Outfit', monospace;
-  font-size: 20px;
-  font-weight: 700;
-  color: #FF1493;
+  font-size: 18px;
+  font-weight: 400;
+  color: #FFFFFF;
   line-height: 1;
 }
 .countdown-label {
-  font-size: 9px;
+  font-size: 8px;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: #9A9A9A;
-  margin-top: 2px;
+  letter-spacing: 0.15em;
+  color: #7A7A7A;
+  margin-top: 4px;
 }
 .countdown-separator {
-  font-size: 20px;
-  font-weight: 700;
-  color: #FF1493;
-  padding: 0 2px;
+  font-size: 18px;
+  font-weight: 300;
+  color: #5A5A5A;
+  padding: 0 4px;
   line-height: 1;
   align-self: flex-start;
   margin-top: 4px;
@@ -286,9 +278,7 @@ a, button {
 
 /* Flash Sale Strip */
 .flash-sale-bg {
-  background: linear-gradient(135deg, #0A0A0A 0%, #1a0010 50%, #0A0A0A 100%);
-  border-top: 1px solid rgba(255,20,147,0.2);
-  border-bottom: 1px solid rgba(255,20,147,0.2);
+  background: var(--surface-1);
 }
 
 /* Category Grid */
@@ -365,30 +355,27 @@ a, button {
 
 /* Trust Badges */
 .trust-badge-strip {
-  background: #0D0D0D;
-  border-top: 1px solid rgba(255,255,255,0.04);
-  border-bottom: 1px solid rgba(255,255,255,0.04);
+  background: var(--surface-1);
+  border-top: 1px solid rgba(255,255,255,0.05);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
 }
 .trust-badge-item {
   display: flex;
   align-items: center;
-  gap: 10px;
-  color: #9A9A9A;
-  font-size: 13px;
-  font-weight: 500;
+  gap: 12px;
+  color: #7A7A7A;
+  font-size: 12px;
+  font-weight: 400;
   transition: color 0.2s;
 }
-.trust-badge-item:hover { color: #F5F5F5; }
+.trust-badge-item:hover { color: #FFFFFF; }
 .trust-badge-icon {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: rgba(255,20,147,0.08);
-  border: 1px solid rgba(255,20,147,0.2);
+  width: 32px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #FF1493;
+  color: #FFFFFF;
   flex-shrink: 0;
 }
 
@@ -415,19 +402,10 @@ a, button {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: rgba(255,100,0,0.1);
-  border: 1px solid rgba(255,100,0,0.25);
-  color: #FF6400;
+  color: #9A9A9A;
   font-size: 11px;
-  font-weight: 600;
-  padding: 3px 10px;
-  border-radius: 999px;
-  letter-spacing: 0.02em;
-  animation: pulse 2s ease-in-out infinite;
-}
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.75; }
+  font-weight: 400;
+  letter-spacing: 0.03em;
 }
 
 /* Size Guide Modal */

@@ -1,9 +1,18 @@
 import { NextResponse } from "next/server";
-import { writeFile, mkdir } from "fs/promises";
-import { join } from "path";
-import { v4 as uuidv4 } from "uuid";
+import cloudinary from "@/lib/cloudinary";
 
 export async function POST(request: Request) {
+  if (
+    !process.env.CLOUDINARY_CLOUD_NAME ||
+    !process.env.CLOUDINARY_API_KEY ||
+    !process.env.CLOUDINARY_API_SECRET
+  ) {
+    return NextResponse.json(
+      { error: "Image upload is not configured yet." },
+      { status: 503 }
+    );
+  }
+
   try {
     const formData = await request.formData();
     const files = formData.getAll("files") as File[];
@@ -12,18 +21,20 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "No files provided" }, { status: 400 });
     }
 
-    const uploadDir = join(process.cwd(), "public", "uploads");
-    await mkdir(uploadDir, { recursive: true });
-
     const urls: string[] = [];
 
     for (const file of files) {
-      const ext = file.name.split(".").pop() || "jpg";
-      const filename = `${uuidv4()}.${ext}`;
       const bytes = await file.arrayBuffer();
       const buffer = Buffer.from(bytes);
-      await writeFile(join(uploadDir, filename), buffer);
-      urls.push(`/uploads/${filename}`);
+      const b64 = buffer.toString("base64");
+      const dataURI = `data:${file.type};base64,${b64}`;
+
+      const result = await cloudinary.uploader.upload(dataURI, {
+        folder: "vltg",
+        resource_type: "image",
+      });
+
+      urls.push(result.secure_url);
     }
 
     return NextResponse.json({ urls });

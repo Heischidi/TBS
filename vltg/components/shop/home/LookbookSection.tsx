@@ -61,7 +61,7 @@ export function LookbookSection({ images }: { images: LookbookImage[] }) {
                       className="object-cover transition-transform duration-700 group-hover:scale-105"
                     />
                   ) : (
-                    <div className={`w-full h-full bg-gradient-to-br ${
+                    <div className={`w-full h-full bg-linear-to-br ${
                       ["from-brand-green/30 to-black", "from-brand-maroon/30 to-black", "from-brand-pink/20 to-black"][i % 3]
                     } flex items-center justify-center`}>
                       <span className="font-display text-5xl text-white/10 tracking-widest">TBS</span>
@@ -71,7 +71,7 @@ export function LookbookSection({ images }: { images: LookbookImage[] }) {
                     <ZoomIn size={24} className="text-white opacity-0 group-hover:opacity-100 transition-opacity" />
                   </div>
                   {img.caption && (
-                    <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div className="absolute bottom-0 left-0 right-0 p-4 bg-linear-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
                       <p className="text-white text-xs uppercase tracking-widest">{img.caption}</p>
                     </div>
                   )}

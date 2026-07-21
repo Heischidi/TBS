@@ -52,9 +52,9 @@ export function TrendingSection({ products }: { products: Product[] }) {
                     className="object-cover transition-transform duration-700 group-hover:scale-105"
                   />
                 ) : (
-                  <div className="w-full h-full bg-gradient-to-br from-brand-green/30 to-black" />
+                  <div className="w-full h-full bg-linear-to-br from-brand-green/30 to-black" />
                 )}
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
+                <div className="absolute inset-0 bg-linear-to-t from-black via-black/20 to-transparent" />
                 <div className="absolute bottom-8 left-8 right-8">
                   <span className="inline-block bg-brand-pink text-white text-[10px] font-bold px-3 py-1 uppercase tracking-widest mb-3">#1 Trending</span>
                   <h3 className="font-display text-4xl text-white">{main.name}</h3>
@@ -79,7 +79,7 @@ export function TrendingSection({ products }: { products: Product[] }) {
                 className="group relative overflow-hidden bg-surface-3 rounded-md flex-1"
               >
                 <Link href={`/products/${product.slug}`} className="flex h-full min-h-[120px]">
-                  <div className="relative w-28 overflow-hidden flex-shrink-0">
+                  <div className="relative w-28 overflow-hidden shrink-0">
                     {product.images[0] ? (
                       <Image
                         src={product.images[0]} alt={product.name} fill
