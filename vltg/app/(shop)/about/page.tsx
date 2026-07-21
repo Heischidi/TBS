@@ -12,135 +12,43 @@ export default function AboutPage() {
 
       {/* ── HERO ──────────────────────────────────────────── */}
       <section className="relative pt-40 pb-28 overflow-hidden">
-        {/* Background accent */}
-        <div
-          className="absolute top-0 left-0 w-full h-full pointer-events-none"
-          aria-hidden="true"
-        >
-          <div
-            style={{
-              position: "absolute",
-              top: "-10%",
-              right: "-5%",
-              width: "600px",
-              height: "600px",
-              borderRadius: "50%",
-              background:
-                "radial-gradient(circle, rgba(255,20,147,0.06) 0%, transparent 70%)",
-            }}
-          />
-          <div
-            style={{
-              position: "absolute",
-              bottom: "-20%",
-              left: "-10%",
-              width: "500px",
-              height: "500px",
-              borderRadius: "50%",
-              background:
-                "radial-gradient(circle, rgba(128,0,32,0.07) 0%, transparent 70%)",
-            }}
-          />
-        </div>
+        <div className="about-glow-1" aria-hidden="true" />
+        <div className="about-glow-2" aria-hidden="true" />
 
         <div className="section-inner relative">
-          <p
-            className="text-xs font-bold uppercase tracking-[0.4em] mb-6"
-            style={{ color: "#FF1493" }}
-          >
-            Our Story
-          </p>
-          <h1
-            className="font-display leading-none mb-0"
-            style={{ fontSize: "clamp(4rem, 12vw, 10rem)", color: "#fff" }}
-          >
+          <p className="about-eyebrow">Our Story</p>
+          <h1 className="about-hero-title">
             BUILT FOR
             <br />
-            <span
-              style={{
-                background: "linear-gradient(135deg, #800020, #FF1493)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-              }}
-            >
-              THE CULTURE
-            </span>
+            <span className="gradient-text-pink">THE CULTURE</span>
           </h1>
         </div>
       </section>
 
       {/* ── BODY COPY ─────────────────────────────────────── */}
-      <section className="section" style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}>
+      <section className="section about-copy-section">
         <div className="section-inner">
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: "clamp(2rem, 6vw, 6rem)",
-              alignItems: "start",
-            }}
-            className="about-grid"
-          >
-            {/* Left — sticky label */}
-            <div style={{ position: "sticky", top: "8rem" }}>
-              <div
-                style={{
-                  width: "40px",
-                  height: "2px",
-                  background: "#FF1493",
-                  marginBottom: "1.5rem",
-                }}
-              />
-              <p
-                className="font-display"
-                style={{
-                  fontSize: "clamp(2rem, 4vw, 3.5rem)",
-                  color: "rgba(255,255,255,0.08)",
-                  lineHeight: 1,
-                  letterSpacing: "0.05em",
-                }}
-              >
-                WHO
-                <br />
-                WE
-                <br />
-                ARE
-              </p>
+          <div className="about-copy-grid">
+            {/* Left — ghost label */}
+            <div className="about-ghost-label-wrap">
+              <div className="about-pink-rule" />
+              <p className="about-ghost-label">WHO<br />WE<br />ARE</p>
             </div>
 
             {/* Right — paragraphs */}
-            <div style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
-              <p
-                style={{
-                  fontSize: "clamp(1rem, 1.8vw, 1.25rem)",
-                  color: "#9A9A9A",
-                  lineHeight: 1.8,
-                }}
-              >
+            <div className="about-paragraphs">
+              <p className="about-body-text">
                 TBS was born from a simple belief: great design should be
                 accessible, but never ordinary. We craft premium streetwear for
                 those who understand that what you wear is a statement — about
                 your values, your energy, and your vision.
               </p>
-              <p
-                style={{
-                  fontSize: "clamp(1rem, 1.8vw, 1.25rem)",
-                  color: "#9A9A9A",
-                  lineHeight: 1.8,
-                }}
-              >
+              <p className="about-body-text">
                 Every piece in the TBS catalog starts with one question: does
-                this move culture forward? We don't chase trends. We set them,
+                this move culture forward? We don&apos;t chase trends. We set them,
                 then leave them behind before they get crowded.
               </p>
-              <p
-                style={{
-                  fontSize: "clamp(1rem, 1.8vw, 1.25rem)",
-                  color: "#9A9A9A",
-                  lineHeight: 1.8,
-                }}
-              >
+              <p className="about-body-text">
                 Our drops are limited. Our quality is not. 100% premium cotton.
                 Meticulous construction. Every stitch placed with intention.
               </p>
@@ -152,52 +60,15 @@ export default function AboutPage() {
       {/* ── STATS ─────────────────────────────────────────── */}
       <section className="section">
         <div className="section-inner">
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(3, 1fr)",
-              borderTop: "1px solid rgba(255,255,255,0.06)",
-            }}
-          >
+          <div className="about-stats-grid">
             {[
               { value: "100+", label: "Limited Drops" },
               { value: "100%", label: "Premium Materials" },
               { value: "Always", label: "Culture First" },
             ].map((stat, i) => (
-              <div
-                key={stat.label}
-                style={{
-                  padding: "3rem 2rem",
-                  borderRight:
-                    i < 2 ? "1px solid rgba(255,255,255,0.06)" : "none",
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "0.5rem",
-                }}
-              >
-                <p
-                  className="font-display"
-                  style={{
-                    fontSize: "clamp(3rem, 6vw, 5rem)",
-                    lineHeight: 1,
-                    background: "linear-gradient(135deg, #800020, #FF1493)",
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                    backgroundClip: "text",
-                  }}
-                >
-                  {stat.value}
-                </p>
-                <p
-                  style={{
-                    fontSize: "11px",
-                    textTransform: "uppercase",
-                    letterSpacing: "0.2em",
-                    color: "#5A5A5A",
-                  }}
-                >
-                  {stat.label}
-                </p>
+              <div key={stat.label} className={`about-stat-cell${i < 2 ? " about-stat-border" : ""}`}>
+                <p className="about-stat-value gradient-text-pink">{stat.value}</p>
+                <p className="about-stat-label">{stat.label}</p>
               </div>
             ))}
           </div>
@@ -205,40 +76,14 @@ export default function AboutPage() {
       </section>
 
       {/* ── MANIFESTO QUOTE ───────────────────────────────── */}
-      <section
-        className="section"
-        style={{ background: "#0A0A0A", borderTop: "1px solid rgba(255,255,255,0.04)" }}
-      >
+      <section className="section about-manifesto-section">
         <div className="section-inner">
-          <div style={{ maxWidth: "900px", margin: "0 auto", textAlign: "center" }}>
-            <p
-              style={{
-                fontSize: "9px",
-                textTransform: "uppercase",
-                letterSpacing: "0.4em",
-                color: "#FF1493",
-                marginBottom: "2rem",
-              }}
-            >
-              The Manifesto
-            </p>
-            <blockquote
-              className="font-display"
-              style={{
-                fontSize: "clamp(2rem, 5vw, 4rem)",
-                lineHeight: 1.15,
-                color: "#fff",
-                letterSpacing: "0.03em",
-              }}
-            >
-              "WE DON'T CHASE TRENDS.
-              <br />
-              <span style={{ color: "rgba(255,255,255,0.25)" }}>
-                WE SET THEM, THEN LEAVE
-                <br />
-                THEM BEHIND BEFORE THEY
-                <br />
-                GET CROWDED."
+          <div className="about-manifesto-inner">
+            <p className="about-eyebrow">The Manifesto</p>
+            <blockquote className="about-quote font-display">
+              &ldquo;WE DON&apos;T CHASE TRENDS.{" "}
+              <span className="about-quote-fade">
+                WE SET THEM, THEN LEAVE THEM BEHIND BEFORE THEY GET CROWDED.&rdquo;
               </span>
             </blockquote>
           </div>
@@ -248,25 +93,8 @@ export default function AboutPage() {
       {/* ── VALUES ────────────────────────────────────────── */}
       <section className="section">
         <div className="section-inner">
-          <p
-            style={{
-              fontSize: "9px",
-              textTransform: "uppercase",
-              letterSpacing: "0.4em",
-              color: "#FF1493",
-              marginBottom: "3rem",
-            }}
-          >
-            What We Stand For
-          </p>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(3, 1fr)",
-              gap: "1px",
-              background: "rgba(255,255,255,0.05)",
-            }}
-          >
+          <p className="about-eyebrow" style={{ marginBottom: "3rem" }}>What We Stand For</p>
+          <div className="about-values-grid">
             {[
               {
                 title: "INTENTION",
@@ -281,34 +109,9 @@ export default function AboutPage() {
                 body: "100% premium cotton. Meticulous construction. The kind of quality that only reveals itself over time.",
               },
             ].map((v) => (
-              <div
-                key={v.title}
-                style={{
-                  background: "#000",
-                  padding: "2.5rem",
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "1rem",
-                  transition: "background 0.2s",
-                }}
-                onMouseEnter={(e) =>
-                  ((e.currentTarget as HTMLDivElement).style.background =
-                    "#0A0A0A")
-                }
-                onMouseLeave={(e) =>
-                  ((e.currentTarget as HTMLDivElement).style.background =
-                    "#000")
-                }
-              >
-                <p
-                  className="font-display"
-                  style={{ fontSize: "1.5rem", color: "#fff", letterSpacing: "0.05em" }}
-                >
-                  {v.title}
-                </p>
-                <p style={{ fontSize: "14px", color: "#5A5A5A", lineHeight: 1.7 }}>
-                  {v.body}
-                </p>
+              <div key={v.title} className="about-value-card">
+                <p className="about-value-title font-display">{v.title}</p>
+                <p className="about-value-body">{v.body}</p>
               </div>
             ))}
           </div>
@@ -316,51 +119,127 @@ export default function AboutPage() {
       </section>
 
       {/* ── CTA ───────────────────────────────────────────── */}
-      <section
-        className="section"
-        style={{ borderTop: "1px solid rgba(255,255,255,0.04)", textAlign: "center" }}
-      >
-        <div className="section-inner">
-          <p
-            className="font-display"
-            style={{ fontSize: "clamp(2rem, 5vw, 4rem)", color: "#fff", marginBottom: "2rem" }}
-          >
+      <section className="section about-cta-section">
+        <div className="section-inner" style={{ textAlign: "center" }}>
+          <p className="about-cta-heading font-display">
             READY TO MAKE A STATEMENT?
           </p>
-          <a
-            href="/shop"
-            style={{
-              display: "inline-block",
-              background: "#fff",
-              color: "#000",
-              padding: "1rem 3rem",
-              fontSize: "11px",
-              fontWeight: 700,
-              letterSpacing: "0.2em",
-              textTransform: "uppercase",
-              textDecoration: "none",
-              transition: "background 0.2s, color 0.2s",
-            }}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLAnchorElement).style.background = "#FF1493";
-              (e.currentTarget as HTMLAnchorElement).style.color = "#fff";
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLAnchorElement).style.background = "#fff";
-              (e.currentTarget as HTMLAnchorElement).style.color = "#000";
-            }}
-          >
+          <a href="/shop" className="about-cta-btn">
             Shop the Collection
           </a>
         </div>
       </section>
 
-      {/* Responsive grid fix */}
       <style>{`
+        /* Glow blobs */
+        .about-glow-1 {
+          position: absolute; top: -10%; right: -5%;
+          width: 600px; height: 600px; border-radius: 50%; pointer-events: none;
+          background: radial-gradient(circle, rgba(255,20,147,0.06) 0%, transparent 70%);
+        }
+        .about-glow-2 {
+          position: absolute; bottom: -20%; left: -10%;
+          width: 500px; height: 500px; border-radius: 50%; pointer-events: none;
+          background: radial-gradient(circle, rgba(128,0,32,0.07) 0%, transparent 70%);
+        }
+
+        /* Eyebrow */
+        .about-eyebrow {
+          font-size: 9px; font-weight: 700; text-transform: uppercase;
+          letter-spacing: 0.4em; color: #FF1493; margin-bottom: 1.5rem;
+        }
+
+        /* Hero title */
+        .about-hero-title {
+          font-family: var(--font-bebas);
+          font-size: clamp(4rem, 12vw, 10rem);
+          line-height: 1; color: #fff;
+        }
+
+        /* Copy section */
+        .about-copy-section { border-top: 1px solid rgba(255,255,255,0.05); }
+        .about-copy-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: clamp(2rem, 6vw, 6rem);
+          align-items: start;
+        }
+        .about-ghost-label-wrap { position: sticky; top: 8rem; }
+        .about-pink-rule { width: 40px; height: 2px; background: #FF1493; margin-bottom: 1.5rem; }
+        .about-ghost-label {
+          font-family: var(--font-bebas);
+          font-size: clamp(2rem, 4vw, 3.5rem);
+          color: rgba(255,255,255,0.08);
+          line-height: 1; letter-spacing: 0.05em;
+        }
+        .about-paragraphs { display: flex; flex-direction: column; gap: 2rem; }
+        .about-body-text {
+          font-size: clamp(1rem, 1.8vw, 1.2rem);
+          color: #9A9A9A; line-height: 1.8;
+        }
+
+        /* Stats */
+        .about-stats-grid {
+          display: grid; grid-template-columns: repeat(3, 1fr);
+          border-top: 1px solid rgba(255,255,255,0.06);
+        }
+        .about-stat-cell { padding: 3rem 2rem; display: flex; flex-direction: column; gap: 0.5rem; }
+        .about-stat-border { border-right: 1px solid rgba(255,255,255,0.06); }
+        .about-stat-value {
+          font-family: var(--font-bebas);
+          font-size: clamp(3rem, 6vw, 5rem); line-height: 1;
+        }
+        .about-stat-label {
+          font-size: 11px; text-transform: uppercase;
+          letter-spacing: 0.2em; color: #5A5A5A;
+        }
+
+        /* Manifesto */
+        .about-manifesto-section {
+          background: #0A0A0A;
+          border-top: 1px solid rgba(255,255,255,0.04);
+        }
+        .about-manifesto-inner { max-width: 900px; margin: 0 auto; text-align: center; }
+        .about-quote {
+          font-size: clamp(1.75rem, 4vw, 3.5rem);
+          line-height: 1.2; color: #fff; letter-spacing: 0.03em;
+        }
+        .about-quote-fade { color: rgba(255,255,255,0.22); }
+
+        /* Values */
+        .about-values-grid {
+          display: grid; grid-template-columns: repeat(3, 1fr);
+          gap: 1px; background: rgba(255,255,255,0.05);
+        }
+        .about-value-card {
+          background: #000; padding: 2.5rem;
+          display: flex; flex-direction: column; gap: 1rem;
+          transition: background 0.2s;
+        }
+        .about-value-card:hover { background: #0A0A0A; }
+        .about-value-title { font-size: 1.5rem; color: #fff; letter-spacing: 0.05em; }
+        .about-value-body { font-size: 14px; color: #5A5A5A; line-height: 1.7; }
+
+        /* CTA */
+        .about-cta-section { border-top: 1px solid rgba(255,255,255,0.04); }
+        .about-cta-heading {
+          font-size: clamp(2rem, 5vw, 4rem); color: #fff; margin-bottom: 2rem;
+        }
+        .about-cta-btn {
+          display: inline-block; background: #fff; color: #000;
+          padding: 1rem 3rem; font-size: 11px; font-weight: 700;
+          letter-spacing: 0.2em; text-transform: uppercase;
+          text-decoration: none; transition: background 0.2s, color 0.2s;
+        }
+        .about-cta-btn:hover { background: #FF1493; color: #fff; }
+
+        /* Responsive */
         @media (max-width: 768px) {
-          .about-grid {
-            grid-template-columns: 1fr !important;
-          }
+          .about-copy-grid { grid-template-columns: 1fr !important; }
+          .about-ghost-label-wrap { position: static; }
+          .about-stats-grid { grid-template-columns: 1fr; }
+          .about-stat-border { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.06); }
+          .about-values-grid { grid-template-columns: 1fr; }
         }
       `}</style>
     </div>
