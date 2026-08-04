@@ -68,7 +68,7 @@ export default async function CollectionsPage() {
                 {col.coverImage ? (
                   <Image src={col.coverImage} alt={col.name} fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
                 ) : (
-                  <div className="w-full h-full bg-linear-to-br from-surface-3 to-brand-green/20 flex items-end p-6">
+                  <div className="w-full h-full bg-linear-to-br from-surface-3 to-surface-4 flex items-end p-6">
                   </div>
                 )}
                 <div className="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-colors" />

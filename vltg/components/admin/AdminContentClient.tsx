@@ -162,7 +162,7 @@ export function AdminContentClient({ banners: initialBanners, lookbook: initialL
                   <p className="text-brand-pink text-xs mt-1">{banner.ctaText} → {banner.ctaLink}</p>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className={`text-[10px] px-2 py-0.5 border rounded-full ${banner.isActive ? "border-green-500/30 text-green-400" : "border-white/10 text-text-muted"}`}>
+                  <span className={`text-[10px] px-2 py-0.5 border rounded-full ${banner.isActive ? "border-neon-pink/30 text-neon-pink" : "border-white/10 text-text-muted"}`}>
                     {banner.isActive ? "Active" : "Hidden"}
                   </span>
                   <button onClick={() => deleteBanner(banner.id)} className="text-text-muted hover:text-red-400 transition-colors"><Trash2 size={14} /></button>

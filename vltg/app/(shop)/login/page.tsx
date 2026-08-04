@@ -73,7 +73,7 @@ function LoginForm() {
       </div>
 
       {success && (
-        <div className="bg-brand-green/10 border border-brand-green/20 text-brand-green text-xs p-3.5 mb-6 rounded-sm uppercase tracking-wider">
+        <div className="bg-neon-pink/10 border border-neon-pink/20 text-neon-pink text-xs p-3.5 mb-6 rounded-sm uppercase tracking-wider">
           {success}
         </div>
       )}

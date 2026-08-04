@@ -7,14 +7,14 @@ import {
 } from "lucide-react";
 
 const categories = [
-  { label: "Women",    icon: Scissors,    href: "/shop?category=women",         color: "#FF1493" },
-  { label: "Men",      icon: Shirt,       href: "/shop?category=men",           color: "#0B3D2E" },
-  { label: "Kids",     icon: Baby,        href: "/shop?category=kids",          color: "#800020" },
-  { label: "Accessories", icon: Watch,   href: "/collections/accessories",     color: "#FF6400" },
-  { label: "Shoes",    icon: Footprints,  href: "/shop?category=shoes",         color: "#7B2D8B" },
-  { label: "Bags",     icon: ShoppingBag, href: "/shop?category=bags",          color: "#1A6B50" },
-  { label: "Sale 🔥",  icon: Flame,       href: "/best-sellers",                color: "#CC0000" },
-  { label: "New In ✨", icon: Sparkles,   href: "/new-arrivals",                color: "#FFB800" },
+  { label: "Women",       icon: Scissors,    href: "/shop?category=women",     color: "#FF1493" },
+  { label: "Men",         icon: Shirt,       href: "/shop?category=men",       color: "#C8C8C8" },
+  { label: "Kids",        icon: Baby,        href: "/shop?category=kids",      color: "#FF4DB8" },
+  { label: "Accessories", icon: Watch,       href: "/collections/accessories", color: "#9A9A9A" },
+  { label: "Shoes",       icon: Footprints,  href: "/shop?category=shoes",     color: "#CC0070" },
+  { label: "Bags",        icon: ShoppingBag, href: "/shop?category=bags",      color: "#5A5A5A" },
+  { label: "Sale 🔥",    icon: Flame,       href: "/best-sellers",            color: "#FF1493" },
+  { label: "New In ✨",  icon: Sparkles,    href: "/new-arrivals",            color: "#FF4DB8" },
 ];
 
 export function CategoryGrid() {

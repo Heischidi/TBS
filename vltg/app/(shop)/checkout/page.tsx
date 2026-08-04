@@ -225,9 +225,9 @@ export default function CheckoutPage() {
                 </div>
 
                 {/* WhatsApp CTA */}
-                <div className="mt-6 p-4 bg-brand-green/10 border border-brand-green/20 rounded-sm mb-6">
+                <div className="mt-6 p-4 bg-neon-pink/8 border border-neon-pink/20 rounded-sm mb-6">
                   <div className="flex items-start gap-2">
-                    <MessageSquare size={14} className="text-brand-green mt-0.5 shrink-0" />
+                    <MessageSquare size={14} className="text-neon-pink mt-0.5 shrink-0" />
                     <p className="text-xs text-text-secondary leading-relaxed">
                       After placing your order, you&apos;ll be redirected to WhatsApp to confirm your order with us directly.
                     </p>

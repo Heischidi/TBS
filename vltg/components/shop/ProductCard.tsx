@@ -159,10 +159,7 @@ export function ProductCard({
               <span className="sale-badge">New</span>
             )}
             {isBestSeller && (
-              <span
-                className="text-[9px] font-bold px-1.5 py-0.5 uppercase tracking-wide text-white"
-                style={{ background: "#0B3D2E" }}
-              >
+              <span className="text-[9px] font-bold px-1.5 py-0.5 uppercase tracking-wide bg-neon-pink text-white">
                 Best Seller
               </span>
             )}

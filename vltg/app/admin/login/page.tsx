@@ -36,7 +36,7 @@ export default function AdminLoginPage() {
   return (
     <div className="min-h-screen bg-black flex items-center justify-center px-4">
       {/* Background */}
-      <div className="absolute inset-0 bg-linear-to-br from-black via-surface-2 to-brand-green/10 pointer-events-none" />
+      <div className="absolute inset-0 bg-linear-to-br from-black via-surface-2 to-neon-pink/5 pointer-events-none" />
       <div className="absolute top-20 right-20 w-72 h-72 bg-brand-pink/5 rounded-full blur-3xl pointer-events-none" />
 
       <motion.div

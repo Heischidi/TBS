@@ -135,20 +135,20 @@ export function AdminProductsClient() {
                   <td className="px-3 py-3 text-text-secondary text-xs">{product.category?.name}</td>
                   <td className="px-3 py-3 font-medium text-xs">{formatPrice(Number(product.price))}</td>
                   <td className="px-3 py-3">
-                    <span className={cn("text-xs font-bold", product.stock === 0 ? "text-red-400" : product.stock <= 5 ? "text-yellow-400" : "text-brand-green")}>
+                     <span className={cn("text-xs font-bold", product.stock === 0 ? "text-red-400" : product.stock <= 5 ? "text-yellow-400" : "text-neon-pink")}>
                       {product.stock}
                     </span>
                   </td>
                   <td className="px-3 py-3">
                     <div className="flex flex-wrap gap-1">
-                      {product.isNewArrival && <span className={cn(BADGE_CLASS, "bg-brand-pink/20 text-brand-pink")}>New</span>}
-                      {product.isBestSeller && <span className={cn(BADGE_CLASS, "bg-brand-green/20 text-green-400")}>Best</span>}
-                      {product.isTrending && <span className={cn(BADGE_CLASS, "bg-brand-maroon/30 text-red-300")}>Trend</span>}
-                      {product.isFeatured && <span className={cn(BADGE_CLASS, "bg-blue-500/20 text-blue-400")}>Featured</span>}
+                      {product.isNewArrival && <span className={cn(BADGE_CLASS, "bg-neon-pink/20 text-neon-pink")}>New</span>}
+                      {product.isBestSeller && <span className={cn(BADGE_CLASS, "bg-neon-pink/20 text-neon-pink")}>Best</span>}
+                      {product.isTrending && <span className={cn(BADGE_CLASS, "bg-grey-600/50 text-grey-100")}>Trend</span>}
+                      {product.isFeatured && <span className={cn(BADGE_CLASS, "bg-grey-500/30 text-grey-200")}>Featured</span>}
                     </div>
                   </td>
                   <td className="px-3 py-3">
-                    <span className={cn("text-[10px] px-2 py-0.5 border rounded-full", product.isPublished ? "border-brand-green/30 text-green-400" : "border-white/10 text-text-muted")}>
+                    <span className={cn("text-[10px] px-2 py-0.5 border rounded-full", product.isPublished ? "border-neon-pink/30 text-neon-pink" : "border-white/10 text-text-muted")}>
                       {product.isPublished ? "Published" : "Draft"}
                     </span>
                   </td>

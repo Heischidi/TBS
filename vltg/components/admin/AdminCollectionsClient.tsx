@@ -102,7 +102,7 @@ export function AdminCollectionsClient({ collections: initialCollections, catego
             </div>
             <div className="flex items-center gap-3">
               <span className="text-brand-pink text-xs">{col._count.products} products</span>
-              <span className={cn("text-[10px] px-2 py-0.5 border rounded-full", col.isActive ? "border-green-500/30 text-green-400" : "border-white/10 text-text-muted")}>{col.isActive ? "Active" : "Hidden"}</span>
+              <span className={cn("text-[10px] px-2 py-0.5 border rounded-full", col.isActive ? "border-neon-pink/30 text-neon-pink" : "border-white/10 text-text-muted")}>{col.isActive ? "Active" : "Hidden"}</span>
               <button onClick={() => handleDelete(col.id)} className="text-text-muted hover:text-red-400 transition-colors"><Trash2 size={14} /></button>
             </div>
           </motion.div>

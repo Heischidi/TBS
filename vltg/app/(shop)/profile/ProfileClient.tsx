@@ -84,7 +84,7 @@ export function ProfileClient({ user }: ProfileClientProps) {
     <div className="max-w-6xl mx-auto">
       {/* Header card */}
       <div className="bg-surface-2 border border-white/5 p-6 md:p-8 mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 relative">
-        <div className="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-brand-pink via-brand-green to-brand-pink" />
+        <div className="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-neon-pink-dark via-neon-pink to-neon-pink-dark" />
         <div className="flex items-center gap-4">
           <div className="w-16 h-16 rounded-full bg-white/5 border border-white/10 flex items-center justify-center font-display text-2xl text-white">
             {user.name.split(" ").map(n => n[0]).join("").toUpperCase().slice(0, 2)}

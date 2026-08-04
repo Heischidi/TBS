@@ -88,7 +88,7 @@ export function AdminOrderDetailClient({ order }: { order: Order }) {
           <p className="font-medium text-white">{order.customer.name}</p>
           <p className="text-text-secondary text-sm">{order.customer.email}</p>
           {order.customer.phone && <p className="text-text-secondary text-sm">{order.customer.phone}</p>}
-          <button onClick={handleWhatsApp} className="flex items-center gap-2 mt-3 text-brand-green text-xs hover:text-green-400 transition-colors">
+          <button onClick={handleWhatsApp} className="flex items-center gap-2 mt-3 text-neon-pink text-xs hover:text-neon-pink-light transition-colors">
             <MessageSquare size={12} /> Message on WhatsApp
           </button>
         </div>

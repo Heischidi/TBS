@@ -52,7 +52,7 @@ export function TrendingSection({ products }: { products: Product[] }) {
                     className="object-cover transition-transform duration-700 group-hover:scale-105"
                   />
                 ) : (
-                  <div className="w-full h-full bg-linear-to-br from-brand-green/30 to-black" />
+                  <div className="w-full h-full bg-linear-to-br from-surface-3 to-black" />
                 )}
                 <div className="absolute inset-0 bg-linear-to-t from-black via-black/20 to-transparent" />
                 <div className="absolute bottom-8 left-8 right-8">

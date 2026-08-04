@@ -48,7 +48,7 @@ export function Newsletter() {
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="flex items-center justify-center gap-3 text-green-400"
+                className="flex items-center justify-center gap-3 text-neon-pink"
               >
                 <CheckCircle size={22} />
                 <span className="font-medium uppercase tracking-widest text-sm">

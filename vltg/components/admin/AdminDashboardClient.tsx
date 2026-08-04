@@ -34,7 +34,7 @@ export function AdminDashboardClient({ stats, recentOrders, lowStock }: {
   const kpiCards = [
     { label: "Total Orders", value: stats.total, icon: ShoppingCart, color: "text-brand-pink", bg: "bg-brand-pink/10" },
     { label: "Pending Orders", value: stats.pending, icon: Clock, color: "text-yellow-400", bg: "bg-yellow-400/10" },
-    { label: "Completed", value: stats.completed, icon: CheckCircle, color: "text-brand-green", bg: "bg-brand-green/10" },
+    { label: "Completed", value: stats.completed, icon: CheckCircle, color: "text-neon-pink", bg: "bg-neon-pink/10" },
     { label: "Cancelled", value: stats.cancelled, icon: XCircle, color: "text-red-400", bg: "bg-red-400/10" },
     { label: "Total Revenue", value: formatPrice(stats.revenue), icon: DollarSign, color: "text-brand-pink", bg: "bg-brand-pink/10", wide: true },
     { label: "Customers", value: stats.customers, icon: Users, color: "text-blue-400", bg: "bg-blue-400/10" },

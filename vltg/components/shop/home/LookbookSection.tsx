@@ -62,7 +62,7 @@ export function LookbookSection({ images }: { images: LookbookImage[] }) {
                     />
                   ) : (
                     <div className={`w-full h-full bg-linear-to-br ${
-                      ["from-brand-green/30 to-black", "from-brand-maroon/30 to-black", "from-brand-pink/20 to-black"][i % 3]
+                      ["from-surface-3 to-black", "from-neon-pink/10 to-black", "from-grey-700 to-black"][i % 3]
                     } flex items-center justify-center`}>
                       <span className="font-display text-5xl text-white/10 tracking-widest">TBS</span>
                     </div>

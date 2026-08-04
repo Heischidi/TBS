@@ -188,7 +188,7 @@ export function ProductDetailClient({ product, related }: { product: Product; re
                       priority
                     />
                   ) : (
-                    <div className="w-full h-full bg-linear-to-br from-surface-3 to-brand-green/20 flex items-center justify-center">
+                    <div className="w-full h-full bg-linear-to-br from-surface-3 to-surface-4 flex items-center justify-center">
                       <span className="font-display text-8xl text-white/5 tracking-widest">TBS</span>
                     </div>
                   )}
@@ -204,7 +204,7 @@ export function ProductDetailClient({ product, related }: { product: Product; re
                   <span className="sale-badge">New</span>
                 )}
                 {product.isBestSeller && (
-                  <span className="text-[9px] font-bold px-2 py-0.5 uppercase tracking-wide text-white" style={{ background: "#0B3D2E" }}>
+                  <span className="text-[9px] font-bold px-2 py-0.5 uppercase tracking-wide bg-neon-pink text-white">
                     Best Seller
                   </span>
                 )}
@@ -298,13 +298,13 @@ export function ProductDetailClient({ product, related }: { product: Product; re
               </div>
 
               {/* Free shipping callout */}
-              <div className="flex items-center gap-2 text-xs text-green-400 font-medium mb-5 bg-green-400/8 border border-green-400/15 px-3 py-2 rounded-sm w-fit">
+              <div className="flex items-center gap-2 text-xs text-neon-pink font-medium mb-5 bg-neon-pink/8 border border-neon-pink/20 px-3 py-2 rounded-sm w-fit">
                 <Truck size={13} />
                 Free delivery on orders over ₦50,000
               </div>
 
               {/* Stock status */}
-              <p className={cn("text-xs uppercase tracking-widest mb-5 font-semibold", outOfStock ? "text-red-400" : product.stock <= 5 ? "text-yellow-400" : "text-green-400")}>
+              <p className={cn("text-xs uppercase tracking-widest mb-5 font-semibold", outOfStock ? "text-red-400" : product.stock <= 5 ? "text-yellow-400" : "text-neon-pink")}>
                 {outOfStock ? "● Out of Stock" : product.stock <= 5 ? `● Only ${product.stock} left` : "● In Stock — Ready to Ship"}
               </p>
 
@@ -392,7 +392,7 @@ export function ProductDetailClient({ product, related }: { product: Product; re
                   className={cn(
                     "flex-1 flex items-center justify-center gap-2 py-4 font-semibold uppercase tracking-widest text-sm transition-all",
                     added
-                      ? "bg-brand-green text-white"
+                      ? "bg-white text-black"
                       : outOfStock
                       ? "bg-surface-3 text-text-muted cursor-not-allowed"
                       : "bg-brand-pink text-white hover:bg-brand-pink/85"
@@ -507,7 +507,7 @@ export function ProductDetailClient({ product, related }: { product: Product; re
               disabled={outOfStock}
               className={cn(
                 "flex items-center gap-2 px-6 py-3 font-semibold uppercase tracking-wider text-xs shrink-0 transition-all",
-                added ? "bg-brand-green text-white" : outOfStock ? "bg-surface-3 text-text-muted" : "bg-brand-pink text-white"
+                added ? "bg-white text-black" : outOfStock ? "bg-surface-3 text-text-muted" : "bg-brand-pink text-white"
               )}
             >
               {added ? <><Check size={14} /> Added</> : <><ShoppingBag size={14} /> Add to Bag</>}

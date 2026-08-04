@@ -160,7 +160,7 @@ export default function ContactPage() {
               </button>
               
               {sent && (
-                <p className="text-brand-green text-xs font-semibold text-center mt-2">
+                <p className="text-neon-pink text-xs font-semibold text-center mt-2">
                   Message draft generated! Redirecting to WhatsApp...
                 </p>
               )}

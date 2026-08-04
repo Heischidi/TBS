@@ -31,9 +31,9 @@ export default async function AdminInventoryPage() {
           <p className="text-yellow-400 text-xs uppercase tracking-wider mb-2">Low Stock (≤5)</p>
           <p className="font-display text-3xl text-yellow-400">{lowStock.length}</p>
         </div>
-        <div className="bg-brand-green/10 border border-brand-green/30 p-5 rounded-sm">
-          <p className="text-green-400 text-xs uppercase tracking-wider mb-2">Healthy Stock</p>
-          <p className="font-display text-3xl text-green-400">{healthy.length}</p>
+        <div className="bg-neon-pink/10 border border-neon-pink/25 p-5 rounded-sm">
+          <p className="text-neon-pink text-xs uppercase tracking-wider mb-2">Healthy Stock</p>
+          <p className="font-display text-3xl text-neon-pink">{healthy.length}</p>
         </div>
       </div>
 
@@ -54,7 +54,7 @@ export default async function AdminInventoryPage() {
                 <td className="px-5 py-3 font-medium text-white text-sm">{p.name}</td>
                 <td className="px-3 py-3 text-text-secondary text-xs">{p.category?.name}</td>
                 <td className="px-3 py-3">
-                  <span className={`text-sm font-bold ${p.stock === 0 ? "text-red-400" : p.stock <= 5 ? "text-yellow-400" : "text-green-400"}`}>
+                  <span className={`text-sm font-bold ${p.stock === 0 ? "text-red-400" : p.stock <= 5 ? "text-yellow-400" : "text-neon-pink"}`}>
                     {p.stock}
                   </span>
                 </td>
@@ -62,7 +62,7 @@ export default async function AdminInventoryPage() {
                   <span className={`text-[10px] px-2 py-0.5 border rounded-full uppercase tracking-wider ${
                     p.stock === 0 ? "border-red-500/30 text-red-400" :
                     p.stock <= 5 ? "border-yellow-400/30 text-yellow-400" :
-                    "border-green-500/30 text-green-400"
+                    "border-neon-pink/30 text-neon-pink"
                   }`}>
                     {p.stock === 0 ? "Out of Stock" : p.stock <= 5 ? "Low Stock" : "In Stock"}
                   </span>

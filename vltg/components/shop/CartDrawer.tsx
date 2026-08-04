@@ -74,7 +74,7 @@ export function CartDrawer() {
                     <span className="text-brand-pink font-semibold">FREE shipping</span>
                   </p>
                 ) : (
-                  <p className="text-xs text-green-400 font-semibold mb-2">
+                  <p className="text-xs text-neon-pink font-semibold mb-2">
                     🎉 You've unlocked FREE shipping!
                   </p>
                 )}
@@ -201,7 +201,7 @@ export function CartDrawer() {
                   </form>
                 ) : (
                   <div className="flex items-center justify-between text-xs">
-                    <span className="text-green-400 font-semibold">✓ Promo code applied!</span>
+                    <span className="text-neon-pink font-semibold">✓ Promo code applied!</span>
                     <button onClick={() => { setCouponApplied(false); setCoupon(""); }} className="text-text-muted hover:text-white">
                       Remove
                     </button>
