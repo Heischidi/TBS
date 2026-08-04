@@ -351,7 +351,7 @@ export function ProductDetailClient({ product, related }: { product: Product; re
                         key={size}
                         onClick={() => setSelectedSize(size)}
                         className={cn(
-                          "min-w-[44px] h-10 px-3 border text-sm font-medium uppercase tracking-wide transition-all",
+                          "min-w-11 h-10 px-3 border text-sm font-medium uppercase tracking-wide transition-all",
                           selectedSize === size
                             ? "border-brand-pink bg-brand-pink/10 text-white"
                             : "border-white/10 text-text-secondary hover:border-white hover:text-white"
