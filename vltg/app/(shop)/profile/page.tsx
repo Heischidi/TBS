@@ -97,8 +97,12 @@ export default async function ProfilePage() {
   };
 
   return (
-    <div className="min-h-screen pt-24 pb-24">
+    <div className="min-h-screen pt-28 md:pt-36 pb-24">
       <div className="max-w-7xl mx-auto px-4 md:px-8">
+        <div className="mb-10 border-b border-white/5 pb-8">
+          <p className="text-brand-pink text-[10px] font-bold uppercase tracking-[0.4em] mb-3">My Account</p>
+          <h1 className="font-display text-5xl md:text-6xl text-white">PROFILE</h1>
+        </div>
         <ProfileClient user={serializedUser} />
       </div>
     </div>

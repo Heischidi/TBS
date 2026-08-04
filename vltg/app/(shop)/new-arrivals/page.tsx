@@ -70,10 +70,10 @@ export default async function NewArrivalsPage() {
   return (
     <div className="min-h-screen pt-28 md:pt-36 pb-24">
       <div className="w-full max-w-7xl mx-auto px-4 md:px-8">
-        <div className="mb-12">
-          <p className="text-brand-pink text-xs font-bold uppercase tracking-[0.4em] mb-3">Just Dropped</p>
+        <div className="mb-10 border-b border-white/5 pb-8">
+          <p className="text-brand-pink text-[10px] font-bold uppercase tracking-[0.4em] mb-3">Just Dropped</p>
           <h1 className="font-display text-5xl md:text-6xl text-white">NEW ARRIVALS</h1>
-          <p className="text-text-muted text-sm mt-3">{products.length} new pieces</p>
+          <p className="text-text-muted text-xs mt-3 uppercase tracking-wider">{products.length} new pieces</p>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
           {products.map((p) => (

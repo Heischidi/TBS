@@ -57,8 +57,8 @@ export default async function CollectionsPage() {
   return (
     <div className="min-h-screen pt-28 md:pt-36 pb-24">
       <div className="w-full max-w-7xl mx-auto px-4 md:px-8">
-        <div className="mb-12">
-          <p className="text-brand-pink text-xs font-bold uppercase tracking-[0.4em] mb-3">Curated Drops</p>
+        <div className="mb-10 border-b border-white/5 pb-8">
+          <p className="text-brand-pink text-[10px] font-bold uppercase tracking-[0.4em] mb-3">Curated Drops</p>
           <h1 className="font-display text-5xl md:text-6xl text-white">COLLECTIONS</h1>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
