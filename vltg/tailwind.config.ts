@@ -9,24 +9,38 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Brand primaries
-        "brand-black": "#000000",
-        "brand-white": "#FFFFFF",
-        "brand-grey": "#7A7A7A",
-        // Accent colors
-        "brand-green": "#0B3D2E",
-        "brand-pink": "#FF1493",
-        "brand-maroon": "#800020",
-        // Surface shades
-        "surface-1": "#0A0A0A",
-        "surface-2": "#111111",
-        "surface-3": "#1A1A1A",
-        "surface-4": "#222222",
-        "surface-5": "#2A2A2A",
-        // Text shades
-        "text-primary": "#F5F5F5",
+        // ── Brand Primaries ─────────────────────────────────
+        "brand-black":  "#000000",
+        "brand-white":  "#FFFFFF",
+        // ── Grey Scale ──────────────────────────────────────
+        "grey-900":     "#0A0A0A",   // near-black
+        "grey-800":     "#111111",
+        "grey-700":     "#1A1A1A",
+        "grey-600":     "#222222",
+        "grey-500":     "#2A2A2A",   // border default
+        "grey-400":     "#3D3D3D",
+        "grey-300":     "#5A5A5A",   // muted text
+        "grey-200":     "#9A9A9A",   // secondary text
+        "grey-100":     "#C8C8C8",
+        "grey-50":      "#F0F0F0",
+        // ── Neon Pink ───────────────────────────────────────
+        "neon-pink":    "#FF1493",   // primary accent
+        "neon-pink-light": "#FF4DB8",// lighter tint
+        "neon-pink-dark":  "#CC0070",// pressed / dark
+        "neon-pink-glow":  "rgba(255,20,147,0.35)", // glow tint
+        // ── Semantic aliases (backwards compat) ─────────────
+        "brand-grey":   "#9A9A9A",
+        "brand-pink":   "#FF1493",
+        // ── Surface shades ──────────────────────────────────
+        "surface-1":    "#0A0A0A",
+        "surface-2":    "#111111",
+        "surface-3":    "#1A1A1A",
+        "surface-4":    "#222222",
+        "surface-5":    "#2A2A2A",
+        // ── Text shades ─────────────────────────────────────
+        "text-primary":   "#F5F5F5",
         "text-secondary": "#9A9A9A",
-        "text-muted": "#5A5A5A",
+        "text-muted":     "#5A5A5A",
       },
       fontFamily: {
         sans: ["var(--font-inter)", "Inter", "system-ui", "sans-serif"],
@@ -79,16 +93,17 @@ const config: Config = {
         },
       },
       backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-brand": "linear-gradient(135deg, #000000 0%, #0B3D2E 100%)",
-        "gradient-pink": "linear-gradient(135deg, #800020 0%, #FF1493 100%)",
+        "gradient-radial":  "radial-gradient(var(--tw-gradient-stops))",
+        "gradient-brand":   "linear-gradient(135deg, #000000 0%, #1A1A1A 100%)",
+        "gradient-pink":    "linear-gradient(135deg, #CC0070 0%, #FF1493 60%, #FF4DB8 100%)",
+        "gradient-grey":    "linear-gradient(135deg, #111111 0%, #2A2A2A 100%)",
         "shimmer-gradient": "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.05) 50%, transparent 100%)",
       },
       boxShadow: {
-        "glow-pink": "0 0 30px rgba(255, 20, 147, 0.3)",
-        "glow-green": "0 0 30px rgba(11, 61, 46, 0.5)",
-        "card": "0 4px 24px rgba(0,0,0,0.5)",
-        "card-hover": "0 8px 40px rgba(0,0,0,0.7)",
+        "glow-pink":     "0 0 40px rgba(255, 20, 147, 0.45), 0 0 80px rgba(255, 20, 147, 0.15)",
+        "glow-pink-sm":  "0 0 16px rgba(255, 20, 147, 0.35)",
+        "card":          "0 4px 24px rgba(0,0,0,0.5)",
+        "card-hover":    "0 8px 40px rgba(0,0,0,0.7), 0 0 20px rgba(255,20,147,0.1)",
       },
       borderRadius: {
         "4xl": "2rem",

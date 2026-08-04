@@ -2,21 +2,43 @@
 @import "tailwindcss";
 
 :root {
+  /* ── Fonts ─────────────────────────────────────────────── */
   --font-inter: 'Inter', system-ui, sans-serif;
   --font-bebas: 'Bebas Neue', sans-serif;
+
+  /* ── Brand Primaries ────────────────────────────────────── */
   --brand-black: #000000;
   --brand-white: #FFFFFF;
-  --brand-grey: #7A7A7A;
-  --brand-green: #0B3D2E;
-  --brand-pink: #FF1493;
-  --brand-maroon: #800020;
-  --surface-1: #0A0A0A;
-  --surface-2: #111111;
-  --surface-3: #1A1A1A;
-  /* Spacing tokens */
-  --section-px: clamp(1.25rem, 4vw, 5rem);   /* horizontal padding */
-  --section-py: clamp(3rem, 6vw, 5.5rem);     /* vertical padding */
-  --content-gap: clamp(1.25rem, 2vw, 2rem);   /* element gap */
+
+  /* ── Grey Scale ─────────────────────────────────────────── */
+  --grey-900: #0A0A0A;   /* near-black */
+  --grey-800: #111111;
+  --grey-700: #1A1A1A;
+  --grey-600: #222222;
+  --grey-500: #2A2A2A;   /* border default */
+  --grey-400: #3D3D3D;
+  --grey-300: #5A5A5A;   /* muted text */
+  --grey-200: #9A9A9A;   /* secondary text */
+  --grey-100: #C8C8C8;
+  --grey-50:  #F0F0F0;
+
+  /* ── Neon Pink ───────────────────────────────────────────── */
+  --neon-pink:       #FF1493;
+  --neon-pink-light: #FF4DB8;
+  --neon-pink-dark:  #CC0070;
+  --neon-pink-glow:  rgba(255, 20, 147, 0.35);
+
+  /* ── Semantic aliases ────────────────────────────────────── */
+  --brand-grey:  var(--grey-200);
+  --brand-pink:  var(--neon-pink);
+  --surface-1:   var(--grey-900);
+  --surface-2:   var(--grey-800);
+  --surface-3:   var(--grey-700);
+
+  /* ── Spacing tokens ──────────────────────────────────────── */
+  --section-px:  clamp(1.25rem, 4vw, 5rem);   /* horizontal padding */
+  --section-py:  clamp(3rem, 6vw, 5.5rem);     /* vertical padding */
+  --content-gap: clamp(1.25rem, 2vw, 2rem);    /* element gap */
 }
 
 * {
@@ -126,14 +148,14 @@ a, button {
 
 /* Gradient text */
 .gradient-text-pink {
-  background: linear-gradient(135deg, #800020, #FF1493);
+  background: linear-gradient(135deg, var(--neon-pink-dark), var(--neon-pink), var(--neon-pink-light));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-.gradient-text-green {
-  background: linear-gradient(135deg, #0B3D2E, #1a6b50);
+.gradient-text-grey {
+  background: linear-gradient(135deg, var(--grey-200), var(--grey-50));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -348,7 +370,7 @@ a, button {
 }
 .free-ship-fill {
   height: 100%;
-  background: linear-gradient(90deg, #0B3D2E, #1aab72);
+  background: linear-gradient(90deg, var(--neon-pink-dark), var(--neon-pink));
   border-radius: 2px;
   transition: width 0.5s cubic-bezier(0.22,1,0.36,1);
 }
