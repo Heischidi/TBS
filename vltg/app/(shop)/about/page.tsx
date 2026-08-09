@@ -11,7 +11,7 @@ export default function AboutPage() {
     <div className="min-h-screen bg-black text-white">
 
       {/* ── HERO ──────────────────────────────────────────── */}
-      <section className="relative pt-48 pb-28 overflow-hidden">
+      <section className="relative pt-36 pb-28 overflow-hidden">
         <div className="about-glow-1" aria-hidden="true" />
         <div className="about-glow-2" aria-hidden="true" />
 

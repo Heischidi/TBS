@@ -21,7 +21,7 @@ export default function ContactPage() {
   const labelClass = "block text-xs uppercase tracking-wider text-text-secondary mb-1.5";
 
   return (
-    <div className="min-h-screen pt-44 md:pt-48 pb-24 flex items-center">
+    <div className="min-h-screen pt-32 md:pt-36 pb-24 flex items-center">
       <div className="w-full max-w-6xl mx-auto px-4 md:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
           

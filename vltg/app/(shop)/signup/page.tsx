@@ -57,7 +57,7 @@ export default function SignupPage() {
   const errorClass = "text-red-400 text-xs mt-1";
 
   return (
-    <div className="min-h-screen pt-44 md:pt-48 pb-20 flex items-start justify-center">
+    <div className="min-h-screen pt-32 md:pt-36 pb-20 flex items-start justify-center">
       <div className="w-full max-w-md px-4">
         <div className="mb-8">
           <p className="text-brand-pink text-[10px] font-bold uppercase tracking-[0.4em] mb-3">Join The Collective</p>

@@ -57,7 +57,7 @@ export default function ForgotPasswordPage() {
   const errorClass = "text-red-400 text-xs mt-1";
 
   return (
-    <div className="min-h-screen pt-44 pb-20 flex items-center justify-center">
+    <div className="min-h-screen pt-32 pb-20 flex items-center justify-center">
       <div className="w-full max-w-md px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

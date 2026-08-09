@@ -59,6 +59,12 @@ export function Navbar() {
   const isHome = pathname === "/";
   const scrolledOrNotHome = scrolled || !isHome;
 
+  // Only show category pills on shopping/browsing pages
+  const SHOP_PILL_ROUTES = ["/shop", "/collections", "/products", "/new-arrivals", "/best-sellers", "/cart", "/checkout"];
+  const showCategoryPills = SHOP_PILL_ROUTES.some(
+    (r) => pathname === r || pathname.startsWith(r + "/")
+  );
+
   return (
     <>
       <header
@@ -232,11 +238,11 @@ export function Navbar() {
           </div>
         </div>
 
-        {/* Category pills row — desktop only */}
+        {/* Category pills row — desktop only, shopping pages only */}
         <div
           className={cn(
             "hidden lg:block border-t border-white/5 transition-all duration-300",
-            scrolledOrNotHome ? "opacity-100" : "opacity-0 pointer-events-none"
+            showCategoryPills && scrolledOrNotHome ? "opacity-100" : "opacity-0 pointer-events-none h-0 overflow-hidden"
           )}
         >
           <div style={{ maxWidth: 1320, margin: "0 auto", paddingLeft: "var(--section-px)", paddingRight: "var(--section-px)" }}>
