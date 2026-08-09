@@ -127,7 +127,7 @@ export default async function CollectionDetailPage({ params }: Props) {
   if (!collection) notFound();
 
   return (
-    <div className="min-h-screen pt-0 pb-24">
+    <div className="min-h-screen pt-16 pb-24">
       {/* Hero */}
       <div className="relative h-72 md:h-96 bg-surface-2">
         {collection.coverImage && <Image src={collection.coverImage} alt={collection.name} fill className="object-cover opacity-60" />}
