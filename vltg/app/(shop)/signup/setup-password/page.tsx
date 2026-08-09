@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, Suspense } from "react";
 import { useForm } from "react-hook-form";
@@ -198,7 +198,7 @@ function SetupPasswordFormContent() {
 
 export default function SetupPasswordPage() {
   return (
-    <div className="min-h-screen pt-28 pb-20 flex items-center justify-center">
+    <div className="min-h-screen pt-44 pb-20 flex items-center justify-center">
       <div className="w-full max-w-md px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

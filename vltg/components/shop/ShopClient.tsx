@@ -107,7 +107,7 @@ export function ShopClient({ categories, collections }: { categories: Category[]
   }[cols];
 
   return (
-    <div className="min-h-screen pt-28 md:pt-36">
+    <div className="min-h-screen pt-44 md:pt-48">
       {/* Top bar */}
       <div className="bg-surface-1 border-b border-white/5 px-4 md:px-8 py-5 sticky top-14 md:top-16 z-30 backdrop-blur-lg bg-black/90">
         <div className="max-w-7xl mx-auto">

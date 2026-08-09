@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useCartStore } from "@/store/cart";
 import { formatPrice, cn } from "@/lib/utils";
@@ -12,7 +12,7 @@ export default function CartPage() {
 
   if (items.length === 0) {
     return (
-      <div className="min-h-screen pt-28 md:pt-36 flex flex-col items-center justify-center text-center px-4">
+      <div className="min-h-screen pt-44 md:pt-48 flex flex-col items-center justify-center text-center px-4">
         <ShoppingBag size={64} className="text-text-muted mb-6" />
         <h1 className="font-display text-4xl text-white">YOUR CART IS EMPTY</h1>
         <p className="text-text-secondary text-sm mt-3">Add some pieces to get started</p>
@@ -24,7 +24,7 @@ export default function CartPage() {
   }
 
   return (
-    <div className="min-h-screen pt-28 md:pt-36 pb-24">
+    <div className="min-h-screen pt-44 md:pt-48 pb-24">
       <div className="max-w-7xl mx-auto px-4 md:px-8">
         <motion.h1
           initial={{ opacity: 0, y: 20 }}

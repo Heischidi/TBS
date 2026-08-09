@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
@@ -147,7 +147,7 @@ export function ProductDetailClient({ product, related }: { product: Product; re
   };
 
   return (
-    <div className="min-h-screen pt-28 md:pt-36 pb-32 md:pb-24">
+    <div className="min-h-screen pt-44 md:pt-48 pb-32 md:pb-24">
       <div className="max-w-7xl mx-auto px-4 md:px-8">
         {/* Breadcrumb */}
         <nav className="flex items-center gap-2 text-[10px] text-text-muted uppercase tracking-wider py-5">
