@@ -1,9 +1,8 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { motion } from "framer-motion";
 import Link from "next/link";
-import { Search, ChevronDown, Eye } from "lucide-react";
+import { Search, ChevronDown, Eye, ShoppingBag } from "lucide-react";
 import { formatPrice, formatDateTime, cn } from "@/lib/utils";
 
 interface Order {
@@ -23,13 +22,15 @@ const STATUS_OPTIONS = [
 ];
 
 const STATUS_CONFIG: Record<string, { label: string; className: string }> = {
-  PENDING_PAYMENT: { label: "Pending Payment", className: "status-pending" },
-  PAYMENT_CONFIRMED: { label: "Confirmed", className: "status-confirmed" },
-  PROCESSING: { label: "Processing", className: "status-processing" },
-  SHIPPED: { label: "Shipped", className: "status-shipped" },
-  DELIVERED: { label: "Delivered", className: "status-delivered" },
-  CANCELLED: { label: "Cancelled", className: "status-cancelled" },
+  PENDING_PAYMENT:   { label: "Pending Payment", className: "status-pending" },
+  PAYMENT_CONFIRMED: { label: "Confirmed",       className: "status-confirmed" },
+  PROCESSING:        { label: "Processing",      className: "status-processing" },
+  SHIPPED:           { label: "Shipped",         className: "status-shipped" },
+  DELIVERED:         { label: "Delivered",       className: "status-delivered" },
+  CANCELLED:         { label: "Cancelled",       className: "status-cancelled" },
 };
+
+const PINK = "#FF1493";
 
 export function AdminOrdersClient() {
   const [orders, setOrders] = useState<Order[]>([]);
@@ -68,93 +69,135 @@ export function AdminOrdersClient() {
   };
 
   return (
-    <div className="space-y-6 max-w-7xl">
+    <div style={{ maxWidth: "100%", display: "flex", flexDirection: "column", gap: "24px" }}>
+      {/* Header */}
       <div>
-        <h1 className="font-display text-3xl text-white">ORDERS</h1>
-        <p className="text-text-muted text-sm mt-1">{total} orders total</p>
+        <h1 style={{ color: "#FFFFFF", fontSize: "28px", fontWeight: 700, margin: 0, letterSpacing: "-0.01em" }}>
+          Orders
+        </h1>
+        <p style={{ color: "#666666", fontSize: "13px", margin: "4px 0 0 0" }}>
+          {total} order{total !== 1 ? "s" : ""} total
+        </p>
       </div>
 
       {/* Filters */}
-      <div className="flex flex-wrap gap-3">
-        <div className="relative">
-          <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted" />
+      <div style={{ display: "flex", flexWrap: "wrap", gap: "12px" }}>
+        <div style={{ position: "relative", width: "240px" }}>
+          <Search size={14} style={{ position: "absolute", left: "12px", top: "50%", transform: "translateY(-50%)", color: "#666666" }} />
           <input
-            value={search} onChange={(e) => { setSearch(e.target.value); setPage(1); }}
-            placeholder="Search orders..." className="input-dark pl-9 pr-4 py-2.5 text-sm w-52"
+            type="text"
+            value={search}
+            onChange={(e) => { setSearch(e.target.value); setPage(1); }}
+            placeholder="Search orders..."
+            style={{
+              width: "100%",
+              backgroundColor: "#111111",
+              border: "1px solid #1F1F1F",
+              borderRadius: "6px",
+              padding: "10px 12px 10px 36px",
+              color: "#FFFFFF",
+              fontSize: "13px",
+              outline: "none",
+            }}
             id="order-search"
           />
         </div>
-        <div className="relative">
+        <div style={{ position: "relative" }}>
           <select
-            value={status} onChange={(e) => { setStatus(e.target.value); setPage(1); }}
-            className="input-dark text-xs py-2.5 pl-3 pr-8 appearance-none cursor-pointer"
+            value={status}
+            onChange={(e) => { setStatus(e.target.value); setPage(1); }}
+            style={{
+              backgroundColor: "#111111",
+              border: "1px solid #1F1F1F",
+              borderRadius: "6px",
+              padding: "10px 32px 10px 12px",
+              color: "#FFFFFF",
+              fontSize: "13px",
+              outline: "none",
+              cursor: "pointer",
+              WebkitAppearance: "none",
+              MozAppearance: "none",
+            }}
             id="order-status-filter"
           >
-            {STATUS_OPTIONS.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
+            {STATUS_OPTIONS.map((o) => (
+              <option key={o.value} value={o.value} style={{ backgroundColor: "#111111", color: "#FFFFFF" }}>
+                {o.label}
+              </option>
+            ))}
           </select>
-          <ChevronDown size={12} className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-text-muted" />
+          <ChevronDown size={12} style={{ position: "absolute", right: "10px", top: "50%", transform: "translateY(-50%)", pointerEvents: "none", color: "#666666" }} />
         </div>
       </div>
 
-      {/* Table */}
-      <div className="bg-surface-2 border border-white/5 rounded-sm overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm">
+      {/* Table Box */}
+      <div style={{ backgroundColor: "#111111", border: "1px solid #1F1F1F", borderRadius: "8px", overflow: "hidden" }}>
+        <div style={{ overflowX: "auto" }}>
+          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "13px" }}>
             <thead>
-              <tr className="border-b border-white/5">
-                <th className="text-left px-5 py-3 text-text-muted text-xs uppercase tracking-wider">Order #</th>
-                <th className="text-left px-3 py-3 text-text-muted text-xs uppercase tracking-wider">Customer</th>
-                <th className="text-left px-3 py-3 text-text-muted text-xs uppercase tracking-wider">Items</th>
-                <th className="text-left px-3 py-3 text-text-muted text-xs uppercase tracking-wider">Amount</th>
-                <th className="text-left px-3 py-3 text-text-muted text-xs uppercase tracking-wider">Status</th>
-                <th className="text-left px-3 py-3 text-text-muted text-xs uppercase tracking-wider">Date</th>
-                <th className="text-right px-5 py-3 text-text-muted text-xs uppercase tracking-wider">Actions</th>
+              <tr style={{ borderBottom: "1px solid #1F1F1F" }}>
+                <th style={{ textAlign: "left", padding: "12px 16px", color: "#666666", fontSize: "10px", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 700 }}>Order #</th>
+                <th style={{ textAlign: "left", padding: "12px 12px", color: "#666666", fontSize: "10px", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 700 }}>Customer</th>
+                <th style={{ textAlign: "left", padding: "12px 12px", color: "#666666", fontSize: "10px", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 700 }}>Items</th>
+                <th style={{ textAlign: "left", padding: "12px 12px", color: "#666666", fontSize: "10px", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 700 }}>Amount</th>
+                <th style={{ textAlign: "left", padding: "12px 12px", color: "#666666", fontSize: "10px", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 700 }}>Status</th>
+                <th style={{ textAlign: "left", padding: "12px 12px", color: "#666666", fontSize: "10px", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 700 }}>Date</th>
+                <th style={{ textAlign: "right", padding: "12px 16px", color: "#666666", fontSize: "10px", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 700 }}>Actions</th>
               </tr>
             </thead>
             <tbody>
               {loading ? (
-                Array(8).fill(null).map((_, i) => (
-                  <tr key={i} className="border-b border-white/5">
+                Array(6).fill(null).map((_, i) => (
+                  <tr key={i} style={{ borderBottom: "1px solid #1A1A1A" }}>
                     {Array(7).fill(null).map((_, j) => (
-                      <td key={j} className="px-5 py-4"><div className="h-4 skeleton rounded-sm" /></td>
+                      <td key={j} style={{ padding: "14px 16px" }}><div style={{ height: "16px", backgroundColor: "#1A1A1C", borderRadius: "4px" }} /></td>
                     ))}
                   </tr>
                 ))
               ) : orders.length === 0 ? (
-                <tr><td colSpan={7} className="text-center py-12 text-text-muted text-sm">No orders found</td></tr>
+                <tr>
+                  <td colSpan={7} style={{ textAlign: "center", padding: "60px 20px" }}>
+                    <div style={{ width: "48px", height: "48px", borderRadius: "50%", backgroundColor: "#1C1C1E", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 12px" }}>
+                      <ShoppingBag size={22} style={{ color: "#555555" }} />
+                    </div>
+                    <p style={{ color: "#999999", fontSize: "13px", fontWeight: 600, margin: 0 }}>No orders found</p>
+                  </td>
+                </tr>
               ) : orders.map((order) => {
                 const s = STATUS_CONFIG[order.status] || { label: order.status, className: "" };
                 return (
-                  <tr key={order.id} className="border-b border-white/5 hover:bg-white/2 transition-colors">
-                    <td className="px-5 py-3">
-                      <Link href={`/admin/orders/${order.id}`} className="text-brand-pink hover:underline font-mono text-xs">
+                  <tr key={order.id} style={{ borderBottom: "1px solid #1A1A1A" }} className="hover:bg-white/2 transition-colors">
+                    <td style={{ padding: "12px 16px" }}>
+                      <Link href={`/admin/orders/${order.id}`} style={{ color: PINK, textDecoration: "none", fontFamily: "monospace", fontSize: "12px", fontWeight: 600 }}>
                         #{order.orderNumber}
                       </Link>
                     </td>
-                    <td className="px-3 py-3">
-                      <p className="text-white text-xs">{order.customer.name}</p>
-                      <p className="text-text-muted text-[10px]">{order.customer.email}</p>
+                    <td style={{ padding: "12px 12px" }}>
+                      <p style={{ color: "#FFFFFF", fontSize: "12px", fontWeight: 600, margin: 0 }}>{order.customer.name}</p>
+                      <p style={{ color: "#666666", fontSize: "10px", margin: "2px 0 0 0" }}>{order.customer.email}</p>
                     </td>
-                    <td className="px-3 py-3 text-text-secondary text-xs">
-                      {order.items.reduce((a, i) => a + i.quantity, 0)} items
+                    <td style={{ padding: "12px 12px", color: "#AAAAAA", fontSize: "12px" }}>
+                      {order.items.reduce((a, i) => a + i.quantity, 0)} item{order.items.reduce((a, i) => a + i.quantity, 0) !== 1 ? "s" : ""}
                     </td>
-                    <td className="px-3 py-3 font-medium text-xs">{formatPrice(Number(order.totalAmount))}</td>
-                    <td className="px-3 py-3">
-                      <div className="relative">
-                        <select
-                          value={order.status}
-                          onChange={(e) => handleStatusUpdate(order.id, e.target.value)}
-                          disabled={updating === order.id}
-                          className={cn("text-[10px] px-2 py-1 border rounded-full appearance-none cursor-pointer bg-transparent uppercase tracking-wider disabled:opacity-50", s.className)}
-                          id={`order-status-${order.id}`}
-                        >
-                          {STATUS_OPTIONS.slice(1).map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
-                        </select>
-                      </div>
+                    <td style={{ padding: "12px 12px", color: "#FFFFFF", fontWeight: 600, fontSize: "13px" }}>{formatPrice(Number(order.totalAmount))}</td>
+                    <td style={{ padding: "12px 12px" }}>
+                      <select
+                        value={order.status}
+                        onChange={(e) => handleStatusUpdate(order.id, e.target.value)}
+                        disabled={updating === order.id}
+                        className={cn("text-[10px] px-2.5 py-1 border rounded-full appearance-none cursor-pointer bg-transparent uppercase tracking-wider disabled:opacity-50", s.className)}
+                        id={`order-status-${order.id}`}
+                      >
+                        {STATUS_OPTIONS.slice(1).map((o) => (
+                          <option key={o.value} value={o.value} style={{ backgroundColor: "#111111", color: "#FFFFFF" }}>{o.label}</option>
+                        ))}
+                      </select>
                     </td>
-                    <td className="px-3 py-3 text-text-muted text-xs">{formatDateTime(order.createdAt)}</td>
-                    <td className="px-5 py-3 text-right">
-                      <Link href={`/admin/orders/${order.id}`} className="text-text-secondary hover:text-white transition-colors"><Eye size={14} /></Link>
+                    <td style={{ padding: "12px 12px", color: "#666666", fontSize: "11px" }}>{formatDateTime(order.createdAt)}</td>
+                    <td style={{ padding: "12px 16px", textAlign: "right" }}>
+                      <Link href={`/admin/orders/${order.id}`} style={{ color: "#666666" }} className="hover:text-white transition-colors">
+                        <Eye size={14} />
+                      </Link>
                     </td>
                   </tr>
                 );

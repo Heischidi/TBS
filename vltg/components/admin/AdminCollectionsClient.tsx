@@ -3,13 +3,15 @@
 import { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { Plus, Trash2, Upload, Loader2, Edit } from "lucide-react";
-import { slugify, cn } from "@/lib/utils";
+import { Plus, Trash2, Upload, Loader2 } from "lucide-react";
+import { slugify } from "@/lib/utils";
 
 interface Collection { id: string; name: string; slug: string; description?: string | null; coverImage?: string | null; isActive: boolean; _count: { products: number }; }
 interface Category { id: string; name: string; }
 
-export function AdminCollectionsClient({ collections: initialCollections, categories }: {
+const PINK = "#FF1493";
+
+export function AdminCollectionsClient({ collections: initialCollections }: {
   collections: Collection[]; categories: Category[];
 }) {
   const [collections, setCollections] = useState(initialCollections);
@@ -50,64 +52,157 @@ export function AdminCollectionsClient({ collections: initialCollections, catego
   };
 
   return (
-    <div className="max-w-5xl space-y-8">
-      <h1 className="font-display text-3xl text-white">COLLECTIONS</h1>
+    <div style={{ maxWidth: "100%", display: "flex", flexDirection: "column", gap: "24px" }}>
+      {/* Header */}
+      <div>
+        <h1 style={{ color: "#FFFFFF", fontSize: "28px", fontWeight: 700, margin: 0, letterSpacing: "-0.01em" }}>
+          Collections
+        </h1>
+        <p style={{ color: "#666666", fontSize: "13px", margin: "4px 0 0 0" }}>
+          Manage your product collections &amp; seasonal drops
+        </p>
+      </div>
 
-      {/* Create form */}
-      <div className="bg-surface-2 border border-white/5 p-6 rounded-sm">
-        <h2 className="font-display text-lg tracking-wider mb-5">NEW COLLECTION</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      {/* Create Form Container */}
+      <div style={{ backgroundColor: "#111111", border: "1px solid #1F1F1F", borderRadius: "8px", padding: "20px" }}>
+        <h2 style={{ color: "#FFFFFF", fontSize: "14px", fontWeight: 700, margin: "0 0 16px 0", letterSpacing: "0.05em", textTransform: "uppercase" }}>
+          New Collection
+        </h2>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "16px" }}>
           <div>
-            <label className="text-xs uppercase tracking-wider text-text-secondary block mb-1.5">Name *</label>
-            <input value={form.name} onChange={(e) => setForm((f) => ({ ...f, name: e.target.value, slug: slugify(e.target.value) }))} className="w-full input-dark px-3 py-2.5 text-sm" placeholder="SS25 Heat Season" id="col-name" />
+            <label style={{ display: "block", color: "#666666", fontSize: "10px", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 700, marginBottom: "6px" }}>
+              Name *
+            </label>
+            <input
+              value={form.name}
+              onChange={(e) => setForm((f) => ({ ...f, name: e.target.value, slug: slugify(e.target.value) }))}
+              placeholder="SS25 Heat Season"
+              style={{ width: "100%", backgroundColor: "#161618", border: "1px solid #222224", borderRadius: "6px", padding: "10px 12px", color: "#FFFFFF", fontSize: "13px", outline: "none" }}
+              id="col-name"
+            />
           </div>
           <div>
-            <label className="text-xs uppercase tracking-wider text-text-secondary block mb-1.5">Slug</label>
-            <input value={form.slug} onChange={(e) => setForm((f) => ({ ...f, slug: e.target.value }))} className="w-full input-dark px-3 py-2.5 text-sm" placeholder="ss25-heat-season" id="col-slug" />
+            <label style={{ display: "block", color: "#666666", fontSize: "10px", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 700, marginBottom: "6px" }}>
+              Slug
+            </label>
+            <input
+              value={form.slug}
+              onChange={(e) => setForm((f) => ({ ...f, slug: e.target.value }))}
+              placeholder="ss25-heat-season"
+              style={{ width: "100%", backgroundColor: "#161618", border: "1px solid #222224", borderRadius: "6px", padding: "10px 12px", color: "#FFFFFF", fontSize: "13px", outline: "none" }}
+              id="col-slug"
+            />
           </div>
-          <div className="md:col-span-2">
-            <label className="text-xs uppercase tracking-wider text-text-secondary block mb-1.5">Description</label>
-            <input value={form.description} onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))} className="w-full input-dark px-3 py-2.5 text-sm" placeholder="Summer 2025 drop" id="col-desc" />
+          <div style={{ gridColumn: "1 / -1" }}>
+            <label style={{ display: "block", color: "#666666", fontSize: "10px", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 700, marginBottom: "6px" }}>
+              Description
+            </label>
+            <input
+              value={form.description}
+              onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))}
+              placeholder="Summer 2025 drop"
+              style={{ width: "100%", backgroundColor: "#161618", border: "1px solid #222224", borderRadius: "6px", padding: "10px 12px", color: "#FFFFFF", fontSize: "13px", outline: "none" }}
+              id="col-desc"
+            />
           </div>
-          <div className="md:col-span-2">
-            <label className="text-xs uppercase tracking-wider text-text-secondary block mb-1.5">Cover Image</label>
-            <div className="border-2 border-dashed border-white/10 p-6 text-center cursor-pointer hover:border-brand-pink/50 transition-colors rounded-sm" onClick={() => fileRef.current?.click()}>
+          <div style={{ gridColumn: "1 / -1" }}>
+            <label style={{ display: "block", color: "#666666", fontSize: "10px", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 700, marginBottom: "6px" }}>
+              Cover Image
+            </label>
+            <div
+              onClick={() => fileRef.current?.click()}
+              style={{
+                border: "1px dashed #222224",
+                borderRadius: "6px",
+                padding: "24px",
+                textAlign: "center",
+                cursor: "pointer",
+                backgroundColor: "#141416",
+              }}
+              className="hover:border-white/20 transition-colors"
+            >
               {form.coverImage ? (
-                <div className="relative h-28"><Image src={form.coverImage} alt="Preview" fill className="object-cover rounded-sm" /></div>
+                <div style={{ position: "relative", height: "112px" }}>
+                  <Image src={form.coverImage} alt="Preview" fill style={{ objectFit: "cover", borderRadius: "4px" }} />
+                </div>
               ) : uploading ? (
-                <Loader2 size={20} className="mx-auto text-brand-pink animate-spin" />
+                <Loader2 size={20} style={{ margin: "0 auto", color: PINK }} className="animate-spin" />
               ) : (
-                <div className="flex flex-col items-center gap-2 text-text-muted"><Upload size={18} /><p className="text-xs">Upload cover image</p></div>
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "6px", color: "#666666" }}>
+                  <Upload size={18} />
+                  <p style={{ fontSize: "12px", margin: 0 }}>Upload cover image</p>
+                </div>
               )}
               <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={(e) => e.target.files && uploadImage(e.target.files[0])} id="col-image-input" />
             </div>
           </div>
         </div>
-        <button onClick={handleSave} disabled={saving || !form.name} className="mt-4 bg-brand-pink text-white px-6 py-2.5 text-sm font-medium uppercase tracking-widest hover:bg-brand-pink/80 transition-colors disabled:opacity-50 flex items-center gap-2" id="save-collection-btn">
+        <button
+          onClick={handleSave}
+          disabled={saving || !form.name}
+          style={{
+            marginTop: "16px",
+            backgroundColor: PINK,
+            color: "#000000",
+            padding: "10px 20px",
+            fontSize: "12px",
+            fontWeight: 700,
+            letterSpacing: "0.08em",
+            textTransform: "uppercase",
+            border: "none",
+            borderRadius: "6px",
+            cursor: "pointer",
+            display: "flex",
+            alignItems: "center",
+            gap: "8px",
+            opacity: saving || !form.name ? 0.5 : 1,
+          }}
+          id="save-collection-btn"
+        >
           {saving ? <><Loader2 size={14} className="animate-spin" /> Saving...</> : <><Plus size={14} /> Create Collection</>}
         </button>
       </div>
 
       {/* List */}
-      <div className="space-y-3">
+      <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
         {collections.map((col) => (
-          <motion.div key={col.id} layout className="flex items-center gap-4 bg-surface-2 border border-white/5 p-4 rounded-sm">
-            <div className="relative w-16 h-12 bg-surface-3 rounded-sm overflow-hidden shrink-0">
-              {col.coverImage && <Image src={col.coverImage} alt={col.name} fill className="object-cover" />}
+          <motion.div
+            key={col.id}
+            layout
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "16px",
+              backgroundColor: "#111111",
+              border: "1px solid #1F1F1F",
+              padding: "14px 16px",
+              borderRadius: "8px",
+            }}
+          >
+            <div style={{ position: "relative", width: "56px", height: "48px", backgroundColor: "#1C1C1E", borderRadius: "4px", overflow: "hidden", flexShrink: 0 }}>
+              {col.coverImage && <Image src={col.coverImage} alt={col.name} fill style={{ objectFit: "cover" }} />}
             </div>
-            <div className="flex-1">
-              <p className="font-medium text-white">{col.name}</p>
-              <p className="text-text-muted text-xs font-mono">{col.slug}</p>
-              {col.description && <p className="text-text-secondary text-xs mt-0.5">{col.description}</p>}
+            <div style={{ flex: 1 }}>
+              <p style={{ color: "#FFFFFF", fontSize: "14px", fontWeight: 700, margin: 0 }}>{col.name}</p>
+              <p style={{ color: "#666666", fontSize: "11px", fontFamily: "monospace", margin: "2px 0 0 0" }}>{col.slug}</p>
+              {col.description && <p style={{ color: "#AAAAAA", fontSize: "12px", margin: "4px 0 0 0" }}>{col.description}</p>}
             </div>
-            <div className="flex items-center gap-3">
-              <span className="text-brand-pink text-xs">{col._count.products} products</span>
-              <span className={cn("text-[10px] px-2 py-0.5 border rounded-full", col.isActive ? "border-neon-pink/30 text-neon-pink" : "border-white/10 text-text-muted")}>{col.isActive ? "Active" : "Hidden"}</span>
-              <button onClick={() => handleDelete(col.id)} className="text-text-muted hover:text-red-400 transition-colors"><Trash2 size={14} /></button>
+            <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+              <span style={{ color: PINK, fontSize: "12px", fontWeight: 700 }}>{col._count.products} products</span>
+              <span style={{ fontSize: "10px", padding: "2px 8px", borderRadius: "12px", border: col.isActive ? `1px solid ${PINK}` : "1px solid #333333", color: col.isActive ? PINK : "#666666" }}>
+                {col.isActive ? "Active" : "Hidden"}
+              </span>
+              <button
+                onClick={() => handleDelete(col.id)}
+                style={{ background: "none", border: "none", cursor: "pointer", color: "#666666" }}
+                className="hover:text-red-400 transition-colors"
+              >
+                <Trash2 size={14} />
+              </button>
             </div>
           </motion.div>
         ))}
-        {collections.length === 0 && <p className="text-text-muted text-sm text-center py-8">No collections yet</p>}
+        {collections.length === 0 && <p style={{ color: "#666666", fontSize: "13px", textAlign: "center", padding: "32px 0" }}>No collections yet</p>}
       </div>
     </div>
   );

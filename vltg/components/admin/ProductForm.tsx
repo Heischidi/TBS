@@ -2,9 +2,8 @@
 
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
 import Image from "next/image";
-import { Plus, X, Upload, Loader2, ArrowLeft, GripVertical } from "lucide-react";
+import { Plus, X, Upload, Loader2, ArrowLeft } from "lucide-react";
 import { slugify, cn } from "@/lib/utils";
 
 interface Category { id: string; name: string; slug: string; }
@@ -23,6 +22,8 @@ interface Props {
   collections: Collection[];
   product?: any;
 }
+
+const PINK = "#FF1493";
 
 export function ProductForm({ categories, collections, product }: Props) {
   const router = useRouter();
@@ -107,96 +108,123 @@ export function ProductForm({ categories, collections, product }: Props) {
     router.refresh();
   };
 
-  const inputClass = "w-full input-dark px-4 py-3 text-sm";
-  const labelClass = "block text-xs uppercase tracking-wider text-text-secondary mb-1.5";
+  const inputStyle = {
+    width: "100%",
+    backgroundColor: "#161618",
+    border: "1px solid #222224",
+    borderRadius: "6px",
+    padding: "10px 12px",
+    color: "#FFFFFF",
+    fontSize: "13px",
+    outline: "none",
+  };
+  const labelStyle = {
+    display: "block",
+    color: "#666666",
+    fontSize: "10px",
+    textTransform: "uppercase" as const,
+    letterSpacing: "0.1em",
+    fontWeight: 700,
+    marginBottom: "6px",
+  };
 
   return (
-    <div className="max-w-5xl">
-      <div className="flex items-center gap-4 mb-8">
-        <button onClick={() => router.back()} className="text-text-muted hover:text-white transition-colors">
+    <div style={{ maxWidth: "100%", display: "flex", flexDirection: "column", gap: "24px" }}>
+      <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+        <button onClick={() => router.back()} style={{ background: "none", border: "none", cursor: "pointer", color: "#666666" }} className="hover:text-white transition-colors">
           <ArrowLeft size={20} />
         </button>
         <div>
-          <h1 className="font-display text-3xl text-white">{isEditing ? "EDIT PRODUCT" : "NEW PRODUCT"}</h1>
-          <p className="text-text-muted text-sm mt-0.5">{isEditing ? `Editing: ${product.name}` : "Add a new product to your store"}</p>
+          <h1 style={{ color: "#FFFFFF", fontSize: "28px", fontWeight: 700, margin: 0, letterSpacing: "-0.01em" }}>
+            {isEditing ? "Edit Product" : "New Product"}
+          </h1>
+          <p style={{ color: "#666666", fontSize: "13px", margin: "4px 0 0 0" }}>
+            {isEditing ? `Editing: ${product.name}` : "Add a new product listing to your store"}
+          </p>
         </div>
       </div>
 
       {error && (
-        <div className="bg-red-500/10 border border-red-500/20 text-red-400 text-sm px-4 py-3 mb-6 rounded-sm">
+        <div style={{ backgroundColor: "rgba(239, 68, 68, 0.1)", border: "1px solid rgba(239, 68, 68, 0.3)", color: "#EF4444", fontSize: "13px", padding: "12px 16px", borderRadius: "6px" }}>
           {error}
         </div>
       )}
 
       <form onSubmit={handleSubmit}>
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Main Info */}
-          <div className="lg:col-span-2 space-y-6">
+        <div style={{ display: "grid", gridTemplateColumns: "minmax(0, 1fr) 300px", gap: "24px", alignItems: "start" }}>
+          {/* Main Column */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
             {/* Basic Info */}
-            <div className="bg-surface-2 border border-white/5 p-6 rounded-sm">
-              <h2 className="font-display text-lg tracking-wider mb-5">PRODUCT DETAILS</h2>
-              <div className="space-y-4">
+            <div style={{ backgroundColor: "#111111", border: "1px solid #1F1F1F", borderRadius: "8px", padding: "20px" }}>
+              <h2 style={{ color: "#FFFFFF", fontSize: "14px", fontWeight: 700, margin: "0 0 16px 0", letterSpacing: "0.05em", textTransform: "uppercase" }}>
+                Product Details
+              </h2>
+              <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
                 <div>
-                  <label className={labelClass}>Product Name *</label>
-                  <input value={form.name} onChange={(e) => handleNameChange(e.target.value)} className={inputClass} placeholder="e.g. Oversized Drop Tee" required id="product-name" />
+                  <label style={labelStyle}>Product Name *</label>
+                  <input value={form.name} onChange={(e) => handleNameChange(e.target.value)} style={inputStyle} placeholder="e.g. Oversized Drop Tee" required id="product-name" />
                 </div>
                 <div>
-                  <label className={labelClass}>URL Slug *</label>
-                  <input value={form.slug} onChange={(e) => setForm((f) => ({ ...f, slug: e.target.value }))} className={inputClass} placeholder="oversized-drop-tee" required id="product-slug" />
+                  <label style={labelStyle}>URL Slug *</label>
+                  <input value={form.slug} onChange={(e) => setForm((f) => ({ ...f, slug: e.target.value }))} style={inputStyle} placeholder="oversized-drop-tee" required id="product-slug" />
                 </div>
                 <div>
-                  <label className={labelClass}>Description *</label>
-                  <textarea value={form.description} onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))} className={`${inputClass} h-32 resize-none`} placeholder="Describe the product..." required id="product-desc" />
+                  <label style={labelStyle}>Description *</label>
+                  <textarea value={form.description} onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))} style={{ ...inputStyle, height: "120px", resize: "none" }} placeholder="Describe the product..." required id="product-desc" />
                 </div>
-                <div className="grid grid-cols-2 gap-4">
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
                   <div>
-                    <label className={labelClass}>Price (₦) *</label>
-                    <input type="number" value={form.price} onChange={(e) => setForm((f) => ({ ...f, price: e.target.value }))} className={inputClass} placeholder="15000" required min="0" id="product-price" />
+                    <label style={labelStyle}>Price (₦) *</label>
+                    <input type="number" value={form.price} onChange={(e) => setForm((f) => ({ ...f, price: e.target.value }))} style={inputStyle} placeholder="15000" required min="0" id="product-price" />
                   </div>
                   <div>
-                    <label className={labelClass}>Compare Price (₦)</label>
-                    <input type="number" value={form.comparePrice} onChange={(e) => setForm((f) => ({ ...f, comparePrice: e.target.value }))} className={inputClass} placeholder="20000" min="0" id="product-compare-price" />
+                    <label style={labelStyle}>Compare Price (₦)</label>
+                    <input type="number" value={form.comparePrice} onChange={(e) => setForm((f) => ({ ...f, comparePrice: e.target.value }))} style={inputStyle} placeholder="20000" min="0" id="product-compare-price" />
                   </div>
                 </div>
                 <div>
-                  <label className={labelClass}>Stock Quantity</label>
-                  <input type="number" value={form.stock} onChange={(e) => setForm((f) => ({ ...f, stock: e.target.value }))} className={inputClass} min="0" id="product-stock" />
+                  <label style={labelStyle}>Stock Quantity</label>
+                  <input type="number" value={form.stock} onChange={(e) => setForm((f) => ({ ...f, stock: e.target.value }))} style={inputStyle} min="0" id="product-stock" />
                 </div>
               </div>
             </div>
 
             {/* Images */}
-            <div className="bg-surface-2 border border-white/5 p-6 rounded-sm">
-              <h2 className="font-display text-lg tracking-wider mb-5">PRODUCT IMAGES</h2>
+            <div style={{ backgroundColor: "#111111", border: "1px solid #1F1F1F", borderRadius: "8px", padding: "20px" }}>
+              <h2 style={{ color: "#FFFFFF", fontSize: "14px", fontWeight: 700, margin: "0 0 16px 0", letterSpacing: "0.05em", textTransform: "uppercase" }}>
+                Product Images
+              </h2>
               <div
-                className="border-2 border-dashed border-white/10 rounded-sm p-8 text-center hover:border-brand-pink/50 transition-colors cursor-pointer"
+                style={{ border: "1px dashed #222224", borderRadius: "6px", padding: "28px", textAlign: "center", cursor: "pointer", backgroundColor: "#141416" }}
                 onClick={() => fileRef.current?.click()}
+                className="hover:border-white/20 transition-colors"
               >
                 {uploading ? (
-                  <Loader2 size={24} className="mx-auto text-brand-pink animate-spin" />
+                  <Loader2 size={24} style={{ margin: "0 auto", color: PINK }} className="animate-spin" />
                 ) : (
                   <>
-                    <Upload size={24} className="mx-auto text-text-muted mb-3" />
-                    <p className="text-text-secondary text-sm">Click to upload or drag &amp; drop</p>
-                    <p className="text-text-muted text-xs mt-1">PNG, JPG up to 10MB each</p>
+                    <Upload size={22} style={{ margin: "0 auto 8px", color: "#666666" }} />
+                    <p style={{ color: "#CCCCCC", fontSize: "13px", margin: 0 }}>Click to upload or drag &amp; drop</p>
+                    <p style={{ color: "#666666", fontSize: "11px", margin: "2px 0 0 0" }}>PNG, JPG up to 10MB each</p>
                   </>
                 )}
                 <input ref={fileRef} type="file" multiple accept="image/*" className="hidden"
                   onChange={(e) => e.target.files && handleFileUpload(e.target.files)} id="product-images-input" />
               </div>
               {images.length > 0 && (
-                <div className="grid grid-cols-4 md:grid-cols-6 gap-2 mt-4">
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(80px, 1fr))", gap: "10px", marginTop: "16px" }}>
                   {images.map((img, i) => (
-                    <div key={i} className="relative aspect-square group">
-                      <Image src={img} alt="" fill className="object-cover rounded-sm" />
+                    <div key={i} className="relative aspect-square group" style={{ borderRadius: "4px", overflow: "hidden", backgroundColor: "#1C1C1E" }}>
+                      <Image src={img} alt="" fill style={{ objectFit: "cover" }} />
                       <button
                         type="button"
                         onClick={() => setImages((prev) => prev.filter((_, idx) => idx !== i))}
-                        className="absolute top-1 right-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                        style={{ position: "absolute", top: "4px", right: "4px", backgroundColor: "#EF4444", border: "none", borderRadius: "50%", padding: "3px", cursor: "pointer", color: "#FFF" }}
+                        className="opacity-0 group-hover:opacity-100 transition-opacity"
                       >
                         <X size={10} />
                       </button>
-                      {i === 0 && <span className="absolute bottom-1 left-1 text-[8px] bg-brand-pink text-white px-1">MAIN</span>}
+                      {i === 0 && <span style={{ position: "absolute", bottom: "4px", left: "4px", fontSize: "8px", backgroundColor: PINK, color: "#000", fontWeight: 700, padding: "1px 4px", borderRadius: "2px" }}>MAIN</span>}
                     </div>
                   ))}
                 </div>
@@ -204,31 +232,41 @@ export function ProductForm({ categories, collections, product }: Props) {
             </div>
 
             {/* Sizes */}
-            <div className="bg-surface-2 border border-white/5 p-6 rounded-sm">
-              <h2 className="font-display text-lg tracking-wider mb-5">SIZES</h2>
-              <div className="flex flex-wrap gap-2">
+            <div style={{ backgroundColor: "#111111", border: "1px solid #1F1F1F", borderRadius: "8px", padding: "20px" }}>
+              <h2 style={{ color: "#FFFFFF", fontSize: "14px", fontWeight: 700, margin: "0 0 16px 0", letterSpacing: "0.05em", textTransform: "uppercase" }}>
+                Sizes
+              </h2>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
                 {COMMON_SIZES.map((size) => (
                   <button
                     key={size}
                     type="button"
                     onClick={() => toggleSize(size)}
-                    className={cn("px-3 py-1.5 text-xs border font-medium uppercase tracking-wider transition-all", sizes.includes(size) ? "border-brand-pink bg-brand-pink/10 text-brand-pink" : "border-white/10 text-text-secondary hover:border-white hover:text-white")}
+                    style={{
+                      padding: "6px 12px",
+                      fontSize: "12px",
+                      fontWeight: 600,
+                      textTransform: "uppercase",
+                      border: sizes.includes(size) ? `1px solid ${PINK}` : "1px solid #222224",
+                      backgroundColor: sizes.includes(size) ? "rgba(255, 20, 147, 0.12)" : "transparent",
+                      color: sizes.includes(size) ? PINK : "#999999",
+                      borderRadius: "4px",
+                      cursor: "pointer",
+                      transition: "all 0.15s ease",
+                    }}
                   >
                     {size}
                   </button>
                 ))}
               </div>
-              {/* Custom size */}
-              <div className="flex gap-2 mt-3">
-                <input placeholder="Custom size..." className="input-dark px-3 py-2 text-sm flex-1" id="custom-size-input"
-                  onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); toggleSize((e.target as HTMLInputElement).value); (e.target as HTMLInputElement).value = ""; }}} />
-              </div>
             </div>
 
             {/* Colors */}
-            <div className="bg-surface-2 border border-white/5 p-6 rounded-sm">
-              <h2 className="font-display text-lg tracking-wider mb-5">COLORS</h2>
-              <div className="flex flex-wrap gap-2 mb-4">
+            <div style={{ backgroundColor: "#111111", border: "1px solid #1F1F1F", borderRadius: "8px", padding: "20px" }}>
+              <h2 style={{ color: "#FFFFFF", fontSize: "14px", fontWeight: 700, margin: "0 0 16px 0", letterSpacing: "0.05em", textTransform: "uppercase" }}>
+                Colors
+              </h2>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", marginBottom: "16px" }}>
                 {PRESET_COLORS.map((color) => (
                   <button
                     key={color.name}
@@ -240,62 +278,58 @@ export function ProductForm({ categories, collections, product }: Props) {
                         setColors((prev) => [...prev, color]);
                       }
                     }}
-                    className={cn("flex items-center gap-2 px-3 py-1.5 text-xs border transition-all", colors.find((c) => c.name === color.name) ? "border-brand-pink bg-brand-pink/10" : "border-white/10 hover:border-white")}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "8px",
+                      padding: "6px 12px",
+                      fontSize: "12px",
+                      border: colors.find((c) => c.name === color.name) ? `1px solid ${PINK}` : "1px solid #222224",
+                      backgroundColor: colors.find((c) => c.name === color.name) ? "rgba(255, 20, 147, 0.12)" : "transparent",
+                      color: colors.find((c) => c.name === color.name) ? PINK : "#999999",
+                      borderRadius: "4px",
+                      cursor: "pointer",
+                    }}
                   >
-                    <span className="w-3 h-3 rounded-full border border-white/20" style={{ background: color.hex }} />
+                    <span style={{ width: "12px", height: "12px", borderRadius: "50%", border: "1px solid rgba(255,255,255,0.2)", backgroundColor: color.hex }} />
                     {color.name}
                   </button>
                 ))}
               </div>
-              {/* Custom color */}
-              <div className="flex gap-2 items-center">
-                <input type="color" value={colorInput.hex} onChange={(e) => setColorInput((c) => ({ ...c, hex: e.target.value }))} className="w-10 h-10 rounded border border-white/10 bg-surface-3 cursor-pointer" id="color-picker" />
-                <input value={colorInput.name} onChange={(e) => setColorInput((c) => ({ ...c, name: e.target.value }))} placeholder="Color name..." className="input-dark px-3 py-2 text-sm flex-1" id="color-name-input" />
-                <button type="button" onClick={addColor} className="bg-surface-3 hover:bg-surface-4 border border-white/10 px-3 py-2 text-xs uppercase tracking-wider transition-colors">
-                  <Plus size={14} />
-                </button>
-              </div>
-              {colors.length > 0 && (
-                <div className="flex flex-wrap gap-2 mt-3">
-                  {colors.map((c) => (
-                    <div key={c.name} className="flex items-center gap-1.5 bg-surface-3 px-2 py-1 rounded-sm text-xs">
-                      <span className="w-3 h-3 rounded-full" style={{ background: c.hex }} />
-                      {c.name}
-                      <button type="button" onClick={() => setColors((prev) => prev.filter((x) => x.name !== c.name))} className="text-text-muted hover:text-red-400 ml-1"><X size={10} /></button>
-                    </div>
-                  ))}
-                </div>
-              )}
             </div>
           </div>
 
-          {/* Sidebar Options */}
-          <div className="space-y-6">
+          {/* Sidebar Column */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
             {/* Organization */}
-            <div className="bg-surface-2 border border-white/5 p-5 rounded-sm">
-              <h2 className="font-display text-lg tracking-wider mb-5">ORGANIZATION</h2>
-              <div className="space-y-4">
+            <div style={{ backgroundColor: "#111111", border: "1px solid #1F1F1F", borderRadius: "8px", padding: "20px" }}>
+              <h2 style={{ color: "#FFFFFF", fontSize: "14px", fontWeight: 700, margin: "0 0 16px 0", letterSpacing: "0.05em", textTransform: "uppercase" }}>
+                Organization
+              </h2>
+              <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
                 <div>
-                  <label className={labelClass}>Category *</label>
-                  <select value={form.categoryId} onChange={(e) => setForm((f) => ({ ...f, categoryId: e.target.value }))} className={`${inputClass} cursor-pointer`} id="product-category" required>
-                    <option value="">Select Category</option>
-                    {categories.map((cat) => <option key={cat.id} value={cat.id}>{cat.name}</option>)}
+                  <label style={labelStyle}>Category *</label>
+                  <select value={form.categoryId} onChange={(e) => setForm((f) => ({ ...f, categoryId: e.target.value }))} style={{ ...inputStyle, cursor: "pointer" }} id="product-category" required>
+                    <option value="" style={{ backgroundColor: "#111111" }}>Select Category</option>
+                    {categories.map((cat) => <option key={cat.id} value={cat.id} style={{ backgroundColor: "#111111" }}>{cat.name}</option>)}
                   </select>
                 </div>
                 <div>
-                  <label className={labelClass}>Collection</label>
-                  <select value={form.collectionId} onChange={(e) => setForm((f) => ({ ...f, collectionId: e.target.value }))} className={`${inputClass} cursor-pointer`} id="product-collection">
-                    <option value="">None</option>
-                    {collections.map((col) => <option key={col.id} value={col.id}>{col.name}</option>)}
+                  <label style={labelStyle}>Collection</label>
+                  <select value={form.collectionId} onChange={(e) => setForm((f) => ({ ...f, collectionId: e.target.value }))} style={{ ...inputStyle, cursor: "pointer" }} id="product-collection">
+                    <option value="" style={{ backgroundColor: "#111111" }}>None</option>
+                    {collections.map((col) => <option key={col.id} value={col.id} style={{ backgroundColor: "#111111" }}>{col.name}</option>)}
                   </select>
                 </div>
               </div>
             </div>
 
             {/* Tags */}
-            <div className="bg-surface-2 border border-white/5 p-5 rounded-sm">
-              <h2 className="font-display text-lg tracking-wider mb-5">PRODUCT TAGS</h2>
-              <div className="space-y-3">
+            <div style={{ backgroundColor: "#111111", border: "1px solid #1F1F1F", borderRadius: "8px", padding: "20px" }}>
+              <h2 style={{ color: "#FFFFFF", fontSize: "14px", fontWeight: 700, margin: "0 0 16px 0", letterSpacing: "0.05em", textTransform: "uppercase" }}>
+                Product Tags
+              </h2>
+              <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
                 {[
                   { key: "isPublished", label: "Published" },
                   { key: "isFeatured", label: "Featured" },
@@ -303,30 +337,80 @@ export function ProductForm({ categories, collections, product }: Props) {
                   { key: "isBestSeller", label: "Best Seller" },
                   { key: "isTrending", label: "Trending" },
                 ].map(({ key, label }) => (
-                  <label key={key} className="flex items-center justify-between cursor-pointer">
-                    <span className="text-sm text-text-secondary">{label}</span>
+                  <label key={key} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", cursor: "pointer" }}>
+                    <span style={{ color: "#CCCCCC", fontSize: "13px" }}>{label}</span>
                     <div
-                      className={cn("relative w-10 h-5 rounded-full transition-colors", (form as any)[key] ? "bg-brand-pink" : "bg-surface-4")}
+                      style={{
+                        position: "relative",
+                        width: "36px",
+                        height: "20px",
+                        borderRadius: "10px",
+                        backgroundColor: (form as any)[key] ? PINK : "#222224",
+                        transition: "all 0.15s ease",
+                      }}
                       onClick={() => setForm((f) => ({ ...f, [key]: !(f as any)[key] }))}
                     >
-                      <div className={cn("absolute top-0.5 w-4 h-4 bg-white rounded-full transition-transform", (form as any)[key] ? "translate-x-5" : "translate-x-0.5")} />
+                      <div style={{
+                        position: "absolute",
+                        top: "2px",
+                        width: "16px",
+                        height: "16px",
+                        borderRadius: "50%",
+                        backgroundColor: "#FFFFFF",
+                        transform: (form as any)[key] ? "translateX(18px)" : "translateX(2px)",
+                        transition: "all 0.15s ease",
+                      }} />
                     </div>
                   </label>
                 ))}
               </div>
             </div>
 
-            {/* Submit */}
+            {/* Action buttons */}
             <button
               type="submit"
               disabled={saving}
-              className="w-full bg-brand-pink text-white py-4 font-medium uppercase tracking-widest text-sm hover:bg-brand-pink/80 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+              style={{
+                width: "100%",
+                backgroundColor: PINK,
+                color: "#000000",
+                padding: "14px",
+                fontSize: "13px",
+                fontWeight: 700,
+                letterSpacing: "0.08em",
+                textTransform: "uppercase",
+                border: "none",
+                borderRadius: "6px",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "8px",
+                opacity: saving ? 0.5 : 1,
+              }}
               id="save-product-btn"
             >
               {saving ? <><Loader2 size={16} className="animate-spin" /> Saving...</> : isEditing ? "Update Product" : "Create Product"}
             </button>
 
-            <button type="button" onClick={() => router.back()} className="w-full border border-white/10 text-text-secondary py-3 text-sm uppercase tracking-wider hover:bg-white/5 transition-colors">
+            <button
+              type="button"
+              onClick={() => router.back()}
+              style={{
+                width: "100%",
+                backgroundColor: "transparent",
+                border: "1px solid #222224",
+                color: "#888888",
+                padding: "12px",
+                fontSize: "12px",
+                fontWeight: 600,
+                letterSpacing: "0.08em",
+                textTransform: "uppercase",
+                borderRadius: "6px",
+                cursor: "pointer",
+              }}
+              className="hover:text-white hover:border-white/20 transition-colors"
+            >
               Cancel
             </button>
           </div>

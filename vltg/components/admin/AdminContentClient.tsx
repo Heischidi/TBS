@@ -10,6 +10,8 @@ interface HeroBanner {
 }
 interface LookbookImage { id: string; image: string; caption?: string | null; order: number; }
 
+const PINK = "#FF1493";
+
 export function AdminContentClient({ banners: initialBanners, lookbook: initialLookbook }: {
   banners: HeroBanner[]; lookbook: LookbookImage[];
 }) {
@@ -79,20 +81,37 @@ export function AdminContentClient({ banners: initialBanners, lookbook: initialL
     setLookbook((prev) => prev.filter((i) => i.id !== id));
   };
 
-  const inputClass = "w-full input-dark px-3 py-2.5 text-sm";
-  const labelClass = "text-xs uppercase tracking-wider text-text-secondary block mb-1.5";
-
   return (
-    <div className="max-w-5xl space-y-6">
-      <h1 className="font-display text-3xl text-white">CONTENT MANAGEMENT</h1>
+    <div style={{ maxWidth: "100%", display: "flex", flexDirection: "column", gap: "24px" }}>
+      {/* Header */}
+      <div>
+        <h1 style={{ color: "#FFFFFF", fontSize: "28px", fontWeight: 700, margin: 0, letterSpacing: "-0.01em" }}>
+          Content Management
+        </h1>
+        <p style={{ color: "#666666", fontSize: "13px", margin: "4px 0 0 0" }}>
+          Manage homepage banners and editorial lookbooks
+        </p>
+      </div>
 
       {/* Tabs */}
-      <div className="flex gap-1 bg-surface-2 border border-white/5 p-1 rounded-sm w-fit">
+      <div style={{ display: "flex", gap: "4px", backgroundColor: "#111111", border: "1px solid #1F1F1F", padding: "4px", borderRadius: "6px", width: "fit-content" }}>
         {(["hero", "lookbook"] as const).map((t) => (
           <button
             key={t}
             onClick={() => setTab(t)}
-            className={`px-5 py-2 text-xs font-bold uppercase tracking-wider transition-colors ${tab === t ? "bg-brand-pink text-white" : "text-text-secondary hover:text-white"}`}
+            style={{
+              padding: "8px 16px",
+              fontSize: "12px",
+              fontWeight: 700,
+              textTransform: "uppercase",
+              letterSpacing: "0.08em",
+              border: "none",
+              borderRadius: "4px",
+              cursor: "pointer",
+              backgroundColor: tab === t ? PINK : "transparent",
+              color: tab === t ? "#000000" : "#888888",
+              transition: "all 0.15s ease",
+            }}
           >
             {t === "hero" ? "Hero Banners" : "Lookbook Gallery"}
           </button>
@@ -100,72 +119,103 @@ export function AdminContentClient({ banners: initialBanners, lookbook: initialL
       </div>
 
       {tab === "hero" && (
-        <div className="space-y-6">
-          {/* Add new banner */}
-          <div className="bg-surface-2 border border-white/5 p-6 rounded-sm">
-            <h2 className="font-display text-lg tracking-wider mb-5">ADD HERO BANNER</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+          {/* Add new banner box */}
+          <div style={{ backgroundColor: "#111111", border: "1px solid #1F1F1F", borderRadius: "8px", padding: "20px" }}>
+            <h2 style={{ color: "#FFFFFF", fontSize: "14px", fontWeight: 700, margin: "0 0 16px 0", letterSpacing: "0.05em", textTransform: "uppercase" }}>
+              Add Hero Banner
+            </h2>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "16px" }}>
               <div>
-                <label className={labelClass}>Title *</label>
-                <input value={newBanner.title} onChange={(e) => setNewBanner((b) => ({ ...b, title: e.target.value }))} className={inputClass} placeholder="NEW SEASON NEW RULES" id="banner-title" />
+                <label style={{ display: "block", color: "#666666", fontSize: "10px", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 700, marginBottom: "6px" }}>Title *</label>
+                <input value={newBanner.title} onChange={(e) => setNewBanner((b) => ({ ...b, title: e.target.value }))} style={{ width: "100%", backgroundColor: "#161618", border: "1px solid #222224", borderRadius: "6px", padding: "10px 12px", color: "#FFFFFF", fontSize: "13px", outline: "none" }} placeholder="NEW SEASON NEW RULES" id="banner-title" />
               </div>
               <div>
-                <label className={labelClass}>Subtitle</label>
-                <input value={newBanner.subtitle} onChange={(e) => setNewBanner((b) => ({ ...b, subtitle: e.target.value }))} className={inputClass} placeholder="Premium streetwear..." id="banner-subtitle" />
+                <label style={{ display: "block", color: "#666666", fontSize: "10px", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 700, marginBottom: "6px" }}>Subtitle</label>
+                <input value={newBanner.subtitle} onChange={(e) => setNewBanner((b) => ({ ...b, subtitle: e.target.value }))} style={{ width: "100%", backgroundColor: "#161618", border: "1px solid #222224", borderRadius: "6px", padding: "10px 12px", color: "#FFFFFF", fontSize: "13px", outline: "none" }} placeholder="Premium streetwear..." id="banner-subtitle" />
               </div>
               <div>
-                <label className={labelClass}>CTA Button Text</label>
-                <input value={newBanner.ctaText} onChange={(e) => setNewBanner((b) => ({ ...b, ctaText: e.target.value }))} className={inputClass} id="banner-cta-text" />
+                <label style={{ display: "block", color: "#666666", fontSize: "10px", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 700, marginBottom: "6px" }}>CTA Button Text</label>
+                <input value={newBanner.ctaText} onChange={(e) => setNewBanner((b) => ({ ...b, ctaText: e.target.value }))} style={{ width: "100%", backgroundColor: "#161618", border: "1px solid #222224", borderRadius: "6px", padding: "10px 12px", color: "#FFFFFF", fontSize: "13px", outline: "none" }} id="banner-cta-text" />
               </div>
               <div>
-                <label className={labelClass}>CTA Link</label>
-                <input value={newBanner.ctaLink} onChange={(e) => setNewBanner((b) => ({ ...b, ctaLink: e.target.value }))} className={inputClass} id="banner-cta-link" />
+                <label style={{ display: "block", color: "#666666", fontSize: "10px", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 700, marginBottom: "6px" }}>CTA Link</label>
+                <input value={newBanner.ctaLink} onChange={(e) => setNewBanner((b) => ({ ...b, ctaLink: e.target.value }))} style={{ width: "100%", backgroundColor: "#161618", border: "1px solid #222224", borderRadius: "6px", padding: "10px 12px", color: "#FFFFFF", fontSize: "13px", outline: "none" }} id="banner-cta-link" />
               </div>
-              <div className="md:col-span-2">
-                <label className={labelClass}>Banner Image *</label>
+              <div style={{ gridColumn: "1 / -1" }}>
+                <label style={{ display: "block", color: "#666666", fontSize: "10px", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight 700, marginBottom: "6px" }}>Banner Image *</label>
                 <div
-                  className="border-2 border-dashed border-white/10 p-6 text-center cursor-pointer hover:border-brand-pink/50 transition-colors rounded-sm"
                   onClick={() => fileRef.current?.click()}
+                  style={{
+                    border: "1px dashed #222224",
+                    borderRadius: "6px",
+                    padding: "24px",
+                    textAlign: "center",
+                    cursor: "pointer",
+                    backgroundColor: "#141416",
+                  }}
+                  className="hover:border-white/20 transition-colors"
                 >
                   {newBanner.image ? (
-                    <div className="relative h-32">
-                      <Image src={newBanner.image} alt="Banner preview" fill className="object-cover rounded-sm" />
-                      <button type="button" onClick={(e) => { e.stopPropagation(); setNewBanner((b) => ({ ...b, image: "" })); }} className="absolute top-1 right-1 bg-red-500 rounded-full p-0.5"><X size={10} /></button>
+                    <div style={{ position: "relative", height: "120px" }}>
+                      <Image src={newBanner.image} alt="Banner preview" fill style={{ objectFit: "cover", borderRadius: "4px" }} />
+                      <button type="button" onClick={(e) => { e.stopPropagation(); setNewBanner((b) => ({ ...b, image: "" })); }} style={{ position: "absolute", top: "6px", right: "6px", backgroundColor: "#EF4444", border: "none", borderRadius: "50%", padding: "4px", cursor: "pointer", color: "#FFF" }}><X size={12} /></button>
                     </div>
                   ) : uploading ? (
-                    <Loader2 size={24} className="mx-auto text-brand-pink animate-spin" />
+                    <Loader2 size={22} style={{ margin: "0 auto", color: PINK }} className="animate-spin" />
                   ) : (
-                    <div className="flex flex-col items-center gap-2 text-text-muted">
-                      <Upload size={20} />
-                      <p className="text-sm">Click to upload banner image</p>
+                    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "6px", color: "#666666" }}>
+                      <Upload size={18} />
+                      <p style={{ fontSize: "12px", margin: 0 }}>Click to upload banner image</p>
                     </div>
                   )}
                   <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={(e) => e.target.files && handleBannerImage(e.target.files)} id="banner-image-input" />
                 </div>
               </div>
             </div>
-            <button onClick={saveBanner} disabled={saving} className="mt-4 bg-brand-pink text-white px-6 py-2.5 text-sm font-medium uppercase tracking-widest hover:bg-brand-pink/80 transition-colors disabled:opacity-50 flex items-center gap-2" id="save-banner-btn">
+            <button
+              onClick={saveBanner}
+              disabled={saving}
+              style={{
+                marginTop: "16px",
+                backgroundColor: PINK,
+                color: "#000000",
+                padding: "10px 20px",
+                fontSize: "12px",
+                fontWeight: 700,
+                letterSpacing: "0.08em",
+                textTransform: "uppercase",
+                border: "none",
+                borderRadius: "6px",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                gap: "8px",
+                opacity: saving ? 0.5 : 1,
+              }}
+              id="save-banner-btn"
+            >
               {saving ? <><Loader2 size={14} className="animate-spin" /> Saving...</> : <><Plus size={14} /> Add Banner</>}
             </button>
           </div>
 
-          {/* Existing banners */}
-          <div className="space-y-3">
-            {banners.length === 0 ? <p className="text-text-muted text-sm">No banners yet. Add your first one above.</p> : banners.map((banner) => (
-              <div key={banner.id} className="flex gap-4 bg-surface-2 border border-white/5 p-4 rounded-sm">
-                <div className="relative w-24 h-16 bg-surface-3 rounded-sm overflow-hidden shrink-0">
-                  {banner.image && <Image src={banner.image} alt={banner.title} fill className="object-cover" />}
+          {/* Banners List */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+            {banners.length === 0 ? <p style={{ color: "#666666", fontSize: "13px" }}>No banners yet. Add your first one above.</p> : banners.map((banner) => (
+              <div key={banner.id} style={{ display: "flex", alignItems: "center", gap: "16px", backgroundColor: "#111111", border: "1px solid #1F1F1F", padding: "14px 16px", borderRadius: "8px" }}>
+                <div style={{ position: "relative", width: "80px", height: "50px", backgroundColor: "#1C1C1E", borderRadius: "4px", overflow: "hidden", flexShrink: 0 }}>
+                  {banner.image && <Image src={banner.image} alt={banner.title} fill style={{ objectFit: "cover" }} />}
                 </div>
-                <div className="flex-1">
-                  <p className="font-medium text-white">{banner.title}</p>
-                  {banner.subtitle && <p className="text-text-muted text-xs mt-0.5">{banner.subtitle}</p>}
-                  <p className="text-brand-pink text-xs mt-1">{banner.ctaText} → {banner.ctaLink}</p>
+                <div style={{ flex: 1 }}>
+                  <p style={{ color: "#FFFFFF", fontSize: "14px", fontWeight: 700, margin: 0 }}>{banner.title}</p>
+                  {banner.subtitle && <p style={{ color: "#AAAAAA", fontSize: "12px", margin: "2px 0 0 0" }}>{banner.subtitle}</p>}
+                  <p style={{ color: PINK, fontSize: "11px", margin: "4px 0 0 0" }}>{banner.ctaText} &rarr; {banner.ctaLink}</p>
                 </div>
-                <div className="flex items-center gap-3">
-                  <span className={`text-[10px] px-2 py-0.5 border rounded-full ${banner.isActive ? "border-neon-pink/30 text-neon-pink" : "border-white/10 text-text-muted"}`}>
+                <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                  <span style={{ fontSize: "10px", padding: "2px 8px", borderRadius: "12px", border: banner.isActive ? `1px solid ${PINK}` : "1px solid #333333", color: banner.isActive ? PINK : "#666666" }}>
                     {banner.isActive ? "Active" : "Hidden"}
                   </span>
-                  <button onClick={() => deleteBanner(banner.id)} className="text-text-muted hover:text-red-400 transition-colors"><Trash2 size={14} /></button>
+                  <button onClick={() => deleteBanner(banner.id)} style={{ background: "none", border: "none", cursor: "pointer", color: "#666666" }} className="hover:text-red-400 transition-colors"><Trash2 size={14} /></button>
                 </div>
               </div>
             ))}
@@ -174,31 +224,32 @@ export function AdminContentClient({ banners: initialBanners, lookbook: initialL
       )}
 
       {tab === "lookbook" && (
-        <div className="space-y-6">
+        <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
           <div
-            className="border-2 border-dashed border-white/10 p-10 text-center cursor-pointer hover:border-brand-pink/50 transition-colors rounded-sm"
+            style={{ border: "1px dashed #222224", borderRadius: "8px", padding: "36px", textAlign: "center", cursor: "pointer", backgroundColor: "#111111" }}
             onClick={() => lookbookFileRef.current?.click()}
+            className="hover:border-white/20 transition-colors"
           >
-            {uploading ? <Loader2 size={24} className="mx-auto text-brand-pink animate-spin" /> : (
-              <div className="flex flex-col items-center gap-2 text-text-muted">
+            {uploading ? <Loader2 size={24} style={{ margin: "0 auto", color: PINK }} className="animate-spin" /> : (
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "8px", color: "#666666" }}>
                 <Upload size={24} />
-                <p className="text-sm">Click to upload lookbook images (multiple allowed)</p>
+                <p style={{ fontSize: "13px", margin: 0 }}>Click to upload lookbook images (multiple allowed)</p>
               </div>
             )}
             <input ref={lookbookFileRef} type="file" accept="image/*" multiple className="hidden" onChange={(e) => e.target.files && handleLookbookUpload(e.target.files)} id="lookbook-upload" />
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))", gap: "12px" }}>
             {lookbook.map((img) => (
-              <div key={img.id} className="group relative aspect-square bg-surface-3 rounded-sm overflow-hidden">
-                <Image src={img.image} alt={img.caption || ""} fill className="object-cover" />
+              <div key={img.id} className="group relative aspect-square rounded-sm overflow-hidden" style={{ backgroundColor: "#1C1C1E" }}>
+                <Image src={img.image} alt={img.caption || ""} fill style={{ objectFit: "cover" }} />
                 <button
                   onClick={() => deleteLookbook(img.id)}
-                  className="absolute top-2 right-2 bg-red-500 rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                  style={{ position: "absolute", top: "8px", right: "8px", backgroundColor: "#EF4444", border: "none", borderRadius: "50%", padding: "4px", cursor: "pointer", color: "#FFF" }}
+                  className="opacity-0 group-hover:opacity-100 transition-opacity"
                 >
-                  <Trash2 size={10} />
+                  <Trash2 size={12} />
                 </button>
-                {img.caption && <div className="absolute bottom-0 left-0 right-0 bg-black/70 p-2 text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity">{img.caption}</div>}
               </div>
             ))}
           </div>

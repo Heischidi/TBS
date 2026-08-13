@@ -9,6 +9,8 @@ interface Props {
   initialImages: string[];
 }
 
+const PINK = "#FF1493";
+
 export function AdminGalleryClient({ initialImages }: Props) {
   const [images, setImages] = useState<string[]>(initialImages);
   const [uploading, setUploading] = useState(false);
@@ -66,11 +68,15 @@ export function AdminGalleryClient({ initialImages }: Props) {
   };
 
   return (
-    <div className="space-y-8 max-w-5xl">
+    <div style={{ maxWidth: "100%", display: "flex", flexDirection: "column", gap: "24px" }}>
       {/* Header */}
       <div>
-        <h1 className="font-display text-2xl text-white tracking-widest">GALLERY</h1>
-        <p className="text-text-muted text-xs mt-1 uppercase tracking-widest">Brand Images</p>
+        <h1 style={{ color: "#FFFFFF", fontSize: "28px", fontWeight: 700, margin: 0, letterSpacing: "-0.01em" }}>
+          Gallery
+        </h1>
+        <p style={{ color: "#666666", fontSize: "13px", margin: "4px 0 0 0" }}>
+          Upload &amp; manage official brand photography and campaign media
+        </p>
       </div>
 
       {/* Upload zone */}
@@ -79,9 +85,19 @@ export function AdminGalleryClient({ initialImages }: Props) {
         onDragLeave={() => setDragOver(false)}
         onDrop={handleDrop}
         onClick={() => fileRef.current?.click()}
-        className={`border border-dashed transition-colors cursor-pointer py-14 flex flex-col items-center justify-center gap-3 ${
-          dragOver ? "border-brand-pink bg-brand-pink/5" : "border-white/10 hover:border-white/20"
-        }`}
+        style={{
+          border: dragOver ? `1px dashed ${PINK}` : "1px dashed #222224",
+          backgroundColor: dragOver ? "rgba(255, 20, 147, 0.05)" : "#111111",
+          borderRadius: "8px",
+          padding: "48px",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: "12px",
+          cursor: "pointer",
+          transition: "all 0.15s ease",
+        }}
       >
         <input
           ref={fileRef}
@@ -92,14 +108,14 @@ export function AdminGalleryClient({ initialImages }: Props) {
           onChange={(e) => e.target.files && uploadFiles(e.target.files)}
         />
         {uploading ? (
-          <div className="flex flex-col items-center gap-2">
-            <div className="w-5 h-5 border-2 border-brand-pink border-t-transparent rounded-full animate-spin" />
-            <p className="text-text-muted text-xs uppercase tracking-widest">Uploading...</p>
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "8px" }}>
+            <div style={{ width: "24px", height: "24px", border: `2px solid ${PINK}`, borderTopColor: "transparent", borderRadius: "50%" }} className="animate-spin" />
+            <p style={{ color: "#666666", fontSize: "12px", margin: 0 }}>Uploading...</p>
           </div>
         ) : (
           <>
-            <Upload size={20} className="text-text-muted" />
-            <p className="text-text-muted text-xs uppercase tracking-widest">
+            <Upload size={22} style={{ color: "#666666" }} />
+            <p style={{ color: "#CCCCCC", fontSize: "13px", margin: 0 }}>
               Drop images here or click to upload
             </p>
           </>
@@ -108,19 +124,21 @@ export function AdminGalleryClient({ initialImages }: Props) {
 
       {/* Image count */}
       {images.length > 0 && (
-        <p className="text-text-muted text-[10px] uppercase tracking-widest">
-          {images.length} image{images.length !== 1 ? "s" : ""}
+        <p style={{ color: "#666666", fontSize: "11px", margin: 0 }}>
+          {images.length} image{images.length !== 1 ? "s" : ""} in gallery
         </p>
       )}
 
       {/* Grid */}
       {images.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-20 gap-3 border border-white/5">
-          <ImageIcon size={32} className="text-white/10" />
-          <p className="text-text-muted text-xs uppercase tracking-widest">No images yet</p>
+        <div style={{ backgroundColor: "#111111", border: "1px solid #1F1F1F", borderRadius: "8px", padding: "60px 20px", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "12px" }}>
+          <div style={{ width: "48px", height: "48px", borderRadius: "50%", backgroundColor: "#1C1C1E", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <ImageIcon size={22} style={{ color: "#555555" }} />
+          </div>
+          <p style={{ color: "#999999", fontSize: "13px", fontWeight: 600, margin: 0 }}>No gallery images yet</p>
         </div>
       ) : (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))", gap: "12px" }}>
           <AnimatePresence>
             {images.map((url) => (
               <motion.div
@@ -128,25 +146,25 @@ export function AdminGalleryClient({ initialImages }: Props) {
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}
-                className="relative group aspect-square bg-surface-3 overflow-hidden"
+                className="relative group aspect-square rounded-sm overflow-hidden"
+                style={{ backgroundColor: "#1C1C1E" }}
               >
                 <Image
                   src={url}
                   alt="Gallery image"
                   fill
-                  className="object-cover cursor-pointer transition-transform duration-300 group-hover:scale-105"
+                  style={{ objectFit: "cover" }}
+                  className="cursor-pointer transition-transform duration-300 group-hover:scale-105"
                   onClick={() => setPreview(url)}
-                  sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 25vw"
                 />
-                {/* Delete overlay */}
-                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                <div style={{ position: "absolute", inset: 0, backgroundColor: "rgba(0,0,0,0.6)", display: "flex", alignItems: "center", justifyContent: "center", transition: "opacity 0.2s ease" }} className="opacity-0 group-hover:opacity-100">
                   <button
                     onClick={(e) => { e.stopPropagation(); handleDelete(url); }}
                     disabled={deleting === url}
-                    className="p-2 border border-white/20 hover:border-red-400 hover:text-red-400 text-white transition-colors"
+                    style={{ backgroundColor: "#EF4444", border: "none", borderRadius: "50%", padding: "6px", cursor: "pointer", color: "#FFF" }}
                   >
                     {deleting === url ? (
-                      <div className="w-4 h-4 border border-current border-t-transparent rounded-full animate-spin" />
+                      <div style={{ width: "14px", height: "14px", border: "2px solid #FFF", borderTopColor: "transparent", borderRadius: "50%" }} className="animate-spin" />
                     ) : (
                       <Trash2 size={14} />
                     )}
@@ -165,22 +183,21 @@ export function AdminGalleryClient({ initialImages }: Props) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-6"
+            style={{ position: "fixed", inset: 0, backgroundColor: "rgba(0,0,0,0.9)", zIndex: 100, display: "flex", alignItems: "center", justifyContent: "center", padding: "24px" }}
             onClick={() => setPreview(null)}
           >
             <button
-              className="absolute top-4 right-4 text-white/60 hover:text-white transition-colors"
+              style={{ position: "absolute", top: "20px", right: "20px", background: "none", border: "none", color: "#FFFFFF", cursor: "pointer" }}
               onClick={() => setPreview(null)}
             >
-              <X size={20} />
+              <X size={24} />
             </button>
-            <div className="relative max-w-3xl max-h-[85vh] w-full h-full">
+            <div style={{ position: "relative", maxWidth: "800px", maxHeight: "80vh", width: "100%", height: "100%" }}>
               <Image
                 src={preview}
                 alt="Preview"
                 fill
-                className="object-contain"
-                sizes="100vw"
+                style={{ objectFit: "contain" }}
               />
             </div>
           </motion.div>
