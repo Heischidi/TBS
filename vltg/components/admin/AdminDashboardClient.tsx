@@ -77,7 +77,7 @@ export function AdminDashboardClient({ stats, recentOrders, lowStock }: {
               padding: "14px 16px",
               display: "flex",
               flexDirection: "column",
-              justify: "space-between",
+              justifyContent: "space-between",
               minHeight: "86px",
             }}
           >
