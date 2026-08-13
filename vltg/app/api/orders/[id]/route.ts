@@ -38,7 +38,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
         orderNumber: order.orderNumber,
         customerName: order.customer.name,
         customerEmail: order.customer.email,
-        totalAmount: order.totalAmount,
+        totalAmount: order.totalAmount.toNumber(),
       });
     }
 
