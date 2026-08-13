@@ -2,10 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import {
-  ShoppingCart, Package, Users, TrendingUp, DollarSign,
-  AlertTriangle, Clock, CheckCircle, XCircle, ArrowRight
-} from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { formatPrice, formatDateTime, cn } from "@/lib/utils";
 
 interface Stats {
@@ -32,66 +29,63 @@ export function AdminDashboardClient({ stats, recentOrders, lowStock }: {
   stats: Stats; recentOrders: Order[]; lowStock: Product[];
 }) {
   const kpiCards = [
-    { label: "Total Orders", value: stats.total, icon: ShoppingCart, color: "text-brand-pink", bg: "bg-brand-pink/10" },
-    { label: "Pending Orders", value: stats.pending, icon: Clock, color: "text-yellow-400", bg: "bg-yellow-400/10" },
-    { label: "Completed", value: stats.completed, icon: CheckCircle, color: "text-neon-pink", bg: "bg-neon-pink/10" },
-    { label: "Cancelled", value: stats.cancelled, icon: XCircle, color: "text-red-400", bg: "bg-red-400/10" },
-    { label: "Total Revenue", value: formatPrice(stats.revenue), icon: DollarSign, color: "text-brand-pink", bg: "bg-brand-pink/10", wide: true },
-    { label: "Customers", value: stats.customers, icon: Users, color: "text-blue-400", bg: "bg-blue-400/10" },
+    { label: "Revenue", value: formatPrice(stats.revenue), accent: true },
+    { label: "Orders", value: stats.total },
+    { label: "Pending", value: stats.pending },
+    { label: "Completed", value: stats.completed },
+    { label: "Cancelled", value: stats.cancelled },
+    { label: "Customers", value: stats.customers },
   ];
 
   return (
-    <div className="space-y-8 max-w-7xl">
+    <div className="space-y-8 max-w-5xl">
       {/* Title */}
       <div>
-        <h1 className="font-display text-3xl text-white">DASHBOARD</h1>
-        <p className="text-text-muted text-sm mt-1">Welcome back. Here&apos;s what&apos;s happening.</p>
+        <h1 className="font-display text-2xl text-white tracking-widest">DASHBOARD</h1>
+        <p className="text-text-muted text-xs mt-1 uppercase tracking-widest">Overview</p>
       </div>
 
-      {/* KPI Cards */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+      {/* KPI strip */}
+      <div className="grid grid-cols-3 md:grid-cols-6 gap-px bg-white/5 border border-white/5">
         {kpiCards.map((card, i) => (
           <motion.div
             key={card.label}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: i * 0.07 }}
-            className={cn("bg-surface-2 border border-white/5 p-5 rounded-sm", card.wide ? "lg:col-span-2" : "")}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: i * 0.05 }}
+            className="bg-surface-2 p-5"
           >
-            <div className="flex items-center justify-between mb-3">
-              <p className="text-text-muted text-xs uppercase tracking-wider">{card.label}</p>
-              <div className={cn("w-8 h-8 rounded-full flex items-center justify-center", card.bg)}>
-                <card.icon size={14} className={card.color} />
-              </div>
-            </div>
-            <p className={cn("font-display text-2xl", card.color)}>{card.value}</p>
+            <p className="text-text-muted text-[9px] uppercase tracking-widest mb-2">{card.label}</p>
+            <p className={cn("font-display text-xl", card.accent ? "text-brand-pink" : "text-white")}>
+              {card.value}
+            </p>
           </motion.div>
         ))}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Recent Orders */}
-        <div className="lg:col-span-2 bg-surface-2 border border-white/5 rounded-sm overflow-hidden">
+        <div className="lg:col-span-2 bg-surface-2 border border-white/5 overflow-hidden">
           <div className="flex items-center justify-between px-6 py-4 border-b border-white/5">
-            <h2 className="font-display text-lg tracking-wider">RECENT ORDERS</h2>
-            <Link href="/admin/orders" className="text-brand-pink text-xs flex items-center gap-1 hover:underline">
-              View All <ArrowRight size={12} />
+            <h2 className="text-xs uppercase tracking-widest text-text-secondary">Recent Orders</h2>
+            <Link href="/admin/orders" className="text-brand-pink text-[10px] flex items-center gap-1 hover:underline uppercase tracking-widest">
+              All <ArrowRight size={10} />
             </Link>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-white/5">
-                  <th className="text-left px-6 py-3 text-text-muted text-xs uppercase tracking-wider">Order</th>
-                  <th className="text-left px-3 py-3 text-text-muted text-xs uppercase tracking-wider">Customer</th>
-                  <th className="text-left px-3 py-3 text-text-muted text-xs uppercase tracking-wider">Amount</th>
-                  <th className="text-left px-3 py-3 text-text-muted text-xs uppercase tracking-wider">Status</th>
-                  <th className="text-left px-3 py-3 text-text-muted text-xs uppercase tracking-wider">Date</th>
+                  <th className="text-left px-6 py-3 text-text-muted text-[10px] uppercase tracking-wider">Order</th>
+                  <th className="text-left px-3 py-3 text-text-muted text-[10px] uppercase tracking-wider">Customer</th>
+                  <th className="text-left px-3 py-3 text-text-muted text-[10px] uppercase tracking-wider">Amount</th>
+                  <th className="text-left px-3 py-3 text-text-muted text-[10px] uppercase tracking-wider">Status</th>
+                  <th className="text-left px-3 py-3 text-text-muted text-[10px] uppercase tracking-wider">Date</th>
                 </tr>
               </thead>
               <tbody>
                 {recentOrders.length === 0 ? (
-                  <tr><td colSpan={5} className="text-center py-8 text-text-muted text-xs">No orders yet</td></tr>
+                  <tr><td colSpan={5} className="text-center py-10 text-text-muted text-xs">No orders yet</td></tr>
                 ) : recentOrders.map((order) => {
                   const s = STATUS_CONFIG[order.status] || { label: order.status, className: "" };
                   return (
@@ -102,7 +96,7 @@ export function AdminDashboardClient({ stats, recentOrders, lowStock }: {
                         </Link>
                       </td>
                       <td className="px-3 py-3 text-text-secondary text-xs">{order.customer.name}</td>
-                      <td className="px-3 py-3 font-medium text-xs">{formatPrice(Number(order.totalAmount))}</td>
+                      <td className="px-3 py-3 text-white text-xs">{formatPrice(Number(order.totalAmount))}</td>
                       <td className="px-3 py-3">
                         <span className={cn("text-[10px] px-2 py-0.5 border rounded-full uppercase tracking-wider", s.className)}>{s.label}</span>
                       </td>
@@ -115,20 +109,19 @@ export function AdminDashboardClient({ stats, recentOrders, lowStock }: {
           </div>
         </div>
 
-        {/* Low Stock Alerts */}
-        <div className="bg-surface-2 border border-white/5 rounded-sm overflow-hidden">
-          <div className="flex items-center gap-2 px-5 py-4 border-b border-white/5">
-            <AlertTriangle size={14} className="text-yellow-400" />
-            <h2 className="font-display text-lg tracking-wider">LOW STOCK</h2>
+        {/* Low Stock */}
+        <div className="bg-surface-2 border border-white/5 overflow-hidden">
+          <div className="px-5 py-4 border-b border-white/5">
+            <h2 className="text-xs uppercase tracking-widest text-text-secondary">Low Stock</h2>
           </div>
-          <div className="p-4 space-y-2">
+          <div className="p-4 space-y-1.5">
             {lowStock.length === 0 ? (
-              <p className="text-text-muted text-xs text-center py-6">All products well stocked ✓</p>
+              <p className="text-text-muted text-xs text-center py-6">All products stocked ✓</p>
             ) : lowStock.map((product) => (
-              <Link key={product.id} href={`/admin/products`} className="flex items-center justify-between p-3 bg-surface-3 hover:bg-surface-4 transition-colors rounded-sm">
-                <p className="text-sm text-white line-clamp-1">{product.name}</p>
-                <span className={cn("text-xs font-bold px-2 py-0.5", product.stock === 0 ? "text-red-400" : "text-yellow-400")}>
-                  {product.stock === 0 ? "OUT" : `${product.stock} left`}
+              <Link key={product.id} href="/admin/inventory" className="flex items-center justify-between p-3 hover:bg-white/5 transition-colors">
+                <p className="text-xs text-white line-clamp-1">{product.name}</p>
+                <span className={cn("text-[10px] font-mono ml-2 shrink-0", product.stock === 0 ? "text-red-400" : "text-yellow-400")}>
+                  {product.stock === 0 ? "OUT" : `${product.stock}`}
                 </span>
               </Link>
             ))}
