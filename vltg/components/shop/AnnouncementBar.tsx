@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { X } from "lucide-react";
 import Link from "next/link";
 
@@ -33,9 +34,13 @@ function useCountdown(targetHours: number) {
 const pad = (n: number) => String(n).padStart(2, "0");
 
 export function AnnouncementBar() {
+  const pathname = usePathname();
   const [current, setCurrent] = useState(0);
   const [dismissed, setDismissed] = useState(false);
   const time = useCountdown(8);
+
+  // Hide on all admin pages
+  if (pathname?.startsWith("/admin")) return null;
 
   useEffect(() => {
     const interval = setInterval(() => {
