@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { generateOrderNumber } from "@/lib/utils";
-
 import { auth } from "@/lib/auth";
+import { sendOrderConfirmationEmail, sendAdminNewOrderEmail } from "@/lib/mail";
 
 export async function GET(request: Request) {
   try {
@@ -91,6 +91,23 @@ export async function POST(request: Request) {
         items: { include: { product: { select: { name: true } } } },
       },
     });
+
+    // Fire emails after order is created
+    const emailData = {
+      orderNumber: order.orderNumber,
+      customerName: order.customer.name,
+      customerEmail: order.customer.email,
+      items: order.items,
+      totalAmount: order.totalAmount,
+      address: order.address,
+      city: order.city,
+      state: order.state,
+      country: order.country,
+    };
+    await Promise.all([
+      sendOrderConfirmationEmail(emailData),
+      sendAdminNewOrderEmail(emailData),
+    ]);
 
     return NextResponse.json(order, { status: 201 });
   } catch (error) {
