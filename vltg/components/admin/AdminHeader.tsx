@@ -58,7 +58,7 @@ export function AdminHeader({ user }: Props) {
           height: "56px",
           display: "flex",
           alignItems: "center",
-          justify: "space-between",
+          justifyContent: "space-between",
           paddingLeft: "16px",
           paddingRight: "20px",
         }}
@@ -73,7 +73,7 @@ export function AdminHeader({ user }: Props) {
               borderRadius: "4px",
               display: "flex",
               alignItems: "center",
-              justify: "center",
+              justifyContent: "center",
               flexShrink: 0,
             }}
           >
@@ -134,7 +134,7 @@ export function AdminHeader({ user }: Props) {
                 borderRadius: "50%",
                 display: "flex",
                 alignItems: "center",
-                justify: "center",
+                justifyContent: "center",
                 color: "#000",
                 fontWeight: 800,
                 fontSize: "11px",

@@ -227,7 +227,7 @@ export function AdminDashboardClient({ stats, recentOrders, lowStock }: {
                   style={{
                     display: "flex",
                     alignItems: "center",
-                    justify: "space-between",
+                    justifyContent: "space-between",
                     padding: "8px 10px",
                     textDecoration: "none",
                     borderRadius: "4px",
