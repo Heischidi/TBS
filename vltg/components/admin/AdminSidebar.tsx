@@ -6,12 +6,11 @@ import { usePathname } from "next/navigation";
 import {
   LayoutDashboard, Package, ShoppingCart, Users,
   Image as ImageIcon, BarChart2, Layers, AlertTriangle,
-  ExternalLink, Newspaper,
+  ChevronLeft, Newspaper,
 } from "lucide-react";
 
 const PINK = "#FF1493";
 
-// ── Brand phrases — replace with your actual TBS phrases ────────────────────
 const BRAND_PHRASES = [
   "THE SHEEP DON'T KNOW.",
   "NOT FOR EVERYONE.",
@@ -49,13 +48,21 @@ export function AdminSidebar({ user }: Props) {
 
   return (
     <aside
-      style={{ width: "13rem", backgroundColor: "#111111", borderRight: "1px solid rgba(255,255,255,0.05)", display: "flex", flexDirection: "column", flexShrink: 0 }}
+      style={{
+        width: "210px",
+        backgroundColor: "#0A0A0A",
+        borderRight: "1px solid #1F1F1F",
+        display: "flex",
+        flexDirection: "column",
+        flexShrink: 0,
+        height: "100%",
+      }}
       className="hidden md:flex"
     >
-      {/* Nav */}
-      <nav style={{ flex: 1, padding: "0.5rem", overflowY: "auto" }}>
+      {/* Navigation List */}
+      <nav style={{ flex: 1, padding: "16px 10px", overflowY: "auto", display: "flex", flexDirection: "column", gap: "4px" }}>
         {navItems.map(({ href, icon: Icon, label }) => {
-          const active = pathname === href || pathname.startsWith(href + "/");
+          const active = pathname === href || (href !== "/admin/dashboard" && pathname.startsWith(href + "/"));
           return (
             <Link
               key={href}
@@ -63,19 +70,19 @@ export function AdminSidebar({ user }: Props) {
               style={{
                 display: "flex",
                 alignItems: "center",
-                gap: "0.75rem",
-                padding: "0.6rem 0.75rem",
-                fontSize: 13,
+                gap: "10px",
+                padding: "10px 14px",
+                fontSize: "13px",
+                fontWeight: active ? 600 : 400,
                 textDecoration: "none",
+                borderRadius: "6px",
+                backgroundColor: active ? "rgba(255, 20, 147, 0.12)" : "transparent",
+                color: active ? PINK : "#999999",
                 transition: "all 0.15s ease",
-                borderLeft: active ? `2px solid ${PINK}` : "2px solid transparent",
-                backgroundColor: active ? "rgba(255,20,147,0.08)" : "transparent",
-                color: active ? PINK : "#9A9A9A",
-                fontWeight: active ? 500 : 400,
               }}
               className="hover:text-white hover:bg-white/5"
             >
-              <Icon size={14} style={{ color: active ? PINK : "#5A5A5A", flexShrink: 0 }} />
+              <Icon size={16} style={{ color: active ? PINK : "#777777", flexShrink: 0 }} />
               <span>{label}</span>
             </Link>
           );
@@ -83,25 +90,47 @@ export function AdminSidebar({ user }: Props) {
       </nav>
 
       {/* Footer */}
-      <div style={{ padding: "1rem", borderTop: "1px solid rgba(255,255,255,0.05)" }}>
+      <div style={{ padding: "16px 14px", borderTop: "1px solid #1F1F1F", display: "flex", flexDirection: "column", gap: "12px" }}>
+        {/* Brand phrase */}
         {phrase && (
-          <p style={{ color: PINK, fontSize: 8, letterSpacing: "0.2em", textTransform: "uppercase", opacity: 0.6, marginBottom: "0.75rem", lineHeight: 1.6 }}>
+          <p style={{ color: PINK, fontSize: "8px", letterSpacing: "0.2em", textTransform: "uppercase", opacity: 0.7, margin: 0, lineHeight: 1.5 }}>
             {phrase}
           </p>
         )}
+
+        {/* View Store */}
         <a
           href="/"
           target="_blank"
-          style={{ display: "flex", alignItems: "center", gap: "0.375rem", color: "#5A5A5A", fontSize: 10, textTransform: "uppercase", letterSpacing: "0.15em", textDecoration: "none", marginBottom: "0.75rem" }}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "6px",
+            color: "#888888",
+            fontSize: "11px",
+            fontWeight: 500,
+            textDecoration: "none",
+          }}
           className="hover:text-white transition-colors"
         >
-          <ExternalLink size={10} />
+          <ChevronLeft size={12} />
           View Store
         </a>
-        <div>
-          <p style={{ color: "#5A5A5A", fontSize: 9, textTransform: "uppercase", letterSpacing: "0.15em" }}>Logged in as</p>
-          <p style={{ color: "#fff", fontSize: 12, fontWeight: 500, marginTop: 2, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-            {user.name || "Admin"}
+
+        {/* Logged in info box */}
+        <div
+          style={{
+            backgroundColor: "#121212",
+            border: "1px solid #1F1F1F",
+            borderRadius: "6px",
+            padding: "10px 12px",
+          }}
+        >
+          <p style={{ color: "#555555", fontSize: "9px", letterSpacing: "0.1em", textTransform: "uppercase", margin: 0, fontWeight: 600 }}>
+            Logged in as
+          </p>
+          <p style={{ color: "#FFFFFF", fontSize: "12px", fontWeight: 700, margin: "2px 0 0 0", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+            {user.name || "TBSMAIN"}
           </p>
         </div>
       </div>

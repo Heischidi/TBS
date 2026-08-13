@@ -4,8 +4,8 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import {
   ShoppingCart, Clock, CheckCircle, XCircle,
-  DollarSign, Users, AlertTriangle,
-  Plus, BarChart2, Settings,
+  Users, AlertTriangle, Plus, BarChart2, Settings,
+  ShoppingBag, Check,
 } from "lucide-react";
 import { formatPrice, formatDateTime, cn } from "@/lib/utils";
 
@@ -34,98 +34,134 @@ const PINK = "#FF1493";
 export function AdminDashboardClient({ stats, recentOrders, lowStock }: {
   stats: Stats; recentOrders: Order[]; lowStock: Product[];
 }) {
-  const kpiStats = [
-    { label: "Total Orders", value: stats.total,               icon: ShoppingCart, valueColor: "#fff" },
-    { label: "Pending",      value: stats.pending,             icon: Clock,        valueColor: "#F59E0B" },
-    { label: "Completed",    value: stats.completed,           icon: CheckCircle,  valueColor: "#fff" },
-    { label: "Cancelled",    value: stats.cancelled,           icon: XCircle,      valueColor: "#EF4444" },
-    { label: "Revenue",      value: formatPrice(stats.revenue), icon: DollarSign,  valueColor: "#fff" },
-    { label: "Customers",    value: stats.customers,           icon: Users,        valueColor: "#fff" },
+  const kpiCards = [
+    { label: "TOTAL ORDERS", value: stats.total,               icon: ShoppingCart, valueColor: "#FFFFFF", iconColor: "#888888", bgIcon: "#1F1F1F" },
+    { label: "PENDING",      value: stats.pending,             icon: Clock,        valueColor: "#F59E0B", iconColor: "#F59E0B", bgIcon: "rgba(245, 158, 11, 0.15)" },
+    { label: "COMPLETED",    value: stats.completed,           icon: CheckCircle,  valueColor: "#FFFFFF", iconColor: "#888888", bgIcon: "#1F1F1F" },
+    { label: "CANCELLED",    value: stats.cancelled,           icon: XCircle,      valueColor: "#EF4444", iconColor: "#EF4444", bgIcon: "rgba(239, 68, 68, 0.15)" },
+    { label: "REVENUE",      value: formatPrice(stats.revenue), icon: null,         valueColor: "#FFFFFF", iconText: "N",        bgIcon: "#1F1F1F" },
+    { label: "CUSTOMERS",    value: stats.customers,           icon: Users,        valueColor: "#FFFFFF", iconColor: "#888888", bgIcon: "#1F1F1F" },
   ];
 
   const quickActions = [
-    { label: "Add Product",    sub: "Create a new listing",  icon: Plus,      href: "/admin/products",  iconColor: PINK },
-    { label: "View Reports",   sub: "Analytics & insights",  icon: BarChart2, href: "/admin/analytics", iconColor: "#9A9A9A" },
-    { label: "Store Settings", sub: "Configure your store",  icon: Settings,  href: "/admin/content",   iconColor: "#9A9A9A" },
+    { label: "Add Product",    sub: "Create a new listing",  icon: Plus,      href: "/admin/products",  iconColor: PINK, iconBg: "rgba(255, 20, 147, 0.15)" },
+    { label: "View Reports",   sub: "Analytics & insights",  icon: BarChart2, href: "/admin/analytics", iconColor: "#888888", iconBg: "#222224" },
+    { label: "Store Settings", sub: "Configure your store",  icon: Settings,  href: "/admin/content",   iconColor: "#888888", iconBg: "#222224" },
   ];
 
   return (
-    <div style={{ maxWidth: "100%", display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+    <div style={{ maxWidth: "100%", display: "flex", flexDirection: "column", gap: "24px" }}>
 
-      {/* ── Title ───────────────────────────────────────────── */}
+      {/* ── Dashboard Title ──────────────────────────────────────────────── */}
       <div>
-        <h1 style={{ fontFamily: "var(--font-inter), Inter, sans-serif", fontWeight: 700, fontSize: "clamp(2rem, 4vw, 3rem)", color: "#fff", lineHeight: 1.1, letterSpacing: "-0.01em" }}>
+        <h1 style={{ color: "#FFFFFF", fontSize: "28px", fontWeight: 700, margin: 0, letterSpacing: "-0.01em" }}>
           Dashboard
         </h1>
-        <p style={{ color: "#5A5A5A", fontSize: 13, marginTop: 6 }}>
+        <p style={{ color: "#666666", fontSize: "13px", margin: "4px 0 0 0" }}>
           Welcome back. Here&apos;s what&apos;s happening with your store today.
         </p>
       </div>
 
-      {/* ── KPI row with dividers ────────────────────────────── */}
-      <motion.div
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        style={{
-          display: "flex",
-          background: "#111",
-          border: "1px solid rgba(255,255,255,0.06)",
-          borderRadius: 2,
-          overflow: "hidden",
-        }}
-      >
-        {kpiStats.map((stat, i) => (
-          <div
-            key={stat.label}
+      {/* ── KPI Cards Row (6 Cards Grid) ─────────────────────────────────── */}
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: "12px" }}>
+        {kpiCards.map((card, i) => (
+          <motion.div
+            key={card.label}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: i * 0.04 }}
             style={{
-              flex: 1,
-              padding: "1rem 1.25rem",
-              borderLeft: i > 0 ? "1px solid rgba(255,255,255,0.06)" : "none",
+              backgroundColor: "#111111",
+              border: "1px solid #1F1F1F",
+              borderRadius: "8px",
+              padding: "14px 16px",
+              display: "flex",
+              flexDirection: "column",
+              justify: "space-between",
+              minHeight: "86px",
             }}
           >
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
-              <span style={{ color: "#5A5A5A", fontSize: 10, textTransform: "uppercase", letterSpacing: "0.12em", fontWeight: 500 }}>
-                {stat.label}
+            {/* Card Header Row */}
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "12px" }}>
+              <span style={{ color: "#666666", fontSize: "9px", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase" }}>
+                {card.label}
               </span>
-              <stat.icon size={13} style={{ color: stat.valueColor === "#fff" ? "#5A5A5A" : stat.valueColor, flexShrink: 0 }} />
+              <div
+                style={{
+                  width: "22px",
+                  height: "22px",
+                  borderRadius: "4px",
+                  backgroundColor: card.bgIcon,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  flexShrink: 0,
+                }}
+              >
+                {card.icon ? (
+                  <card.icon size={12} style={{ color: card.iconColor }} />
+                ) : (
+                  <span style={{ color: "#888888", fontSize: "10px", fontWeight: 700 }}>{card.iconText}</span>
+                )}
+              </div>
             </div>
-            <p style={{ fontFamily: "var(--font-inter), Inter, sans-serif", fontWeight: 700, fontSize: "1.75rem", color: stat.valueColor, lineHeight: 1 }}>
-              {stat.value}
+
+            {/* Card Value */}
+            <p style={{ color: card.valueColor, fontSize: "22px", fontWeight: 700, margin: 0, lineHeight: 1 }}>
+              {card.value}
             </p>
-          </div>
+          </motion.div>
         ))}
-      </motion.div>
+      </div>
 
-      {/* ── Two-column layout ────────────────────────────────── */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 300px", gap: "1.5rem", alignItems: "start" }}>
+      {/* ── 2-Column Main Layout ─────────────────────────────────────────── */}
+      <div style={{ display: "grid", gridTemplateColumns: "minmax(0, 1fr) 320px", gap: "20px", alignItems: "start" }}>
 
-        {/* Recent Orders */}
-        <div style={{ background: "#111", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 2, overflow: "hidden" }}>
-          <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", padding: "1rem 1.25rem", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+        {/* Left Box: Recent Orders */}
+        <div style={{ backgroundColor: "#111111", border: "1px solid #1F1F1F", borderRadius: "8px", overflow: "hidden" }}>
+          {/* Header */}
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "16px 20px", borderBottom: "1px solid #1F1F1F" }}>
             <div>
-              <h2 style={{ color: "#fff", fontSize: 14, fontWeight: 600, fontFamily: "var(--font-inter), Inter, sans-serif" }}>Recent Orders</h2>
-              <p style={{ color: "#5A5A5A", fontSize: 11, marginTop: 2 }}>Latest transactions from your store</p>
+              <h2 style={{ color: "#FFFFFF", fontSize: "15px", fontWeight: 700, margin: 0 }}>Recent Orders</h2>
+              <p style={{ color: "#666666", fontSize: "11px", margin: "2px 0 0 0" }}>Latest transactions from your store</p>
             </div>
-            <Link href="/admin/orders" style={{ color: PINK, fontSize: 11, textDecoration: "none", display: "flex", alignItems: "center", gap: 4, marginTop: 2, whiteSpace: "nowrap" }}>
-              View All →
+            <Link
+              href="/admin/orders"
+              style={{ color: PINK, fontSize: "12px", fontWeight: 600, textDecoration: "none", display: "flex", alignItems: "center", gap: "4px" }}
+            >
+              View All -&gt;
             </Link>
           </div>
 
+          {/* Body */}
           {recentOrders.length === 0 ? (
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "4rem 1rem", gap: "0.75rem", textAlign: "center" }}>
-              <div style={{ width: 52, height: 52, borderRadius: "50%", border: "1.5px solid rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <ShoppingCart size={20} style={{ color: "#3D3D3D" }} />
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "50px 20px", textAlign: "center" }}>
+              <div
+                style={{
+                  width: "56px",
+                  height: "56px",
+                  borderRadius: "50%",
+                  backgroundColor: "#1A1A1C",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  marginBottom: "14px",
+                }}
+              >
+                <ShoppingBag size={24} style={{ color: "#48484A" }} />
               </div>
-              <p style={{ color: "#9A9A9A", fontSize: 13, fontWeight: 500 }}>No orders yet</p>
-              <p style={{ color: "#5A5A5A", fontSize: 11 }}>Orders will appear here once customers start buying.</p>
+              <p style={{ color: "#999999", fontSize: "13px", fontWeight: 600, margin: 0 }}>No orders yet</p>
+              <p style={{ color: "#555555", fontSize: "11px", margin: "4px 0 0 0" }}>Orders will appear here once customers start buying.</p>
             </div>
           ) : (
             <div style={{ overflowX: "auto" }}>
-              <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}>
+              <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "12px" }}>
                 <thead>
-                  <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+                  <tr style={{ borderBottom: "1px solid #1F1F1F" }}>
                     {["Order", "Customer", "Amount", "Status", "Date"].map((h) => (
-                      <th key={h} style={{ textAlign: "left", padding: "0.6rem 1rem", color: "#5A5A5A", fontSize: 10, textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 500 }}>{h}</th>
+                      <th key={h} style={{ textAlign: "left", padding: "10px 16px", color: "#666666", fontSize: "10px", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 600 }}>
+                        {h}
+                      </th>
                     ))}
                   </tr>
                 </thead>
@@ -133,18 +169,18 @@ export function AdminDashboardClient({ stats, recentOrders, lowStock }: {
                   {recentOrders.map((order) => {
                     const s = STATUS_CONFIG[order.status] || { label: order.status, className: "" };
                     return (
-                      <tr key={order.id} style={{ borderBottom: "1px solid rgba(255,255,255,0.04)" }}>
-                        <td style={{ padding: "0.7rem 1rem" }}>
-                          <Link href={`/admin/orders/${order.id}`} style={{ color: PINK, textDecoration: "none", fontFamily: "monospace", fontSize: 11 }}>
+                      <tr key={order.id} style={{ borderBottom: "1px solid #1A1A1A" }}>
+                        <td style={{ padding: "12px 16px" }}>
+                          <Link href={`/admin/orders/${order.id}`} style={{ color: PINK, textDecoration: "none", fontFamily: "monospace", fontSize: "11px" }}>
                             #{order.orderNumber}
                           </Link>
                         </td>
-                        <td style={{ padding: "0.7rem 1rem", color: "#9A9A9A", fontSize: 12 }}>{order.customer.name}</td>
-                        <td style={{ padding: "0.7rem 1rem", color: "#fff", fontSize: 12 }}>{formatPrice(Number(order.totalAmount))}</td>
-                        <td style={{ padding: "0.7rem 1rem" }}>
+                        <td style={{ padding: "12px 16px", color: "#AAAAAA" }}>{order.customer.name}</td>
+                        <td style={{ padding: "12px 16px", color: "#FFFFFF", fontWeight: 500 }}>{formatPrice(Number(order.totalAmount))}</td>
+                        <td style={{ padding: "12px 16px" }}>
                           <span className={cn("text-[10px] px-2 py-0.5 border rounded-full uppercase tracking-wider", s.className)}>{s.label}</span>
                         </td>
-                        <td style={{ padding: "0.7rem 1rem", color: "#5A5A5A", fontSize: 11 }}>{formatDateTime(order.createdAt)}</td>
+                        <td style={{ padding: "12px 16px", color: "#666666", fontSize: "11px" }}>{formatDateTime(order.createdAt)}</td>
                       </tr>
                     );
                   })}
@@ -154,39 +190,67 @@ export function AdminDashboardClient({ stats, recentOrders, lowStock }: {
           )}
         </div>
 
-        {/* Right column */}
-        <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+        {/* Right Column: Low Stock + Quick Actions */}
+        <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
 
-          {/* Low Stock */}
-          <div style={{ background: "#111", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 2, overflow: "hidden" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 6, padding: "0.75rem 1rem", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-              <AlertTriangle size={13} style={{ color: "#F59E0B" }} />
-              <h2 style={{ color: "#fff", fontSize: 13, fontWeight: 600, fontFamily: "var(--font-inter), Inter, sans-serif" }}>Low Stock</h2>
+          {/* Low Stock Panel */}
+          <div style={{ backgroundColor: "#111111", border: "1px solid #1F1F1F", borderRadius: "8px", overflow: "hidden" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "8px", padding: "14px 16px", borderBottom: "1px solid #1F1F1F" }}>
+              <AlertTriangle size={14} style={{ color: "#F59E0B" }} />
+              <h2 style={{ color: "#FFFFFF", fontSize: "14px", fontWeight: 700, margin: 0 }}>Low Stock</h2>
             </div>
-            <div style={{ padding: "0.5rem" }}>
+
+            <div style={{ padding: "16px" }}>
               {lowStock.length === 0 ? (
-                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", padding: "1.5rem 1rem", gap: "0.5rem", textAlign: "center" }}>
-                  <CheckCircle size={20} style={{ color: PINK }} />
-                  <p style={{ color: "#9A9A9A", fontSize: 12, fontWeight: 500 }}>All products well stocked</p>
-                  <p style={{ color: "#5A5A5A", fontSize: 10 }}>Inventory levels are healthy.</p>
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", padding: "20px 10px", textAlign: "center" }}>
+                  <div
+                    style={{
+                      width: "40px",
+                      height: "40px",
+                      borderRadius: "50%",
+                      backgroundColor: "rgba(16, 185, 129, 0.12)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      marginBottom: "10px",
+                    }}
+                  >
+                    <Check size={20} style={{ color: "#10B981" }} />
+                  </div>
+                  <p style={{ color: "#CCCCCC", fontSize: "12px", fontWeight: 600, margin: 0 }}>All products well stocked</p>
+                  <p style={{ color: "#666666", fontSize: "10px", margin: "2px 0 0 0" }}>Inventory levels are healthy</p>
                 </div>
               ) : lowStock.map((product) => (
-                <Link key={product.id} href="/admin/inventory" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0.5rem 0.75rem", textDecoration: "none", borderRadius: 2 }} className="hover:bg-white/5 transition-colors">
-                  <p style={{ color: "#fff", fontSize: 12, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{product.name}</p>
-                  <span style={{ fontSize: 10, fontFamily: "monospace", color: product.stock === 0 ? "#EF4444" : "#F59E0B", marginLeft: 8, flexShrink: 0 }}>
-                    {product.stock === 0 ? "OUT" : `${product.stock}`}
+                <Link
+                  key={product.id}
+                  href="/admin/inventory"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justify: "space-between",
+                    padding: "8px 10px",
+                    textDecoration: "none",
+                    borderRadius: "4px",
+                    marginBottom: "4px",
+                  }}
+                  className="hover:bg-white/5 transition-colors"
+                >
+                  <p style={{ color: "#FFFFFF", fontSize: "12px", margin: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                    {product.name}
+                  </p>
+                  <span style={{ fontSize: "11px", fontFamily: "monospace", fontWeight: 700, color: product.stock === 0 ? "#EF4444" : "#F59E0B", marginLeft: "8px", flexShrink: 0 }}>
+                    {product.stock === 0 ? "OUT" : `${product.stock} left`}
                   </span>
                 </Link>
               ))}
             </div>
           </div>
 
-          {/* Quick Actions */}
-          <div style={{ background: "#111", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 2, overflow: "hidden" }}>
-            <div style={{ padding: "0.75rem 1rem", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-              <h2 style={{ color: "#fff", fontSize: 13, fontWeight: 600, fontFamily: "var(--font-inter), Inter, sans-serif" }}>Quick Actions</h2>
-            </div>
-            <div style={{ padding: "0.5rem", display: "flex", flexDirection: "column", gap: "0.375rem" }}>
+          {/* Quick Actions Panel */}
+          <div style={{ backgroundColor: "#111111", border: "1px solid #1F1F1F", borderRadius: "8px", padding: "16px" }}>
+            <h2 style={{ color: "#FFFFFF", fontSize: "14px", fontWeight: 700, margin: "0 0 12px 0" }}>Quick Actions</h2>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
               {quickActions.map((action) => (
                 <Link
                   key={action.label}
@@ -194,19 +258,33 @@ export function AdminDashboardClient({ stats, recentOrders, lowStock }: {
                   style={{
                     display: "flex",
                     alignItems: "center",
-                    gap: "0.75rem",
-                    padding: "0.6rem 0.75rem",
-                    background: "rgba(255,255,255,0.02)",
-                    border: "1px solid rgba(255,255,255,0.04)",
-                    borderRadius: 2,
+                    gap: "12px",
+                    padding: "10px 12px",
+                    backgroundColor: "#161618",
+                    border: "1px solid #222224",
+                    borderRadius: "8px",
                     textDecoration: "none",
+                    transition: "all 0.15s ease",
                   }}
                   className="hover:bg-white/5 transition-colors"
                 >
-                  <action.icon size={14} style={{ color: action.iconColor, flexShrink: 0 }} />
+                  <div
+                    style={{
+                      width: "30px",
+                      height: "30px",
+                      borderRadius: "6px",
+                      backgroundColor: action.iconBg,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      flexShrink: 0,
+                    }}
+                  >
+                    <action.icon size={14} style={{ color: action.iconColor }} />
+                  </div>
                   <div>
-                    <p style={{ color: "#fff", fontSize: 12, fontWeight: 500 }}>{action.label}</p>
-                    <p style={{ color: "#5A5A5A", fontSize: 10, marginTop: 1 }}>{action.sub}</p>
+                    <p style={{ color: "#FFFFFF", fontSize: "12px", fontWeight: 700, margin: 0 }}>{action.label}</p>
+                    <p style={{ color: "#666666", fontSize: "10px", margin: "1px 0 0 0" }}>{action.sub}</p>
                   </div>
                 </Link>
               ))}

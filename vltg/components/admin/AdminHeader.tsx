@@ -1,85 +1,167 @@
 "use client";
 
 import { signOut } from "next-auth/react";
-import { Bell, LogOut } from "lucide-react";
-import { formatDate } from "@/lib/utils";
+import { Bell, LogOut, ChevronDown } from "lucide-react";
 
 interface Props {
   user: { name?: string | null; email?: string | null };
 }
 
 function getInitials(name?: string | null) {
-  if (!name) return "AD";
-  return name.split(" ").map((n) => n[0]).join("").toUpperCase().slice(0, 2);
+  if (!name) return "TB";
+  const parts = name.trim().split(" ");
+  if (parts.length >= 2) {
+    return (parts[0][0] + parts[1][0]).toUpperCase();
+  }
+  return name.slice(0, 2).toUpperCase();
+}
+
+function formatDate(date: Date) {
+  return date
+    .toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    })
+    .toUpperCase();
 }
 
 const PINK = "#FF1493";
 
 export function AdminHeader({ user }: Props) {
   const initials = getInitials(user.name);
+  const formattedDate = formatDate(new Date());
 
   return (
-    <div style={{ flexShrink: 0 }}>
-      {/* ── Admin-only announcement bar ─────────────────────── */}
+    <div style={{ flexShrink: 0, zIndex: 40 }}>
+      {/* ── Top Announcement Bar ────────────────────────────────────────── */}
       <div
-        style={{ backgroundColor: PINK }}
-        className="text-black text-center text-[10px] py-1.5 tracking-[0.2em] uppercase font-semibold"
+        style={{
+          backgroundColor: PINK,
+          color: "#000",
+          fontSize: "10px",
+          fontWeight: 700,
+          letterSpacing: "0.15em",
+          textTransform: "uppercase",
+          textAlign: "center",
+          padding: "4px 12px",
+        }}
       >
-        FREE SHIPPING on orders over ₦10,000
+        FREE SHIPPING on orders over ₦50,000
       </div>
 
-      {/* ── Main header row ─────────────────────────────────── */}
+      {/* ── Main Header ─────────────────────────────────────────────────── */}
       <header
-        style={{ backgroundColor: "#111111", borderBottom: "1px solid rgba(255,255,255,0.05)" }}
-        className="flex items-center px-4 h-12"
+        style={{
+          backgroundColor: "#0A0A0A",
+          borderBottom: "1px solid #1F1F1F",
+          height: "56px",
+          display: "flex",
+          alignItems: "center",
+          justify: "space-between",
+          paddingLeft: "16px",
+          paddingRight: "20px",
+        }}
       >
-        {/* TBS Logo — must match sidebar width exactly */}
-        <div className="flex items-center gap-2.5 shrink-0" style={{ width: "13rem" }}>
+        {/* Brand Logo & Name */}
+        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
           <div
-            style={{ backgroundColor: PINK, width: 32, height: 32, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}
+            style={{
+              backgroundColor: PINK,
+              width: "32px",
+              height: "32px",
+              borderRadius: "4px",
+              display: "flex",
+              alignItems: "center",
+              justify: "center",
+              flexShrink: 0,
+            }}
           >
-            <span style={{ color: "#000", fontWeight: 700, fontSize: 10, letterSpacing: "0.1em" }}>TBS</span>
+            <span style={{ color: "#000", fontWeight: 800, fontSize: "11px", letterSpacing: "0.05em" }}>
+              TBS
+            </span>
           </div>
-          <span className="text-white font-semibold uppercase" style={{ fontSize: 11, letterSpacing: "0.18em" }}>
-            THE BLACK SHEEP
-          </span>
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <span style={{ color: "#FFFFFF", fontWeight: 800, fontSize: "13px", letterSpacing: "0.12em", lineHeight: 1.1 }}>
+              THE BLACK SHEEP
+            </span>
+            <span style={{ color: "#666666", fontSize: "9px", letterSpacing: "0.1em", textTransform: "uppercase", marginTop: "2px" }}>
+              Admin Panel
+            </span>
+          </div>
         </div>
 
-        <div className="flex-1" />
-
-        {/* Right side */}
-        <div className="flex items-center gap-4">
-          <span className="text-xs uppercase tracking-widest hidden sm:block" style={{ color: "#5A5A5A" }}>
-            {formatDate(new Date())}
+        {/* Right Section: Date, Bell, User Profile & Logout */}
+        <div style={{ display: "flex", alignItems: "center", gap: "18px" }}>
+          {/* Date */}
+          <span style={{ color: "#777777", fontSize: "11px", fontWeight: 600, letterSpacing: "0.08em" }}>
+            {formattedDate}
           </span>
 
-          <button className="hover:text-white transition-colors" style={{ color: "#5A5A5A" }} aria-label="Notifications">
-            <Bell size={15} />
-          </button>
-
-          {/* Name + email */}
-          <div className="hidden sm:block text-right">
-            <p className="text-white font-medium leading-tight" style={{ fontSize: 11 }}>{user.name || "Admin"}</p>
-            <p className="leading-tight truncate" style={{ fontSize: 10, color: "#5A5A5A", maxWidth: 140 }}>{user.email}</p>
+          {/* Bell Icon with pink notification badge */}
+          <div style={{ position: "relative", cursor: "pointer", display: "flex", alignItems: "center" }}>
+            <Bell size={16} style={{ color: "#999999" }} />
+            <span
+              style={{
+                position: "absolute",
+                top: "-2px",
+                right: "-2px",
+                width: "6px",
+                height: "6px",
+                backgroundColor: PINK,
+                borderRadius: "50%",
+              }}
+            />
           </div>
 
-          {/* Avatar circle */}
-          <div
-            style={{ backgroundColor: PINK, width: 32, height: 32, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}
-          >
-            <span style={{ color: "#000", fontWeight: 700, fontSize: 10 }}>{initials}</span>
-          </div>
+          {/* User info & avatar */}
+          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            <div style={{ textAlign: "right" }}>
+              <p style={{ color: "#FFFFFF", fontSize: "11px", fontWeight: 700, lineHeight: 1.2, margin: 0 }}>
+                {user.name || "TBSMAIN"}
+              </p>
+              <p style={{ color: "#666666", fontSize: "9px", margin: 0, maxWidth: "130px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                {user.email || "tbsmain@theblacksheep.com"}
+              </p>
+            </div>
 
-          {/* Logout */}
-          <button
-            onClick={() => signOut({ callbackUrl: "/admin/login" })}
-            style={{ color: "#5A5A5A" }}
-            className="hover:text-white transition-colors"
-            aria-label="Sign out"
-            id="admin-logout-btn"
-          >
-            <LogOut size={14} />
-          </button>
+            {/* Initials badge */}
+            <div
+              style={{
+                backgroundColor: PINK,
+                width: "32px",
+                height: "32px",
+                borderRadius: "50%",
+                display: "flex",
+                alignItems: "center",
+                justify: "center",
+                color: "#000",
+                fontWeight: 800,
+                fontSize: "11px",
+                flexShrink: 0,
+              }}
+            >
+              {initials}
+            </div>
+
+            {/* Logout button */}
+            <button
+              onClick={() => signOut({ callbackUrl: "/admin/login" })}
+              style={{
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                padding: "4px",
+                display: "flex",
+                alignItems: "center",
+                color: "#666666",
+              }}
+              title="Sign Out"
+              id="admin-logout-btn"
+            >
+              <ChevronDown size={14} style={{ color: "#666666" }} />
+            </button>
+          </div>
         </div>
       </header>
     </div>
