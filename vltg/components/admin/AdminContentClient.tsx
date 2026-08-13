@@ -143,7 +143,7 @@ export function AdminContentClient({ banners: initialBanners, lookbook: initialL
                 <input value={newBanner.ctaLink} onChange={(e) => setNewBanner((b) => ({ ...b, ctaLink: e.target.value }))} style={{ width: "100%", backgroundColor: "#161618", border: "1px solid #222224", borderRadius: "6px", padding: "10px 12px", color: "#FFFFFF", fontSize: "13px", outline: "none" }} id="banner-cta-link" />
               </div>
               <div style={{ gridColumn: "1 / -1" }}>
-                <label style={{ display: "block", color: "#666666", fontSize: "10px", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight 700, marginBottom: "6px" }}>Banner Image *</label>
+                <label style={{ display: "block", color: "#666666", fontSize: "10px", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 700, marginBottom: "6px" }}>Banner Image *</label>
                 <div
                   onClick={() => fileRef.current?.click()}
                   style={{
