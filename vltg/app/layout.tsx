@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Providers } from "@/components/providers/Providers";
-import { AnnouncementBar } from "@/components/shop/AnnouncementBar";
+
 
 export const metadata: Metadata = {
   title: {
@@ -39,8 +39,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className="bg-black text-white antialiased">
         <Providers>
-          {/* Global announcement bar — sits above navbar */}
-          <AnnouncementBar />
+
           {children}
         </Providers>
       </body>

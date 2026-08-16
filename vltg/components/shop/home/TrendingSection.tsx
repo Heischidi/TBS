@@ -78,7 +78,7 @@ export function TrendingSection({ products }: { products: Product[] }) {
                 transition={{ delay: i * 0.1 }}
                 className="group relative overflow-hidden bg-surface-3 rounded-md flex-1"
               >
-                <Link href={`/products/${product.slug}`} className="flex h-full min-h-[120px]">
+                <Link href={`/products/${product.slug}`} className="flex h-full min-h-30">
                   <div className="relative w-28 overflow-hidden shrink-0">
                     {product.images[0] ? (
                       <Image

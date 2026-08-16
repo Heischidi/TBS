@@ -1,11 +1,11 @@
-﻿"use client";
+"use client";
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Heart, ShoppingBag, ChevronLeft, ChevronRight, Minus, Plus,
-  Check, ZoomIn, Ruler, X, Truck, RotateCcw, Eye,
+  Check, ZoomIn, Ruler, X,
 } from "lucide-react";
 import { useCartStore } from "@/store/cart";
 import { useWishlistStore } from "@/store/wishlist";
@@ -260,69 +260,44 @@ export function ProductDetailClient({ product, related }: { product: Product; re
           {/* ── Info panel ── */}
           <div className="lg:py-2">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-              {/* Category */}
-              <p className="text-brand-pink text-[10px] font-bold uppercase tracking-[0.4em] mb-2">
-                {product.category.name}
-              </p>
 
               {/* Name */}
-              <h1 className="font-display text-4xl md:text-5xl text-white leading-none mb-3">
+              <h1 className="font-display text-4xl md:text-5xl text-white leading-none mb-4 tracking-wide">
                 {product.name}
               </h1>
 
-              {/* Urgency / social proof */}
-              {!outOfStock && (
-                <div className="flex items-center gap-3 mb-4 flex-wrap">
-                  <span className="urgency-pill">
-                    <Eye size={10} /> {viewers} people viewing this
-                  </span>
-                  {product.stock > 0 && product.stock <= 10 && (
-                    <span className="text-[11px] text-yellow-400 font-semibold">
-                      ⚡ Only {product.stock} left in stock
-                    </span>
-                  )}
-                </div>
-              )}
-
               {/* Price */}
-              <div className="flex items-center gap-3 mb-5 flex-wrap">
-                <span className="text-2xl font-bold text-white">{formatPrice(Number(product.price))}</span>
+              <div className="flex items-baseline gap-3 mb-8 border-b border-white/8 pb-6">
+                <span className="text-2xl font-bold text-brand-pink">{formatPrice(Number(product.price))}</span>
                 {product.comparePrice && Number(product.comparePrice) > Number(product.price) && (
                   <span className="text-text-muted line-through text-base">
                     {formatPrice(Number(product.comparePrice))}
                   </span>
                 )}
                 {discountPct > 0 && (
-                  <span className="sale-badge">Save {discountPct}% OFF</span>
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-brand-pink border border-brand-pink/40 px-2 py-0.5">
+                    -{discountPct}%
+                  </span>
                 )}
               </div>
 
-              {/* Free shipping callout */}
-              <div className="flex items-center gap-2 text-xs text-neon-pink font-medium mb-5 bg-neon-pink/8 border border-neon-pink/20 px-3 py-2 rounded-sm w-fit">
-                <Truck size={13} />
-                Free delivery on orders over ₦50,000
-              </div>
-
-              {/* Stock status */}
-              <p className={cn("text-xs uppercase tracking-widest mb-5 font-semibold", outOfStock ? "text-red-400" : product.stock <= 5 ? "text-yellow-400" : "text-neon-pink")}>
-                {outOfStock ? "● Out of Stock" : product.stock <= 5 ? `● Only ${product.stock} left` : "● In Stock — Ready to Ship"}
-              </p>
-
               {/* Colors */}
               {colors.length > 0 && (
-                <div className="mb-5">
-                  <p className="text-xs uppercase tracking-widest text-text-secondary mb-2">
-                    Color: <span className="text-white font-medium">{selectedColor || "Select"}</span>
+                <div className="mb-6">
+                  <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-brand-pink mb-3">
+                    Colour
                   </p>
-                  <div className="flex gap-2 flex-wrap">
+                  <div className="flex gap-3 flex-wrap">
                     {colors.map((color: { name: string; hex: string }) => (
                       <button
                         key={color.name}
                         onClick={() => setSelectedColor(color.name)}
                         title={color.name}
                         className={cn(
-                          "w-8 h-8 rounded-full border-2 transition-all",
-                          selectedColor === color.name ? "border-white scale-110 shadow-glow-pink" : "border-white/20 hover:border-white/60"
+                          "w-9 h-9 border-2 transition-all",
+                          selectedColor === color.name
+                            ? "border-brand-pink"
+                            : "border-white/20 hover:border-white/60"
                         )}
                         style={{ backgroundColor: color.hex }}
                       />
@@ -331,53 +306,52 @@ export function ProductDetailClient({ product, related }: { product: Product; re
                 </div>
               )}
 
-              {/* Sizes */}
+              {/* Sizes — Corteiz full-width bordered grid */}
               {product.sizes.length > 0 && (
-                <div className="mb-5">
-                  <div className="flex items-center justify-between mb-2">
-                    <p className="text-xs uppercase tracking-widest text-text-secondary">
-                      Size: <span className="text-white font-medium">{selectedSize || "Select"}</span>
-                    </p>
-                    <button
-                      onClick={() => setSizeGuideOpen(true)}
-                      className="flex items-center gap-1 text-[11px] text-brand-pink hover:underline"
-                    >
-                      <Ruler size={11} /> Size Guide
-                    </button>
-                  </div>
-                  <div className="flex gap-2 flex-wrap">
-                    {product.sizes.map((size) => (
+                <div className="mb-6">
+                  <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-brand-pink mb-3">
+                    Size
+                  </p>
+                  <div className="border border-white/15 flex w-full">
+                    {product.sizes.map((size, i) => (
                       <button
                         key={size}
                         onClick={() => setSelectedSize(size)}
                         className={cn(
-                          "min-w-11 h-10 px-3 border text-sm font-medium uppercase tracking-wide transition-all",
+                          "flex-1 py-3.5 text-xs font-bold uppercase tracking-widest transition-all text-center",
+                          i !== 0 && "border-l border-white/15",
                           selectedSize === size
-                            ? "border-brand-pink bg-brand-pink/10 text-white"
-                            : "border-white/10 text-text-secondary hover:border-white hover:text-white"
+                            ? "bg-brand-pink/10 text-brand-pink border-brand-pink"
+                            : "text-text-secondary hover:text-white hover:bg-white/4"
                         )}
                       >
                         {size}
                       </button>
                     ))}
                   </div>
+                  {/* Select size prompt */}
+                  {!selectedSize && (
+                    <p className="text-[10px] uppercase tracking-widest text-brand-pink mt-2">
+                      · Select a size
+                    </p>
+                  )}
                 </div>
               )}
 
               {/* Quantity */}
-              <div className="flex items-center gap-4 mb-6">
-                <p className="text-xs uppercase tracking-widest text-text-secondary">Qty</p>
-                <div className="flex items-center border border-white/10">
+              <div className="flex items-center gap-5 mb-6">
+                <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-brand-pink">Qty</p>
+                <div className="flex items-center border border-white/15">
                   <button
                     onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                    className="w-10 h-10 flex items-center justify-center text-text-secondary hover:text-white hover:bg-white/5 transition-colors"
+                    className="w-10 h-10 flex items-center justify-center text-text-secondary hover:text-white transition-colors"
                   >
                     <Minus size={13} />
                   </button>
-                  <span className="w-12 text-center text-sm font-medium">{quantity}</span>
+                  <span className="w-10 text-center text-sm font-medium text-white">{quantity}</span>
                   <button
                     onClick={() => setQuantity((q) => q + 1)}
-                    className="w-10 h-10 flex items-center justify-center text-text-secondary hover:text-white hover:bg-white/5 transition-colors"
+                    className="w-10 h-10 flex items-center justify-center text-text-secondary hover:text-white transition-colors"
                   >
                     <Plus size={13} />
                   </button>
@@ -385,24 +359,24 @@ export function ProductDetailClient({ product, related }: { product: Product; re
               </div>
 
               {/* Action buttons */}
-              <div className="flex gap-3">
+              <div className="flex gap-3 mb-8">
                 <button
                   onClick={handleAddToCart}
                   disabled={outOfStock}
                   className={cn(
-                    "flex-1 flex items-center justify-center gap-2 py-4 font-semibold uppercase tracking-widest text-sm transition-all",
+                    "flex-1 flex items-center justify-center gap-2 py-4 font-bold uppercase tracking-widest text-xs border transition-all",
                     added
-                      ? "bg-white text-black"
+                      ? "bg-white text-black border-white"
                       : outOfStock
-                      ? "bg-surface-3 text-text-muted cursor-not-allowed"
-                      : "bg-brand-pink text-white hover:bg-brand-pink/85"
+                      ? "border-white/10 text-text-muted cursor-not-allowed"
+                      : "border-brand-pink text-brand-pink hover:bg-brand-pink hover:text-white"
                   )}
                   id="add-to-cart-btn"
                 >
                   {added ? (
-                    <><Check size={16} /> Added to Cart</>
+                    <><Check size={14} /> Added</>
                   ) : (
-                    <><ShoppingBag size={16} /> {outOfStock ? "Sold Out" : "Add to Bag"}</>
+                    <><ShoppingBag size={14} /> {outOfStock ? "Sold Out" : "Add to Bag"}</>
                   )}
                 </button>
                 <button
@@ -418,49 +392,56 @@ export function ProductDetailClient({ product, related }: { product: Product; re
                   className={cn(
                     "w-14 h-14 border flex items-center justify-center transition-all",
                     isWishlisted
-                      ? "border-brand-pink bg-brand-pink/10 text-brand-pink"
-                      : "border-white/10 text-text-secondary hover:border-brand-pink hover:text-brand-pink"
+                      ? "border-brand-pink text-brand-pink"
+                      : "border-white/15 text-text-secondary hover:border-brand-pink hover:text-brand-pink"
                   )}
                   aria-label="Wishlist"
                 >
-                  <Heart size={18} fill={isWishlisted ? "currentColor" : "none"} />
+                  <Heart size={16} fill={isWishlisted ? "currentColor" : "none"} />
                 </button>
               </div>
 
-              {/* Trust row */}
-              <div className="mt-6 flex flex-wrap gap-4 text-xs text-text-muted border-t border-white/5 pt-5">
-                <span className="flex items-center gap-1.5">
-                  <Truck size={12} className="text-text-muted" /> Free delivery ₦50k+
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <RotateCcw size={12} className="text-text-muted" /> 30-day returns
-                </span>
-                <span className="flex items-center gap-1.5">
-                  🔒 Secure checkout
-                </span>
+              {/* Description — bullet format, right after CTA */}
+              <div className="border-t border-white/8 pt-6 mb-6">
+                {product.description && (
+                  <ul className="space-y-1.5">
+                    {product.description
+                      .split(/[\n.]+/)
+                      .map((s) => s.trim())
+                      .filter(Boolean)
+                      .map((line, i) => (
+                        <li
+                          key={i}
+                          className="text-[12px] uppercase tracking-widest text-text-secondary text-center"
+                        >
+                          · {line}.
+                        </li>
+                      ))}
+                  </ul>
+                )}
               </div>
 
-              {/* Description */}
-              <div className="mt-7 pt-6 border-t border-white/5">
-                <h3 className="font-display text-base tracking-wider mb-3">DESCRIPTION</h3>
-                <p className="text-text-secondary text-sm leading-relaxed whitespace-pre-line">
-                  {product.description}
-                </p>
+              {/* Stock status + links */}
+              <div className="border-t border-white/8 pt-5 space-y-2">
+                {!outOfStock && product.stock <= 5 && (
+                  <p className="text-[11px] uppercase tracking-widest text-yellow-400">
+                    · Only {product.stock} left in stock
+                  </p>
+                )}
+                <button
+                  onClick={() => setSizeGuideOpen(true)}
+                  className="block text-[11px] uppercase tracking-widest text-text-secondary hover:text-white transition-colors"
+                >
+                  · Size Guide
+                </button>
+                <a
+                  href="/shipping"
+                  className="block text-[11px] uppercase tracking-widest text-text-secondary hover:text-white transition-colors"
+                >
+                  · Shipping Policy
+                </a>
               </div>
 
-              {/* Details */}
-              <div className="mt-5 pt-5 border-t border-white/5">
-                <div className="grid grid-cols-2 gap-4 text-sm">
-                  <div>
-                    <span className="text-text-muted text-xs uppercase tracking-wider">SKU</span>
-                    <p className="text-text-secondary mt-1">{product.id.slice(0, 8).toUpperCase()}</p>
-                  </div>
-                  <div>
-                    <span className="text-text-muted text-xs uppercase tracking-wider">Category</span>
-                    <p className="text-text-secondary mt-1">{product.category.name}</p>
-                  </div>
-                </div>
-              </div>
             </motion.div>
           </div>
         </div>

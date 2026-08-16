@@ -192,7 +192,7 @@ export function Navbar() {
                   aria-label="Account"
                 >
                   <UserIcon size={17} className="text-brand-pink" />
-                  <span className="hidden sm:inline text-[10px] uppercase font-semibold tracking-wider max-w-[60px] truncate">
+                  <span className="hidden sm:inline text-[10px] uppercase font-semibold tracking-wider max-w-15 truncate">
                     {session.user.name?.split(" ")[0]}
                   </span>
                 </Link>
