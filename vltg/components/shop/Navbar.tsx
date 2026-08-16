@@ -173,12 +173,12 @@ export function Navbar() {
               {/* Wishlist */}
               <Link
                 href="/wishlist"
-                className="relative text-text-secondary hover:text-white transition-colors"
+                className="relative text-text-secondary hover:text-white transition-colors p-2 -mr-1"
                 aria-label="Wishlist"
               >
                 <Heart size={17} />
                 {wishlistTotal() > 0 && (
-                  <span className="absolute -top-1.5 -right-1.5 bg-brand-pink text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                  <span className="absolute top-0.5 right-0.5 bg-brand-pink text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
                     {wishlistTotal()}
                   </span>
                 )}
@@ -209,7 +209,7 @@ export function Navbar() {
               {/* Cart */}
               <button
                 onClick={toggleCart}
-                className="relative text-text-secondary hover:text-white transition-colors"
+                className="relative text-text-secondary hover:text-white transition-colors p-2 -mr-1"
                 aria-label="Cart"
                 id="cart-trigger"
               >
@@ -219,7 +219,7 @@ export function Navbar() {
                     key={totalItems()}
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
-                    className="absolute -top-1.5 -right-1.5 bg-brand-pink text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center"
+                    className="absolute top-0.5 right-0.5 bg-brand-pink text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center"
                   >
                     {totalItems()}
                   </motion.span>
@@ -229,7 +229,7 @@ export function Navbar() {
               {/* Mobile menu trigger */}
               <button
                 onClick={() => setMobileOpen(!mobileOpen)}
-                className="lg:hidden text-white"
+                className="lg:hidden text-white p-2 -mr-2"
                 aria-label="Menu"
               >
                 {mobileOpen ? <X size={20} /> : <Menu size={20} />}

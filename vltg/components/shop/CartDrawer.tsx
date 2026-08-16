@@ -57,7 +57,8 @@ export function CartDrawer() {
               </div>
               <button
                 onClick={closeCart}
-                className="text-text-secondary hover:text-white transition-colors"
+                className="text-text-secondary hover:text-white transition-colors p-2 -mr-2"
+                aria-label="Close cart"
               >
                 <X size={19} />
               </button>
@@ -147,25 +148,28 @@ export function CartDrawer() {
                         </p>
 
                         {/* Quantity */}
-                        <div className="flex items-center gap-2 mt-2">
+                        <div className="flex items-center gap-1 mt-2">
                           <button
                             onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                            className="w-6 h-6 flex items-center justify-center bg-surface-4 hover:bg-white/10 rounded text-text-secondary hover:text-white transition-colors"
+                            className="w-9 h-9 flex items-center justify-center border border-white/10 text-text-secondary hover:text-white hover:border-white/30 transition-colors"
+                            aria-label="Decrease quantity"
                           >
-                            <Minus size={10} />
+                            <Minus size={12} />
                           </button>
-                          <span className="text-sm w-5 text-center font-medium">{item.quantity}</span>
+                          <span className="text-sm w-8 text-center font-medium">{item.quantity}</span>
                           <button
                             onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                            className="w-6 h-6 flex items-center justify-center bg-surface-4 hover:bg-white/10 rounded text-text-secondary hover:text-white transition-colors"
+                            className="w-9 h-9 flex items-center justify-center border border-white/10 text-text-secondary hover:text-white hover:border-white/30 transition-colors"
+                            aria-label="Increase quantity"
                           >
-                            <Plus size={10} />
+                            <Plus size={12} />
                           </button>
                           <button
                             onClick={() => removeItem(item.id)}
-                            className="ml-auto text-text-muted hover:text-red-400 transition-colors"
+                            className="ml-auto p-2 text-text-muted hover:text-red-400 transition-colors"
+                            aria-label="Remove item"
                           >
-                            <Trash2 size={13} />
+                            <Trash2 size={14} />
                           </button>
                         </div>
                       </div>

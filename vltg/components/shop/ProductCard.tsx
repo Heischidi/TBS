@@ -174,14 +174,14 @@ export function ProductCard({
           <button
             onClick={handleWishlist}
             className={cn(
-              "absolute top-2 right-2 w-7 h-7 flex items-center justify-center rounded-full transition-all",
+              "absolute top-2 right-2 w-9 h-9 flex items-center justify-center rounded-full transition-all",
               isWishlisted
                 ? "bg-brand-pink text-white"
-                : "bg-black/50 text-white/70 hover:bg-brand-pink hover:text-white opacity-0 group-hover:opacity-100"
+                : "bg-black/50 text-white/70 hover:bg-brand-pink hover:text-white sm:opacity-0 sm:group-hover:opacity-100 opacity-100"
             )}
             aria-label="Add to wishlist"
           >
-            <Heart size={12} fill={isWishlisted ? "currentColor" : "none"} />
+            <Heart size={13} fill={isWishlisted ? "currentColor" : "none"} />
           </button>
 
           {/* Quick Add — bottom hover bar */}
