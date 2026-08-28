@@ -396,7 +396,7 @@ export function Navbar() {
                   <motion.div
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: navLinks.length * 0.05 }}
+                    transition={{ delay: allNavLinks.length * 0.05 }}
                   >
                     <Link
                       href="/profile"
@@ -409,7 +409,7 @@ export function Navbar() {
                   <motion.div
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: navLinks.length * 0.05 }}
+                    transition={{ delay: allNavLinks.length * 0.05 }}
                   >
                     <Link
                       href="/login"
