@@ -23,14 +23,14 @@ const config: Config = {
         "grey-200":     "#9A9A9A",   // secondary text
         "grey-100":     "#C8C8C8",
         "grey-50":      "#F0F0F0",
-        // ── Neon Pink ───────────────────────────────────────
-        "neon-pink":    "#FF1493",   // primary accent
-        "neon-pink-light": "#FF4DB8",// lighter tint
-        "neon-pink-dark":  "#CC0070",// pressed / dark
-        "neon-pink-glow":  "rgba(255,20,147,0.35)", // glow tint
+        // ── Khaki Green ───────────────────────────────────
+        "neon-pink":    "#6B7C3A",   // primary accent
+        "neon-pink-light": "#8A9F4A",// lighter tint
+        "neon-pink-dark":  "#4A5828",// pressed / dark
+        "neon-pink-glow":  "rgba(107,124,58,0.35)", // glow tint
         // ── Semantic aliases (backwards compat) ─────────────
         "brand-grey":   "#9A9A9A",
-        "brand-pink":   "#FF1493",
+        "brand-pink":   "#6B7C3A",
         // ── Surface shades ──────────────────────────────────
         "surface-1":    "#0A0A0A",
         "surface-2":    "#111111",
@@ -95,15 +95,15 @@ const config: Config = {
       backgroundImage: {
         "gradient-radial":  "radial-gradient(var(--tw-gradient-stops))",
         "gradient-brand":   "linear-gradient(135deg, #000000 0%, #1A1A1A 100%)",
-        "gradient-pink":    "linear-gradient(135deg, #CC0070 0%, #FF1493 60%, #FF4DB8 100%)",
+        "gradient-pink":    "linear-gradient(135deg, #4A5828 0%, #6B7C3A 60%, #8A9F4A 100%)",
         "gradient-grey":    "linear-gradient(135deg, #111111 0%, #2A2A2A 100%)",
         "shimmer-gradient": "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.05) 50%, transparent 100%)",
       },
       boxShadow: {
-        "glow-pink":     "0 0 40px rgba(255, 20, 147, 0.45), 0 0 80px rgba(255, 20, 147, 0.15)",
-        "glow-pink-sm":  "0 0 16px rgba(255, 20, 147, 0.35)",
+        "glow-pink":     "0 0 40px rgba(107, 124, 58, 0.45), 0 0 80px rgba(107, 124, 58, 0.15)",
+        "glow-pink-sm":  "0 0 16px rgba(107, 124, 58, 0.35)",
         "card":          "0 4px 24px rgba(0,0,0,0.5)",
-        "card-hover":    "0 8px 40px rgba(0,0,0,0.7), 0 0 20px rgba(255,20,147,0.1)",
+        "card-hover":    "0 8px 40px rgba(0,0,0,0.7), 0 0 20px rgba(107,124,58,0.1)",
       },
       borderRadius: {
         "4xl": "2rem",

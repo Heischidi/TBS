@@ -22,11 +22,11 @@
   --grey-100: #C8C8C8;
   --grey-50:  #F0F0F0;
 
-  /* ── Neon Pink ───────────────────────────────────────────── */
-  --neon-pink:       #FF1493;
-  --neon-pink-light: #FF4DB8;
-  --neon-pink-dark:  #CC0070;
-  --neon-pink-glow:  rgba(255, 20, 147, 0.35);
+  /* ── Khaki Green ────────────────────────────────────────── */
+  --neon-pink:       #6B7C3A;
+  --neon-pink-light: #8A9F4A;
+  --neon-pink-dark:  #4A5828;
+  --neon-pink-glow:  rgba(107, 124, 58, 0.35);
 
   /* ── Semantic aliases ────────────────────────────────────── */
   --brand-grey:  var(--grey-200);
@@ -77,7 +77,7 @@ body {
 
 /* Selection */
 ::selection {
-  background: rgba(255, 20, 147, 0.3);
+  background: rgba(107, 124, 58, 0.3);
   color: #FFFFFF;
 }
 
@@ -92,6 +92,10 @@ h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-bebas);
   letter-spacing: 0.05em;
 }
+
+/* Double-quote decoration on all main headings */
+h1::before, h2::before, h3::before { content: '"'; }
+h1::after,  h2::after,  h3::after  { content: '"'; }
 
 /* Smooth transitions everywhere */
 a, button {
@@ -153,6 +157,7 @@ a, button {
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
+/* Keep legacy class name, now uses khaki green */
 
 .gradient-text-grey {
   background: linear-gradient(135deg, var(--grey-200), var(--grey-50));
@@ -205,9 +210,9 @@ a, button {
 
 /* Admin sidebar active */
 .admin-nav-active {
-  background: rgba(255, 20, 147, 0.1);
-  border-left: 2px solid #FF1493;
-  color: #FF1493;
+  background: rgba(107, 124, 58, 0.1);
+  border-left: 2px solid #6B7C3A;
+  color: #6B7C3A;
 }
 
 /* Input styles */
@@ -218,7 +223,7 @@ a, button {
   transition: border-color 0.2s;
 }
 .input-dark:focus {
-  border-color: #FF1493;
+  border-color: #6B7C3A;
   outline: none;
 }
 .input-dark::placeholder {
@@ -309,7 +314,7 @@ a, button {
 }
 .category-tile:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 32px rgba(255,20,147,0.2);
+  box-shadow: 0 8px 32px rgba(107,124,58,0.2);
 }
 
 /* Horizontal Scroll Section */
@@ -347,9 +352,9 @@ a, button {
   color: #F5F5F5;
 }
 .filter-chip.active {
-  background: rgba(255,20,147,0.12);
-  border-color: #FF1493;
-  color: #FF1493;
+  background: rgba(107,124,58,0.12);
+  border-color: #6B7C3A;
+  color: #6B7C3A;
 }
 
 /* Star Rating */
