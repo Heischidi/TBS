@@ -146,7 +146,7 @@ export default function AboutPage() {
         /* Eyebrow */
         .about-eyebrow {
           font-size: 9px; font-weight: 700; text-transform: uppercase;
-          letter-spacing: 0.4em; color: #FF1493; margin-bottom: 1.5rem;
+          letter-spacing: 0.4em; color: #6B7C3A; margin-bottom: 1.5rem;
         }
 
         /* Hero title */
@@ -165,7 +165,7 @@ export default function AboutPage() {
           align-items: start;
         }
         .about-ghost-label-wrap { position: sticky; top: 8rem; }
-        .about-pink-rule { width: 40px; height: 2px; background: #FF1493; margin-bottom: 1.5rem; }
+        .about-pink-rule { width: 40px; height: 2px; background: #6B7C3A; margin-bottom: 1.5rem; }
         .about-ghost-label {
           font-family: var(--font-bebas);
           font-size: clamp(2rem, 4vw, 3.5rem);
@@ -231,7 +231,7 @@ export default function AboutPage() {
           letter-spacing: 0.2em; text-transform: uppercase;
           text-decoration: none; transition: background 0.2s, color 0.2s;
         }
-        .about-cta-btn:hover { background: #FF1493; color: #fff; }
+        .about-cta-btn:hover { background: #6B7C3A; color: #fff; }
 
         /* Responsive */
         @media (max-width: 768px) {

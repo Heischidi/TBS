@@ -9,7 +9,7 @@ import {
   ChevronLeft, Newspaper,
 } from "lucide-react";
 
-const PINK = "#FF1493";
+const PINK = "#6B7C3A";
 
 const BRAND_PHRASES = [
   "THE SHEEP DON'T KNOW.",

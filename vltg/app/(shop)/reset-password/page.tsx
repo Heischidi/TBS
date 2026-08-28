@@ -1,4 +1,4 @@
-ï»¿"use client";
+"use client";
 
 import { useState, Suspense } from "react";
 import { useForm } from "react-hook-form";
@@ -119,7 +119,7 @@ function ResetPasswordFormContent() {
               {...register("password")}
               type={showPass ? "text" : "password"}
               className={inputClass}
-              placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
+              placeholder="••••••••"
               id="reset-password"
               autoComplete="new-password"
             />
@@ -141,7 +141,7 @@ function ResetPasswordFormContent() {
               {...register("confirmPassword")}
               type={showConfirmPass ? "text" : "password"}
               className={inputClass}
-              placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
+              placeholder="••••••••"
               id="reset-confirm-password"
               autoComplete="new-password"
             />

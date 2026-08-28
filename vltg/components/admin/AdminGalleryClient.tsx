@@ -9,7 +9,7 @@ interface Props {
   initialImages: string[];
 }
 
-const PINK = "#FF1493";
+const PINK = "#6B7C3A";
 
 export function AdminGalleryClient({ initialImages }: Props) {
   const [images, setImages] = useState<string[]>(initialImages);

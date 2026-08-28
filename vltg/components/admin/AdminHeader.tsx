@@ -26,7 +26,7 @@ function formatDate(date: Date) {
     .toUpperCase();
 }
 
-const PINK = "#FF1493";
+const PINK = "#6B7C3A";
 
 export function AdminHeader({ user }: Props) {
   const initials = getInitials(user.name);

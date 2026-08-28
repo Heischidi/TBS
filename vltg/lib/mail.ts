@@ -49,7 +49,7 @@ async function sendEmail({
 function emailWrapper(content: string) {
   return `
     <div style="background-color:#000;color:#fff;padding:40px;font-family:sans-serif;max-width:600px;margin:0 auto;border:1px solid #222;">
-      <h1 style="color:#FF1493;letter-spacing:2px;text-transform:uppercase;font-size:24px;margin-bottom:24px;text-align:center;">${brandName}</h1>
+      <h1 style="color:#6B7C3A;letter-spacing:2px;text-transform:uppercase;font-size:24px;margin-bottom:24px;text-align:center;">${brandName}</h1>
       ${content}
       <p style="color:#5A5A5A;font-size:11px;margin-top:40px;text-align:center;">
         You're receiving this because you placed an order with ${brandName}.
@@ -94,17 +94,17 @@ function orderItemsTable(items: OrderItem[], total: number | string, currencySym
     <table style="width:100%;border-collapse:collapse;margin:20px 0;">
       <thead>
         <tr>
-          <th style="text-align:left;color:#FF1493;font-size:11px;text-transform:uppercase;padding-bottom:8px;">Item</th>
-          <th style="text-align:center;color:#FF1493;font-size:11px;text-transform:uppercase;padding-bottom:8px;">Variant</th>
-          <th style="text-align:center;color:#FF1493;font-size:11px;text-transform:uppercase;padding-bottom:8px;">Qty</th>
-          <th style="text-align:right;color:#FF1493;font-size:11px;text-transform:uppercase;padding-bottom:8px;">Price</th>
+          <th style="text-align:left;color:#6B7C3A;font-size:11px;text-transform:uppercase;padding-bottom:8px;">Item</th>
+          <th style="text-align:center;color:#6B7C3A;font-size:11px;text-transform:uppercase;padding-bottom:8px;">Variant</th>
+          <th style="text-align:center;color:#6B7C3A;font-size:11px;text-transform:uppercase;padding-bottom:8px;">Qty</th>
+          <th style="text-align:right;color:#6B7C3A;font-size:11px;text-transform:uppercase;padding-bottom:8px;">Price</th>
         </tr>
       </thead>
       <tbody>${rows}</tbody>
       <tfoot>
         <tr>
           <td colspan="3" style="padding-top:12px;font-weight:bold;text-transform:uppercase;letter-spacing:1px;font-size:12px;">Total</td>
-          <td style="padding-top:12px;font-weight:bold;font-size:14px;text-align:right;color:#FF1493;">${currencySymbol}${Number(total).toLocaleString()}</td>
+          <td style="padding-top:12px;font-weight:bold;font-size:14px;text-align:right;color:#6B7C3A;">${currencySymbol}${Number(total).toLocaleString()}</td>
         </tr>
       </tfoot>
     </table>
@@ -195,7 +195,7 @@ export async function sendOrderConfirmationEmail(order: OrderEmailData) {
       <p style="color:#9A9A9A;font-size:14px;text-align:center;">
         Hey ${order.customerName}, we've received your order and we're reviewing your payment. You'll hear from us soon!
       </p>
-      <p style="color:#FF1493;font-size:13px;text-align:center;letter-spacing:2px;margin:16px 0;text-transform:uppercase;">
+      <p style="color:#6B7C3A;font-size:13px;text-align:center;letter-spacing:2px;margin:16px 0;text-transform:uppercase;">
         Order #${order.orderNumber}
       </p>
       ${orderItemsTable(order.items, order.totalAmount, currency)}
@@ -223,7 +223,7 @@ export async function sendAdminNewOrderEmail(order: OrderEmailData) {
       <p style="color:#9A9A9A;font-size:14px;text-align:center;">
         A new order has just been placed.
       </p>
-      <p style="color:#FF1493;font-size:13px;text-align:center;letter-spacing:2px;margin:16px 0;text-transform:uppercase;">
+      <p style="color:#6B7C3A;font-size:13px;text-align:center;letter-spacing:2px;margin:16px 0;text-transform:uppercase;">
         Order #${order.orderNumber}
       </p>
       <div style="background:#111;padding:16px;border:1px solid #222;margin-bottom:16px;">
@@ -248,7 +248,7 @@ export async function sendPaymentConfirmedEmail(order: Pick<OrderEmailData, "ord
     subject: `Payment confirmed #${order.orderNumber} - ${brandName}`,
     html: emailWrapper(`
       <p style="color:#9A9A9A;font-size:14px;text-align:center;">
-        Great news, ${order.customerName}! We've confirmed your payment of <strong style="color:#fff;">${currency}${Number(order.totalAmount).toLocaleString()}</strong> for order <strong style="color:#FF1493;">#${order.orderNumber}</strong>.
+        Great news, ${order.customerName}! We've confirmed your payment of <strong style="color:#fff;">${currency}${Number(order.totalAmount).toLocaleString()}</strong> for order <strong style="color:#6B7C3A;">#${order.orderNumber}</strong>.
       </p>
       <p style="color:#9A9A9A;font-size:14px;text-align:center;margin-top:16px;">
         We're now preparing your items. We'll notify you once your order is out for delivery. 🖤
@@ -269,7 +269,7 @@ export async function sendOutForDeliveryEmail(order: Pick<OrderEmailData, "order
     subject: `Your order is on the way! #${order.orderNumber} - ${brandName}`,
     html: emailWrapper(`
       <p style="color:#9A9A9A;font-size:14px;text-align:center;">
-        Your order <strong style="color:#FF1493;">#${order.orderNumber}</strong> is out for delivery, ${order.customerName}!
+        Your order <strong style="color:#6B7C3A;">#${order.orderNumber}</strong> is out for delivery, ${order.customerName}!
       </p>
       <p style="color:#9A9A9A;font-size:14px;text-align:center;margin-top:12px;">
         Expect your package soon. Keep your phone close — our delivery team may reach out. 🖤

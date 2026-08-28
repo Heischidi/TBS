@@ -14,7 +14,7 @@ const banners = [
     cta: "Shop Summer",
     href: "/collections",
     image: "/images/tbs-hero-1.jpg",
-    accent: "#FF1493",
+    accent: "#6B7C3A",
   },
   {
     id: "promo-2",

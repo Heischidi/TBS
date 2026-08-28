@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = { title: "Inventory | TBS Admin" };
 
-const PINK = "#FF1493";
+const PINK = "#6B7C3A";
 
 export default async function AdminInventoryPage() {
   const products = await db.product.findMany({

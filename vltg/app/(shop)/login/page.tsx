@@ -1,4 +1,4 @@
-ï»¿"use client";
+"use client";
 
 import { useState, useEffect, Suspense } from "react";
 import { signIn } from "next-auth/react";
@@ -121,7 +121,7 @@ function LoginForm() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
+              placeholder="••••••••"
               className={inputClass}
               id="login-password"
               autoComplete="current-password"

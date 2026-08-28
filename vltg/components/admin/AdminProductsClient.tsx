@@ -14,7 +14,7 @@ interface Product {
   category: { name: string }; createdAt: string;
 }
 
-const PINK = "#FF1493";
+const PINK = "#6B7C3A";
 
 export function AdminProductsClient() {
   const [products, setProducts] = useState<Product[]>([]);

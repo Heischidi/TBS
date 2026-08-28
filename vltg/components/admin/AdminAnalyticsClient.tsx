@@ -8,7 +8,7 @@ interface Order { createdAt: string; totalAmount: any; status: string; }
 interface Product { id: string; name: string; images: string[]; orderItems: { quantity: number; price: any }[]; }
 interface Customer { createdAt: string; }
 
-const PINK = "#FF1493";
+const PINK = "#6B7C3A";
 
 export function AdminAnalyticsClient({ orders, products, customers }: {
   orders: Order[]; products: Product[]; customers: Customer[];

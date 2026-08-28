@@ -1,4 +1,4 @@
-ï»¿"use client";
+"use client";
 
 import { useState, Suspense } from "react";
 import { useForm } from "react-hook-form";
@@ -134,7 +134,7 @@ function SetupPasswordFormContent() {
               {...register("password")}
               type={showPass ? "text" : "password"}
               className={inputClass}
-              placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
+              placeholder="••••••••"
               id="setup-password"
               autoComplete="new-password"
             />
@@ -156,7 +156,7 @@ function SetupPasswordFormContent() {
               {...register("confirmPassword")}
               type={showConfirmPass ? "text" : "password"}
               className={inputClass}
-              placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
+              placeholder="••••••••"
               id="setup-confirm-password"
               autoComplete="new-password"
             />

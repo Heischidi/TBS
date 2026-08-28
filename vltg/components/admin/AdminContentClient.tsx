@@ -10,7 +10,7 @@ interface HeroBanner {
 }
 interface LookbookImage { id: string; image: string; caption?: string | null; order: number; }
 
-const PINK = "#FF1493";
+const PINK = "#6B7C3A";
 
 export function AdminContentClient({ banners: initialBanners, lookbook: initialLookbook }: {
   banners: HeroBanner[]; lookbook: LookbookImage[];

@@ -29,7 +29,7 @@ const STATUS_CONFIG: Record<string, { label: string; className: string }> = {
   CANCELLED:         { label: "Cancelled",  className: "status-cancelled" },
 };
 
-const PINK = "#FF1493";
+const PINK = "#6B7C3A";
 
 export function AdminDashboardClient({ stats, recentOrders, lowStock }: {
   stats: Stats; recentOrders: Order[]; lowStock: Product[];

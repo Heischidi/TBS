@@ -29,7 +29,7 @@ const STATUS_CONFIG: Record<string, string> = {
   DELIVERED: "status-delivered", CANCELLED: "status-cancelled",
 };
 
-const PINK = "#FF1493";
+const PINK = "#6B7C3A";
 
 export function AdminOrderDetailClient({ order }: { order: Order }) {
   const [status, setStatus] = useState(order.status);

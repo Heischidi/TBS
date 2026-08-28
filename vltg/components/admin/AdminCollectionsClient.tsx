@@ -9,7 +9,7 @@ import { slugify } from "@/lib/utils";
 interface Collection { id: string; name: string; slug: string; description?: string | null; coverImage?: string | null; isActive: boolean; _count: { products: number }; }
 interface Category { id: string; name: string; }
 
-const PINK = "#FF1493";
+const PINK = "#6B7C3A";
 
 export function AdminCollectionsClient({ collections: initialCollections }: {
   collections: Collection[]; categories: Category[];

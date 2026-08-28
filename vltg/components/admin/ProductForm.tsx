@@ -23,7 +23,7 @@ interface Props {
   product?: any;
 }
 
-const PINK = "#FF1493";
+const PINK = "#6B7C3A";
 
 export function ProductForm({ categories, collections, product }: Props) {
   const router = useRouter();

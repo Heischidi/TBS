@@ -1,4 +1,4 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import { db } from "@/lib/db";
 import { ProductCard } from "@/components/shop/ProductCard";
 

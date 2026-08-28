@@ -1,4 +1,4 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import { db } from "@/lib/db";
 import Link from "next/link";
 import Image from "next/image";

@@ -4,7 +4,7 @@ import { Users } from "lucide-react";
 
 export const metadata: Metadata = { title: "Customers | TBS Admin" };
 
-const PINK = "#FF1493";
+const PINK = "#6B7C3A";
 
 export default async function AdminCustomersPage() {
   const customers = await db.customer.findMany({
