@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Mail, Phone, Share2, Link2, MessageSquare } from "lucide-react";
+import { Mail, MessageSquare, Share2, CheckCircle } from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function ContactPage() {
@@ -17,154 +17,141 @@ export default function ContactPage() {
     setTimeout(() => setSent(false), 3000);
   };
 
-  const inputClass = "w-full input-dark px-4 py-3 text-sm";
-  const labelClass = "block text-xs uppercase tracking-wider text-text-secondary mb-1.5";
+  const contacts = [
+    {
+      label: "WhatsApp",
+      value: "+234 800 000 0000",
+      href: "https://wa.me/2348000000000",
+      icon: MessageSquare,
+    },
+    {
+      label: "Email",
+      value: "hello@tbs.com",
+      href: "mailto:hello@tbs.com",
+      icon: Mail,
+    },
+    {
+      label: "Instagram",
+      value: "@tbs_official",
+      href: "https://instagram.com/tbs_official",
+      icon: Share2,
+    },
+  ];
 
   return (
-    <div className="min-h-screen pt-32 md:pt-36 pb-24 flex items-center">
-      <div className="w-full max-w-6xl mx-auto px-4 md:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-          
-          {/* Left Column: Contact Info */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }} 
+    <div className="min-h-screen bg-black pt-32 pb-28 px-6">
+      <div className="max-w-4xl mx-auto">
+
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-center mb-20"
+        >
+          <p className="text-white/40 text-xs uppercase tracking-[0.4em] mb-5">Get in Touch</p>
+          <h1 className="font-display text-6xl md:text-8xl text-white tracking-wide">
+            LET&apos;S TALK
+          </h1>
+          <p className="text-white/50 text-sm mt-6 max-w-sm mx-auto leading-relaxed">
+            Have a question about an order? Want to collab? Or just want to say what&apos;s good? We&apos;re always listening.
+          </p>
+        </motion.div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
+
+          {/* Contact links */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="lg:col-span-5 space-y-8"
+            transition={{ delay: 0.1, duration: 0.5 }}
+            className="space-y-0"
           >
-            <div>
-              <span className="text-brand-pink text-xs font-bold uppercase tracking-[0.3em] block mb-3">
-                Get in Touch
-              </span>
-              <h1 className="font-display text-5xl md:text-6xl text-white leading-none tracking-tight">
-                LET'S TALK
-              </h1>
-              <p className="text-text-secondary text-sm md:text-base mt-4 leading-relaxed">
-                Have a question about an order? Want to collab? Or just want to say what's good? We're always listening.
-              </p>
-            </div>
-
-            <div className="space-y-4">
-              {/* WhatsApp Card */}
-              <a 
-                href="https://wa.me/2348000000000" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="flex items-center gap-4 p-4 bg-surface-2 hover:bg-surface-3 border border-white/5 hover:border-brand-pink/30 rounded-sm transition-all duration-300 group"
-              >
-                <div className="w-12 h-12 bg-brand-pink/10 group-hover:bg-brand-pink/20 flex items-center justify-center transition-colors">
-                  <MessageSquare size={18} className="text-brand-pink" />
-                </div>
-                <div>
-                  <p className="text-[10px] text-text-muted uppercase tracking-wider font-semibold">WhatsApp</p>
-                  <p className="text-white text-sm font-medium mt-0.5 group-hover:text-brand-pink transition-colors">+234 800 000 0000</p>
-                </div>
-              </a>
-
-              {/* Email Card */}
-              <a 
-                href="mailto:hello@tbs.com"
-                className="flex items-center gap-4 p-4 bg-surface-2 hover:bg-surface-3 border border-white/5 hover:border-brand-pink/30 rounded-sm transition-all duration-300 group"
-              >
-                <div className="w-12 h-12 bg-brand-pink/10 group-hover:bg-brand-pink/20 flex items-center justify-center transition-colors">
-                  <Mail size={18} className="text-brand-pink" />
-                </div>
-                <div>
-                  <p className="text-[10px] text-text-muted uppercase tracking-wider font-semibold">Email</p>
-                  <p className="text-white text-sm font-medium mt-0.5 group-hover:text-brand-pink transition-colors">hello@tbs.com</p>
-                </div>
-              </a>
-
-              {/* Instagram Card */}
-              <a 
-                href="https://instagram.com/tbs_official" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="flex items-center gap-4 p-4 bg-surface-2 hover:bg-surface-3 border border-white/5 hover:border-brand-pink/30 rounded-sm transition-all duration-300 group"
-              >
-                <div className="w-12 h-12 bg-brand-pink/10 group-hover:bg-brand-pink/20 flex items-center justify-center transition-colors">
-                  <Share2 size={18} className="text-brand-pink" />
-                </div>
-                <div>
-                  <p className="text-[10px] text-text-muted uppercase tracking-wider font-semibold">Instagram</p>
-                  <p className="text-white text-sm font-medium mt-0.5 group-hover:text-brand-pink transition-colors">@tbs_official</p>
-                </div>
-              </a>
-            </div>
+            {contacts.map((c, i) => {
+              const Icon = c.icon;
+              return (
+                <a
+                  key={c.label}
+                  href={c.href}
+                  target={c.href.startsWith("http") ? "_blank" : undefined}
+                  rel="noopener noreferrer"
+                  className="group flex items-center justify-between py-6 border-b border-white/10 hover:border-white/30 transition-colors"
+                >
+                  <div className="flex items-center gap-4">
+                    <div className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center group-hover:border-white/50 transition-colors">
+                      <Icon size={16} className="text-white/60 group-hover:text-white transition-colors" />
+                    </div>
+                    <div>
+                      <p className="text-white/30 text-[10px] uppercase tracking-widest mb-0.5">{c.label}</p>
+                      <p className="text-white text-sm font-medium group-hover:text-white/70 transition-colors">{c.value}</p>
+                    </div>
+                  </div>
+                  <span className="text-white/20 group-hover:text-white/60 text-xs transition-colors">→</span>
+                </a>
+              );
+            })}
           </motion.div>
 
-          {/* Right Column: Premium Contact Form */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }} 
-            animate={{ opacity: 1, y: 0 }} 
-            transition={{ delay: 0.1, duration: 0.5 }}
-            className="lg:col-span-7 bg-surface-2 border border-white/5 p-6 md:p-8 rounded-sm shadow-card"
+          {/* Form */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2, duration: 0.5 }}
           >
-            <form onSubmit={handleSubmit} className="space-y-5">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                <div>
-                  <label className={labelClass}>Your Name</label>
-                  <input 
-                    required 
-                    value={form.name} 
-                    onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))} 
-                    className={inputClass} 
-                    placeholder="John Doe" 
-                    id="contact-name" 
-                  />
-                </div>
-                <div>
-                  <label className={labelClass}>Email Address</label>
-                  <input 
-                    type="email" 
-                    required 
-                    value={form.email} 
-                    onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))} 
-                    className={inputClass} 
-                    placeholder="john@email.com" 
-                    id="contact-email" 
-                  />
-                </div>
-              </div>
-              
-              <div>
-                <label className={labelClass}>Subject</label>
-                <input 
-                  required 
-                  value={form.subject} 
-                  onChange={(e) => setForm((f) => ({ ...f, subject: e.target.value }))} 
-                  className={inputClass} 
-                  placeholder="Order inquiry, collaboration..." 
-                  id="contact-subject" 
-                />
-              </div>
-              
-              <div>
-                <label className={labelClass}>Message</label>
-                <textarea 
-                  required 
-                  value={form.message} 
-                  onChange={(e) => setForm((f) => ({ ...f, message: e.target.value }))} 
-                  className={`${inputClass} h-36 resize-none`} 
-                  placeholder="What's on your mind?" 
-                  id="contact-message" 
-                />
-              </div>
-              
-              <button 
-                type="submit" 
-                className="w-full bg-brand-pink hover:bg-brand-pink/90 text-white py-4 font-bold uppercase tracking-widest text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-glow-pink/10 hover:shadow-glow-pink/20" 
-                id="contact-submit"
+            {sent ? (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="flex flex-col items-center justify-center gap-4 py-16 text-center"
               >
-                <MessageSquare size={14} /> Send via WhatsApp
-              </button>
-              
-              {sent && (
-                <p className="text-neon-pink text-xs font-semibold text-center mt-2">
-                  Message draft generated! Redirecting to WhatsApp...
-                </p>
-              )}
-            </form>
+                <CheckCircle size={32} className="text-white/60" />
+                <p className="text-white text-sm uppercase tracking-widest">Message sent to WhatsApp</p>
+                <p className="text-white/30 text-xs">We&apos;ll get back to you shortly.</p>
+              </motion.div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-8">
+                {[
+                  { label: "Your Name", key: "name", type: "text", placeholder: "John Doe" },
+                  { label: "Email Address", key: "email", type: "email", placeholder: "john@email.com" },
+                  { label: "Subject", key: "subject", type: "text", placeholder: "Order inquiry, collaboration…" },
+                ].map((field) => (
+                  <div key={field.key} className="border-b border-white/15 pb-2 focus-within:border-white/50 transition-colors">
+                    <label className="block text-[10px] uppercase tracking-widest text-white/30 mb-2">{field.label}</label>
+                    <input
+                      type={field.type}
+                      required
+                      value={form[field.key as keyof typeof form]}
+                      onChange={(e) => setForm((f) => ({ ...f, [field.key]: e.target.value }))}
+                      placeholder={field.placeholder}
+                      className="w-full bg-transparent text-white text-sm placeholder-white/20 outline-none"
+                      id={`contact-${field.key}`}
+                    />
+                  </div>
+                ))}
+
+                <div className="border-b border-white/15 pb-2 focus-within:border-white/50 transition-colors">
+                  <label className="block text-[10px] uppercase tracking-widest text-white/30 mb-2">Message</label>
+                  <textarea
+                    required
+                    value={form.message}
+                    onChange={(e) => setForm((f) => ({ ...f, message: e.target.value }))}
+                    placeholder="What's on your mind?"
+                    rows={4}
+                    className="w-full bg-transparent text-white text-sm placeholder-white/20 outline-none resize-none"
+                    id="contact-message"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="flex items-center gap-2 text-white text-xs font-bold uppercase tracking-widest border-b border-white pb-0.5 hover:text-white/50 hover:border-white/50 transition-colors"
+                  id="contact-submit"
+                >
+                  <MessageSquare size={13} />
+                  Send via WhatsApp
+                </button>
+              </form>
+            )}
           </motion.div>
 
         </div>

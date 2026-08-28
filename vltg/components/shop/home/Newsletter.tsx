@@ -23,65 +23,67 @@ export function Newsletter() {
   };
 
   return (
-    <section className="section bg-surface-1 border-t border-white/5">
-      <div className="section-inner">
-        <div className="max-w-2xl mx-auto text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            {/* Icon */}
-            <div className="inline-flex items-center justify-center w-14 h-14 border border-brand-pink/30 rounded-full mb-8">
-              <Mail size={22} className="text-brand-pink" />
-            </div>
+    <section className="bg-black border-t border-white/5 py-24 md:py-32">
+      <div className="max-w-xl mx-auto px-6 text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+        >
+          {/* Circle mail icon */}
+          <div className="inline-flex items-center justify-center w-14 h-14 rounded-full border border-white/30 mb-10">
+            <Mail size={20} className="text-white" />
+          </div>
 
-            <h2 className="font-display text-3xl md:text-5xl text-white mb-5">
-              STAY IN THE LOOP
-            </h2>
-            <p className="text-text-secondary text-sm mb-10 leading-relaxed max-w-md mx-auto">
-              Be the first to know about new drops, exclusive offers, and behind-the-scenes content.
-              No spam. Just culture.
-            </p>
+          <h2 className="font-display text-4xl md:text-6xl text-white mb-6 tracking-wide">
+            STAY IN THE LOOP
+          </h2>
 
-            {submitted ? (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="flex items-center justify-center gap-3 text-neon-pink"
-              >
-                <CheckCircle size={22} />
-                <span className="font-medium uppercase tracking-widest text-sm">
-                  You&apos;re on the list!
-                </span>
-              </motion.div>
-            ) : (
-              <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+          <p className="text-white/60 text-sm md:text-base mb-12 leading-relaxed max-w-sm mx-auto">
+            Be the first to know about new drops, exclusive offers, and behind-the-scenes content.
+            No spam. Just culture.
+          </p>
+
+          {submitted ? (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="flex items-center justify-center gap-3 text-white"
+            >
+              <CheckCircle size={20} />
+              <span className="font-medium uppercase tracking-widest text-sm">
+                You&apos;re on the list!
+              </span>
+            </motion.div>
+          ) : (
+            <form onSubmit={handleSubmit} className="max-w-sm mx-auto">
+              <div className="flex items-end gap-4 border-b border-white/30 pb-2">
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="your@email.com"
                   required
-                  className="flex-1 input-dark px-5 py-4 text-sm rounded-none"
+                  className="flex-1 bg-transparent text-white text-sm placeholder-white/30 outline-none"
                   id="newsletter-email"
                 />
                 <button
                   type="submit"
                   disabled={loading}
-                  className="bg-brand-pink text-white px-8 py-4 text-xs font-bold uppercase tracking-widest hover:bg-brand-pink/85 transition-colors disabled:opacity-50 shrink-0"
+                  className="text-white text-xs font-bold uppercase tracking-widest shrink-0 hover:text-white/60 transition-colors disabled:opacity-40"
                   id="newsletter-submit"
                 >
                   {loading ? "..." : "Subscribe"}
                 </button>
-              </form>
-            )}
+              </div>
+            </form>
+          )}
 
-            <p className="text-text-muted text-xs mt-5">
-              Unsubscribe anytime. We respect your inbox.
-            </p>
-          </motion.div>
-        </div>
+          <p className="text-white/30 text-xs mt-6">
+            Unsubscribe anytime. We respect your inbox.
+          </p>
+        </motion.div>
       </div>
     </section>
   );
