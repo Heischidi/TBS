@@ -11,16 +11,24 @@ import { CartDrawer } from "@/components/shop/CartDrawer";
 import { cn } from "@/lib/utils";
 import { useSession } from "next-auth/react";
 
-const navLinks = [
+// Primary nav — always visible
+const primaryLinks = [
   { href: "/", label: "Home" },
+  { href: "/lookbook", label: "Lookbook" },
+  { href: "/contact", label: "Contact" },
+];
+
+// Dropdown nav — hidden behind "More"
+const moreLinks = [
   { href: "/shop", label: "Shop" },
   { href: "/collections", label: "Collections" },
   { href: "/new-arrivals", label: "New Arrivals" },
   { href: "/best-sellers", label: "Best Sellers" },
-  { href: "/lookbook", label: "Lookbook" },
   { href: "/about", label: "About" },
-  { href: "/contact", label: "Contact" },
 ];
+
+// Keep for mobile menu
+const allNavLinks = [...primaryLinks, ...moreLinks];
 
 const categoryPills = [
   { href: "/shop", label: "All" },
@@ -38,6 +46,7 @@ export function Navbar() {
   const { data: session } = useSession();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const { totalItems, toggleCart } = useCartStore();
@@ -52,6 +61,7 @@ export function Navbar() {
   useEffect(() => {
     setMobileOpen(false);
     setSearchOpen(false);
+    setDropdownOpen(false);
   }, [pathname]);
 
   const isAdmin = pathname.startsWith("/admin");
@@ -92,7 +102,8 @@ export function Navbar() {
 
             {/* Desktop Nav */}
             <nav className="hidden lg:flex items-center gap-6 xl:gap-8">
-              {navLinks.map((link) => (
+              {/* Primary direct links */}
+              {primaryLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
@@ -112,14 +123,67 @@ export function Navbar() {
                   />
                 </Link>
               ))}
-              {/* Sale badge */}
-              <Link
-                href="/best-sellers"
-                className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-white bg-brand-pink/15 border border-brand-pink/30 px-3 py-1.5 rounded-full hover:bg-brand-pink hover:border-brand-pink transition-all"
+
+              {/* More dropdown */}
+              <div
+                className="relative"
+                onMouseEnter={() => setDropdownOpen(true)}
+                onMouseLeave={() => setDropdownOpen(false)}
               >
-                <Flame size={11} className="fill-brand-pink text-brand-pink" />
-                Sale
-              </Link>
+                <button
+                  className={cn(
+                    "flex items-center gap-1 text-xs font-medium uppercase tracking-widest transition-colors duration-200",
+                    moreLinks.some((l) => pathname === l.href)
+                      ? "text-brand-pink"
+                      : "text-text-secondary hover:text-white"
+                  )}
+                  id="nav-more-btn"
+                >
+                  More
+                  <ChevronDown
+                    size={12}
+                    className={cn(
+                      "transition-transform duration-200",
+                      dropdownOpen ? "rotate-180" : "rotate-0"
+                    )}
+                  />
+                </button>
+
+                <AnimatePresence>
+                  {dropdownOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 6 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 6 }}
+                      transition={{ duration: 0.15 }}
+                      className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-44 bg-black/95 backdrop-blur-xl border border-white/8 shadow-2xl"
+                    >
+                      {moreLinks.map((link) => (
+                        <Link
+                          key={link.href}
+                          href={link.href}
+                          className={cn(
+                            "flex items-center px-4 py-3 text-xs uppercase tracking-widest transition-colors border-b border-white/5 last:border-0",
+                            pathname === link.href
+                              ? "text-brand-pink bg-white/3"
+                              : "text-text-secondary hover:text-white hover:bg-white/5"
+                          )}
+                        >
+                          {link.label}
+                        </Link>
+                      ))}
+                      {/* Sale badge inside dropdown */}
+                      <Link
+                        href="/best-sellers"
+                        className="flex items-center gap-2 px-4 py-3 text-xs uppercase tracking-widest text-brand-pink hover:bg-white/5 transition-colors"
+                      >
+                        <Flame size={11} className="fill-brand-pink" />
+                        Sale
+                      </Link>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
             </nav>
 
             {/* Actions */}
@@ -310,7 +374,7 @@ export function Navbar() {
               </div>
 
               <nav className="px-4 pb-6 flex flex-col gap-1">
-                {navLinks.map((link, i) => (
+                {allNavLinks.map((link, i) => (
                   <motion.div
                     key={link.href}
                     initial={{ opacity: 0, x: -20 }}
