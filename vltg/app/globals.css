@@ -1,10 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&family=Roboto+Mono:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
 :root {
   /* ── Fonts ─────────────────────────────────────────────── */
   --font-inter: 'Inter', system-ui, sans-serif;
   --font-bebas: 'Bebas Neue', sans-serif;
+  --font-brand: 'Roboto Mono', monospace;
 
   /* ── Brand Primaries ────────────────────────────────────── */
   --brand-black: #000000;

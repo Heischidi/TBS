@@ -45,6 +45,7 @@ const config: Config = {
       fontFamily: {
         sans: ["var(--font-inter)", "Inter", "system-ui", "sans-serif"],
         display: ["var(--font-bebas)", "Bebas Neue", "sans-serif"],
+        brand: ["var(--font-brand)", "'Roboto Mono'", "monospace"],
         mono: ["var(--font-mono)", "monospace"],
       },
       fontSize: {

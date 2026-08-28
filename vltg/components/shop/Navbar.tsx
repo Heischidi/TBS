@@ -84,7 +84,7 @@ export function Navbar() {
             <Link href="/" className="relative z-10 shrink-0">
               <motion.div
                 whileHover={{ scale: 1.02 }}
-                className="font-display text-2xl md:text-3xl tracking-widest text-white"
+                className="font-brand text-2xl md:text-3xl tracking-widest text-white"
               >
                 TBS
               </motion.div>

@@ -48,7 +48,7 @@ export function Footer() {
 
         {/* Copyright */}
         <p className="text-text-muted text-[10px] tracking-widest mt-2">
-          Copyright © {new Date().getFullYear()}, TBS.
+          Copyright © {new Date().getFullYear()}, <span style={{ fontFamily: "var(--font-brand)" }}>TBS</span>.
         </p>
 
       </div>

@@ -64,7 +64,7 @@ export function LookbookSection({ images }: { images: LookbookImage[] }) {
                     <div className={`w-full h-full bg-linear-to-br ${
                       ["from-surface-3 to-black", "from-neon-pink/10 to-black", "from-grey-700 to-black"][i % 3]
                     } flex items-center justify-center`}>
-                      <span className="font-display text-5xl text-white/10 tracking-widest">TBS</span>
+                      <span className="font-brand text-5xl text-white/10 tracking-widest">TBS</span>
                     </div>
                   )}
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex items-center justify-center">

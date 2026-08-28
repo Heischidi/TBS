@@ -47,7 +47,7 @@ export default function AdminLoginPage() {
       >
         {/* Logo */}
         <div className="text-center mb-10">
-          <h1 className="font-display text-5xl text-white tracking-widest">TBS</h1>
+          <h1 className="font-brand text-5xl text-white tracking-widest">TBS</h1>
           <p className="text-text-muted text-xs uppercase tracking-[0.4em] mt-2">Admin Portal</p>
         </div>
 
