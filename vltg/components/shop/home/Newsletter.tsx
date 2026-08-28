@@ -23,69 +23,152 @@ export function Newsletter() {
   };
 
   return (
-    <section className="w-full bg-black border-t border-white/5 py-24 md:py-32">
-      <div className="w-full max-w-xl mx-auto px-6 flex flex-col items-center text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="w-full flex flex-col items-center"
+    <section
+      style={{
+        width: "100%",
+        backgroundColor: "#000",
+        borderTop: "1px solid rgba(255,255,255,0.05)",
+        paddingTop: "6rem",
+        paddingBottom: "6rem",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5 }}
+        style={{
+          width: "100%",
+          maxWidth: "560px",
+          padding: "0 1.5rem",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          textAlign: "center",
+        }}
+      >
+        {/* Circle mail icon */}
+        <div
+          style={{
+            width: "56px",
+            height: "56px",
+            borderRadius: "50%",
+            border: "1px solid rgba(255,255,255,0.3)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            marginBottom: "2.5rem",
+          }}
         >
-          {/* Circle mail icon */}
-          <div className="flex items-center justify-center w-14 h-14 rounded-full border border-white/30 mb-10">
-            <Mail size={20} className="text-white" />
-          </div>
+          <Mail size={20} color="white" />
+        </div>
 
-          <h2 className="font-display text-4xl md:text-6xl text-white mb-6 tracking-wide text-center">
-            STAY IN THE LOOP
-          </h2>
+        <h2
+          style={{
+            fontFamily: "var(--font-bebas, 'Bebas Neue', sans-serif)",
+            fontSize: "clamp(2.5rem, 8vw, 4.5rem)",
+            color: "#fff",
+            letterSpacing: "0.05em",
+            marginBottom: "1.25rem",
+            textAlign: "center",
+          }}
+        >
+          STAY IN THE LOOP
+        </h2>
 
-          <p className="text-white/60 text-sm md:text-base mb-12 leading-relaxed max-w-sm text-center">
-            Be the first to know about new drops, exclusive offers, and behind-the-scenes content.
-            No spam. Just culture.
-          </p>
+        <p
+          style={{
+            color: "rgba(255,255,255,0.55)",
+            fontSize: "0.9rem",
+            lineHeight: 1.75,
+            maxWidth: "360px",
+            textAlign: "center",
+            marginBottom: "3rem",
+          }}
+        >
+          Be the first to know about new drops, exclusive offers, and
+          behind-the-scenes content. No spam. Just culture.
+        </p>
 
-          {submitted ? (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="flex items-center justify-center gap-3 text-white"
+        {submitted ? (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            style={{ display: "flex", alignItems: "center", gap: "0.75rem", color: "#fff" }}
+          >
+            <CheckCircle size={20} />
+            <span style={{ fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase" }}>
+              You&apos;re on the list!
+            </span>
+          </motion.div>
+        ) : (
+          <form
+            onSubmit={handleSubmit}
+            style={{ width: "100%", maxWidth: "420px" }}
+          >
+            <div
+              style={{
+                display: "flex",
+                alignItems: "flex-end",
+                gap: "1rem",
+                borderBottom: "1px solid rgba(255,255,255,0.3)",
+                paddingBottom: "0.5rem",
+              }}
             >
-              <CheckCircle size={20} />
-              <span className="font-medium uppercase tracking-widest text-sm">
-                You&apos;re on the list!
-              </span>
-            </motion.div>
-          ) : (
-            <form onSubmit={handleSubmit} className="w-full max-w-sm">
-              <div className="flex items-end gap-4 border-b border-white/30 pb-2">
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="your@email.com"
-                  required
-                  className="flex-1 bg-transparent text-white text-sm placeholder-white/30 outline-none"
-                  id="newsletter-email"
-                />
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="text-white text-xs font-bold uppercase tracking-widest shrink-0 hover:text-white/60 transition-colors disabled:opacity-40"
-                  id="newsletter-submit"
-                >
-                  {loading ? "..." : "Subscribe"}
-                </button>
-              </div>
-            </form>
-          )}
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="your@email.com"
+                required
+                id="newsletter-email"
+                style={{
+                  flex: 1,
+                  background: "transparent",
+                  border: "none",
+                  outline: "none",
+                  color: "#fff",
+                  fontSize: "0.875rem",
+                }}
+              />
+              <button
+                type="submit"
+                disabled={loading}
+                id="newsletter-submit"
+                style={{
+                  background: "transparent",
+                  border: "none",
+                  color: "#fff",
+                  fontSize: "0.7rem",
+                  fontWeight: 700,
+                  letterSpacing: "0.2em",
+                  textTransform: "uppercase",
+                  cursor: "pointer",
+                  flexShrink: 0,
+                  opacity: loading ? 0.4 : 1,
+                  padding: 0,
+                }}
+              >
+                {loading ? "..." : "Subscribe"}
+              </button>
+            </div>
+          </form>
+        )}
 
-          <p className="text-white/30 text-xs mt-6 text-center">
-            Unsubscribe anytime. We respect your inbox.
-          </p>
-        </motion.div>
-      </div>
+        <p
+          style={{
+            color: "rgba(255,255,255,0.25)",
+            fontSize: "0.7rem",
+            marginTop: "1.5rem",
+            textAlign: "center",
+          }}
+        >
+          Unsubscribe anytime. We respect your inbox.
+        </p>
+      </motion.div>
     </section>
   );
 }
