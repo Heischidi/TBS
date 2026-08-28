@@ -134,7 +134,7 @@ function SetupPasswordFormContent() {
               {...register("password")}
               type={showPass ? "text" : "password"}
               className={inputClass}
-              placeholder="••••••••"
+              placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
               id="setup-password"
               autoComplete="new-password"
             />
@@ -156,7 +156,7 @@ function SetupPasswordFormContent() {
               {...register("confirmPassword")}
               type={showConfirmPass ? "text" : "password"}
               className={inputClass}
-              placeholder="••••••••"
+              placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
               id="setup-confirm-password"
               autoComplete="new-password"
             />

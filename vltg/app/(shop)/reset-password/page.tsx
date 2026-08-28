@@ -119,7 +119,7 @@ function ResetPasswordFormContent() {
               {...register("password")}
               type={showPass ? "text" : "password"}
               className={inputClass}
-              placeholder="••••••••"
+              placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
               id="reset-password"
               autoComplete="new-password"
             />
@@ -141,7 +141,7 @@ function ResetPasswordFormContent() {
               {...register("confirmPassword")}
               type={showConfirmPass ? "text" : "password"}
               className={inputClass}
-              placeholder="••••••••"
+              placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
               id="reset-confirm-password"
               autoComplete="new-password"
             />
