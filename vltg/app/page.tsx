@@ -11,7 +11,6 @@ import { PromoBanners } from "@/components/shop/home/PromoBanners";
 import { BestSellers } from "@/components/shop/home/BestSellers";
 import { TrustBadges } from "@/components/shop/home/TrustBadges";
 import { TrendingSection } from "@/components/shop/home/TrendingSection";
-import { LookbookSection } from "@/components/shop/home/LookbookSection";
 import { Newsletter } from "@/components/shop/home/Newsletter";
 import { db } from "@/lib/db";
 
@@ -28,7 +27,6 @@ async function getHomeData() {
     newArrivals,
     bestSellers,
     trendingProducts,
-    lookbookImages,
     collections,
   ] = await Promise.all([
     db.heroBanner.findMany({ where: { isActive: true }, orderBy: { order: "asc" }, take: 3 }),
@@ -36,11 +34,10 @@ async function getHomeData() {
     db.product.findMany({ where: { isNewArrival: true, isPublished: true }, take: 10, include: { category: true } }),
     db.product.findMany({ where: { isBestSeller: true, isPublished: true }, take: 10, include: { category: true } }),
     db.product.findMany({ where: { isTrending: true, isPublished: true }, take: 4, include: { category: true } }),
-    db.lookbookImage.findMany({ orderBy: { order: "asc" }, take: 9 }),
     db.collection.findMany({ where: { isActive: true }, take: 4 }),
   ]);
 
-  return { heroBanners, featuredProducts, newArrivals, bestSellers, trendingProducts, lookbookImages, collections };
+  return { heroBanners, featuredProducts, newArrivals, bestSellers, trendingProducts, collections };
 }
 
 export default async function HomePage() {
@@ -167,14 +164,6 @@ export default async function HomePage() {
       },
     ];
 
-    const mockLookbook = [
-      { id: "mock-l1", image: "/images/tbs-hero-1.jpg", caption: "SS25 Editorial — Street Concept", order: 0, createdAt: new Date() },
-      { id: "mock-l2", image: "/images/tbs-col-1.jpg", caption: "Heavy Cotton Details", order: 1, createdAt: new Date() },
-      { id: "mock-l3", image: "/images/tbs-hero-2.jpg", caption: "Industrial Vibe", order: 2, createdAt: new Date() },
-      { id: "mock-l4", image: "/images/tbs-col-2.jpg", caption: "Night Drop", order: 3, createdAt: new Date() },
-      { id: "mock-l5", image: "/images/tbs-col-3.jpg", caption: "Culture Over Hype", order: 4, createdAt: new Date() },
-      { id: "mock-l6", image: "/images/tbs-hero-1.jpg", caption: "The Black Sheep", order: 5, createdAt: new Date() },
-    ];
 
     data = {
       heroBanners: mockHeroBanners as any,
@@ -182,7 +171,6 @@ export default async function HomePage() {
       newArrivals: mockProducts.filter((p) => p.isNewArrival) as any,
       bestSellers: mockProducts.filter((p) => p.isBestSeller) as any,
       trendingProducts: mockProducts.filter((p) => p.isTrending) as any,
-      lookbookImages: mockLookbook as any,
       collections: mockCollections as any,
     };
   }
@@ -193,7 +181,6 @@ export default async function HomePage() {
     newArrivals: [],
     bestSellers: [],
     trendingProducts: [],
-    lookbookImages: [],
     collections: [],
   };
 
@@ -234,10 +221,7 @@ export default async function HomePage() {
         {/* 10. Trending section — big feature layout */}
         <TrendingSection products={renderData.trendingProducts} />
 
-        {/* 11. Lookbook / editorial gallery */}
-        <LookbookSection images={renderData.lookbookImages} />
-
-        {/* 12. Newsletter sign-up */}
+        {/* 11. Newsletter sign-up */}
         <Newsletter />
       </main>
       <Footer />
