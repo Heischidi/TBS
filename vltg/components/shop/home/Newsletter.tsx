@@ -23,24 +23,25 @@ export function Newsletter() {
   };
 
   return (
-    <section className="bg-black border-t border-white/5 py-24 md:py-32">
-      <div className="max-w-xl mx-auto px-6 text-center">
+    <section className="w-full bg-black border-t border-white/5 py-24 md:py-32">
+      <div className="w-full max-w-xl mx-auto px-6 flex flex-col items-center text-center">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
+          className="w-full flex flex-col items-center"
         >
           {/* Circle mail icon */}
-          <div className="inline-flex items-center justify-center w-14 h-14 rounded-full border border-white/30 mb-10">
+          <div className="flex items-center justify-center w-14 h-14 rounded-full border border-white/30 mb-10">
             <Mail size={20} className="text-white" />
           </div>
 
-          <h2 className="font-display text-4xl md:text-6xl text-white mb-6 tracking-wide">
+          <h2 className="font-display text-4xl md:text-6xl text-white mb-6 tracking-wide text-center">
             STAY IN THE LOOP
           </h2>
 
-          <p className="text-white/60 text-sm md:text-base mb-12 leading-relaxed max-w-sm mx-auto">
+          <p className="text-white/60 text-sm md:text-base mb-12 leading-relaxed max-w-sm text-center">
             Be the first to know about new drops, exclusive offers, and behind-the-scenes content.
             No spam. Just culture.
           </p>
@@ -57,7 +58,7 @@ export function Newsletter() {
               </span>
             </motion.div>
           ) : (
-            <form onSubmit={handleSubmit} className="max-w-sm mx-auto">
+            <form onSubmit={handleSubmit} className="w-full max-w-sm">
               <div className="flex items-end gap-4 border-b border-white/30 pb-2">
                 <input
                   type="email"
@@ -80,7 +81,7 @@ export function Newsletter() {
             </form>
           )}
 
-          <p className="text-white/30 text-xs mt-6">
+          <p className="text-white/30 text-xs mt-6 text-center">
             Unsubscribe anytime. We respect your inbox.
           </p>
         </motion.div>
