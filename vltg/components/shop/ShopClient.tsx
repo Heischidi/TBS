@@ -114,7 +114,7 @@ export function ShopClient({ categories, collections }: { categories: Category[]
           {/* Row 1: title + search + sort + density */}
           <div className="flex items-center justify-between gap-3 mb-4">
             <div>
-              <h1 className="font-display text-3xl text-white">SHOP ALL</h1>
+              <h1 className="font-display text-2xl md:text-3xl text-white">SHOP ALL</h1>
               <p className="text-text-muted text-xs mt-0.5">{total} products</p>
             </div>
             <div className="flex items-center gap-2">
@@ -218,20 +218,7 @@ export function ShopClient({ categories, collections }: { categories: Category[]
               </button>
             ))}
 
-            {/* Size chips */}
-            {SIZES.map((size) => (
-              <button
-                key={size}
-                onClick={() =>
-                  setSelectedSizes((prev) =>
-                    prev.includes(size) ? prev.filter((s) => s !== size) : [...prev, size]
-                  )
-                }
-                className={cn("filter-chip shrink-0 text-[10px] px-2.5 py-1", selectedSizes.includes(size) && "active")}
-              >
-                {size}
-              </button>
-            ))}
+
 
             {/* Clear all */}
             {hasFilters && (

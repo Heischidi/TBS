@@ -32,8 +32,8 @@ const allNavLinks = [...primaryLinks, ...moreLinks];
 
 const categoryPills = [
   { href: "/shop", label: "All" },
-  { href: "/new-arrivals", label: "New In ✨" },
-  { href: "/best-sellers", label: "Sale 🔥", hot: true },
+  { href: "/new-arrivals", label: "New In" },
+  { href: "/best-sellers", label: "Sale", hot: true },
   { href: "/shop?category=t-shirts", label: "T-Shirts" },
   { href: "/shop?category=hoodies", label: "Hoodies" },
   { href: "/shop?category=trousers", label: "Trousers" },
@@ -384,11 +384,11 @@ export function Navbar() {
                     <Link
                       href={link.href}
                       className={cn(
-                        "block font-display text-xl tracking-widest py-2 border-b border-white/4",
+                        "block font-display text-lg tracking-widest py-2 border-b border-white/4",
                         pathname === link.href ? "text-brand-pink" : "text-white"
                       )}
                     >
-                      {link.label}
+                      "{link.label}"
                     </Link>
                   </motion.div>
                 ))}
@@ -400,9 +400,9 @@ export function Navbar() {
                   >
                     <Link
                       href="/profile"
-                      className="block font-display text-xl tracking-widest py-2 border-b border-white/4 text-brand-pink"
+                      className="block font-display text-lg tracking-widest py-2 border-b border-white/4 text-brand-pink"
                     >
-                      My Profile
+                      "My Profile"
                     </Link>
                   </motion.div>
                 ) : (
@@ -413,9 +413,9 @@ export function Navbar() {
                   >
                     <Link
                       href="/login"
-                      className="block font-display text-xl tracking-widest py-2 border-b border-white/4 text-white"
+                      className="block font-display text-lg tracking-widest py-2 border-b border-white/4 text-white"
                     >
-                      Login / Register
+                      "Login / Register"
                     </Link>
                   </motion.div>
                 )}

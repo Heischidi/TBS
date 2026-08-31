@@ -235,7 +235,7 @@ export function ProductCard({
           <h3
             className={cn(
               "font-medium text-text-primary group-hover:text-brand-pink transition-colors leading-tight line-clamp-2",
-              isCompact ? "text-[11px]" : "text-sm"
+              isCompact ? "text-[11px]" : "text-[13px] md:text-sm"
             )}
           >
             {name}
@@ -244,8 +244,8 @@ export function ProductCard({
           {/* Removed rating and sold count for a more premium look */}
 
           {/* Price row */}
-          <div className="flex items-center gap-2 mt-1 flex-wrap">
-            <span className={cn("font-bold text-white", isCompact ? "text-xs" : "text-sm")}>
+          <div className="flex items-center gap-1.5 md:gap-2 mt-1 flex-wrap">
+            <span className={cn("font-bold text-white", isCompact ? "text-[11px]" : "text-[13px] md:text-sm")}>
               {formatPrice(price)}
             </span>
             {comparePrice && comparePrice > price && (

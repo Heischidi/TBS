@@ -13,8 +13,8 @@ const categories = [
   { label: "Accessories", icon: Watch,       href: "/collections/accessories", color: "#9A9A9A" },
   { label: "Shoes",       icon: Footprints,  href: "/shop?category=shoes",     color: "#4A5828" },
   { label: "Bags",        icon: ShoppingBag, href: "/shop?category=bags",      color: "#5A5A5A" },
-  { label: "Sale 🔥",    icon: Flame,       href: "/best-sellers",            color: "#6B7C3A" },
-  { label: "New In ✨",  icon: Sparkles,    href: "/new-arrivals",            color: "#8A9F4A" },
+  { label: "Sale",    icon: Flame,       href: "/best-sellers",            color: "#6B7C3A" },
+  { label: "New In",  icon: Sparkles,    href: "/new-arrivals",            color: "#8A9F4A" },
 ];
 
 export function CategoryGrid() {
