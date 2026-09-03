@@ -4,14 +4,14 @@ import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { motion } from "framer-motion";
 import Image from "next/image";
 import { useCartStore } from "@/store/cart";
 import { formatPrice } from "@/lib/utils";
 import { buildWhatsAppMessage, buildWhatsAppUrl } from "@/lib/whatsapp";
 import { useRouter } from "next/navigation";
-import { MessageSquare, Loader2 } from "lucide-react";
+import { MessageSquare, Loader2, ArrowRight } from "lucide-react";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 
 const checkoutSchema = z.object({
   name: z.string().min(2, "Full name required"),
@@ -22,19 +22,13 @@ const checkoutSchema = z.object({
   state: z.string().min(2, "State required"),
   country: z.string().min(2, "Country required"),
   notes: z.string().optional(),
+  whatsappConsent: z.boolean().refine(val => val === true, "You must agree to be contacted on WhatsApp"),
 });
 
 type CheckoutForm = z.infer<typeof checkoutSchema>;
 
-const NIGERIAN_STATES = [
-  "Abia","Adamawa","Akwa Ibom","Anambra","Bauchi","Bayelsa","Benue","Borno","Cross River",
-  "Delta","Ebonyi","Edo","Ekiti","Enugu","FCT","Gombe","Imo","Jigawa","Kaduna","Kano",
-  "Katsina","Kebbi","Kogi","Kwara","Lagos","Nasarawa","Niger","Ogun","Ondo","Osun",
-  "Oyo","Plateau","Rivers","Sokoto","Taraba","Yobe","Zamfara"
-];
-
 export default function CheckoutPage() {
-  const { items, totalPrice, clearCart } = useCartStore();
+  const { items, totalPrice, clearCart, updateQuantity } = useCartStore();
   const router = useRouter();
   const { data: session } = useSession();
   const [submitting, setSubmitting] = useState(false);
@@ -115,145 +109,216 @@ export default function CheckoutPage() {
     setSubmitting(false);
   };
 
-  const inputClass = "w-full input-dark px-4 py-3 text-sm";
-  const labelClass = "block text-xs uppercase tracking-wider text-text-secondary mb-1.5";
-  const errorClass = "text-red-400 text-xs mt-1";
+  const inputClass = "w-full bg-transparent border-b border-white/20 pb-2 text-sm text-white focus:outline-none focus:border-white transition-colors placeholder:text-white/20";
+  const labelClass = "block text-[10px] font-medium uppercase tracking-widest text-text-secondary mb-3";
+  const errorClass = "text-red-400 text-[10px] mt-1 tracking-wide";
 
   return (
-    <div className="min-h-screen pt-44 md:pt-48 pb-24">
-      <div className="max-w-7xl mx-auto px-4 md:px-8">
-        <div className="mb-10 border-b border-white/5 pb-8">
-          <p className="text-brand-pink text-[10px] font-bold uppercase tracking-[0.4em] mb-3">Order Summary</p>
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="font-display text-5xl md:text-6xl text-white"
-          >
-            CHECKOUT
-          </motion.h1>
+    <div className="min-h-screen pt-32 pb-24 bg-[#050505]">
+      <div className="max-w-350 mx-auto px-6 md:px-12 lg:px-16">
+        
+        {/* Stepper */}
+        <div className="flex items-center gap-4 text-[10px] font-medium tracking-[0.2em] text-text-secondary uppercase mb-16 pt-8">
+          <Link href="/cart" className="hover:text-white transition-colors">01 BAG</Link>
+          <span className="w-6 h-px bg-white/20"></span>
+          <span className="text-white">02 DETAILS</span>
+          <span className="w-6 h-px bg-white/20"></span>
+          <span className="opacity-50">03 CONFIRMATION</span>
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-            {/* Form */}
-            <div className="lg:col-span-2 space-y-8">
-              {/* Personal Info */}
-              <div className="bg-surface-2 border border-white/5 p-6">
-                <h2 className="font-display text-xl tracking-wider mb-6">PERSONAL INFORMATION</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                  <div>
-                    <label className={labelClass}>Full Name *</label>
-                    <input {...register("name")} className={inputClass} placeholder="John Doe" id="checkout-name" />
-                    {errors.name && <p className={errorClass}>{errors.name.message}</p>}
-                  </div>
-                  <div>
-                    <label className={labelClass}>Phone Number *</label>
-                    <input {...register("phone")} className={inputClass} placeholder="+234 800 000 0000" id="checkout-phone" />
-                    {errors.phone && <p className={errorClass}>{errors.phone.message}</p>}
-                  </div>
-                  <div className="md:col-span-2">
-                    <label className={labelClass}>Email Address *</label>
-                    <input {...register("email")} type="email" className={inputClass} placeholder="john@email.com" id="checkout-email" />
-                    {errors.email && <p className={errorClass}>{errors.email.message}</p>}
-                  </div>
-                </div>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24">
+            
+            {/* Left Column - Form */}
+            <div className="lg:col-span-7 xl:col-span-8">
+              
+              {/* Title Section */}
+              <div className="mb-16">
+                <p className="text-[10px] uppercase tracking-[0.2em] text-text-secondary mb-4">Secure Checkout</p>
+                <h1 className="text-5xl md:text-7xl font-light tracking-tight mb-6 text-white">
+                  Almost <span className="font-serif italic text-white/90">yours.</span>
+                </h1>
+                <p className="text-text-secondary text-sm max-w-md leading-relaxed">
+                  A few details and your order goes straight to our team for confirmation on WhatsApp.
+                </p>
               </div>
 
-              {/* Shipping */}
-              <div className="bg-surface-2 border border-white/5 p-6">
-                <h2 className="font-display text-xl tracking-wider mb-6">SHIPPING ADDRESS</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                  <div className="md:col-span-2">
-                    <label className={labelClass}>Street Address *</label>
-                    <input {...register("address")} className={inputClass} placeholder="12 Allen Avenue, Ikeja" id="checkout-address" />
-                    {errors.address && <p className={errorClass}>{errors.address.message}</p>}
+              {/* Form Sections */}
+              <div className="space-y-0">
+                {/* 01 CONTACT */}
+                <div className="border-t border-white/10 py-10 flex flex-col md:flex-row gap-8">
+                  <div className="md:w-1/4 shrink-0">
+                    <h2 className="text-[10px] uppercase tracking-[0.2em] text-white font-medium flex items-center">
+                      <span className="italic font-serif text-lg mr-4 text-white/40 leading-none">01</span> CONTACT
+                    </h2>
                   </div>
-                  <div>
-                    <label className={labelClass}>City *</label>
-                    <input {...register("city")} className={inputClass} placeholder="Lagos" id="checkout-city" />
-                    {errors.city && <p className={errorClass}>{errors.city.message}</p>}
+                  <div className="md:w-3/4 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-8">
+                    <div className="md:col-span-1">
+                      <label className={labelClass}>Full Name</label>
+                      <input {...register("name")} className={inputClass} placeholder="John Doe" />
+                      {errors.name && <p className={errorClass}>{errors.name.message}</p>}
+                    </div>
+                    <div className="md:col-span-1">
+                      <label className={labelClass}>Phone Number</label>
+                      <input {...register("phone")} className={inputClass} placeholder="+234 800 000 0000" />
+                      {errors.phone && <p className={errorClass}>{errors.phone.message}</p>}
+                    </div>
+                    <div className="md:col-span-2">
+                      <label className={labelClass}>Email Address</label>
+                      <input {...register("email")} type="email" className={inputClass} placeholder="john@email.com" />
+                      {errors.email && <p className={errorClass}>{errors.email.message}</p>}
+                    </div>
                   </div>
-                  <div>
-                    <label className={labelClass}>State *</label>
-                    <select {...register("state")} className={`${inputClass} cursor-pointer`} id="checkout-state">
-                      <option value="">Select State</option>
-                      {NIGERIAN_STATES.map((s) => <option key={s} value={s}>{s}</option>)}
-                    </select>
-                    {errors.state && <p className={errorClass}>{errors.state.message}</p>}
+                </div>
+
+                {/* 02 SHIPPING */}
+                <div className="border-t border-white/10 py-10 flex flex-col md:flex-row gap-8">
+                  <div className="md:w-1/4 shrink-0">
+                    <h2 className="text-[10px] uppercase tracking-[0.2em] text-white font-medium flex items-center">
+                      <span className="italic font-serif text-lg mr-4 text-white/40 leading-none">02</span> SHIPPING
+                    </h2>
                   </div>
-                  <div>
-                    <label className={labelClass}>Country *</label>
-                    <input {...register("country")} className={inputClass} id="checkout-country" />
-                    {errors.country && <p className={errorClass}>{errors.country.message}</p>}
+                  <div className="md:w-3/4 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-8">
+                    <div className="md:col-span-2">
+                      <label className={labelClass}>Street Address</label>
+                      <input {...register("address")} className={inputClass} placeholder="12 Allen Avenue, Ikeja" />
+                      {errors.address && <p className={errorClass}>{errors.address.message}</p>}
+                    </div>
+                    <div className="md:col-span-1">
+                      <label className={labelClass}>City</label>
+                      <input {...register("city")} className={inputClass} placeholder="Lagos" />
+                      {errors.city && <p className={errorClass}>{errors.city.message}</p>}
+                    </div>
+                    <div className="md:col-span-1">
+                      <label className={labelClass}>State</label>
+                      <input {...register("state")} className={inputClass} placeholder="Lagos" />
+                      {errors.state && <p className={errorClass}>{errors.state.message}</p>}
+                    </div>
+                    <div className="md:col-span-2">
+                      <label className={labelClass}>Country</label>
+                      <input {...register("country")} className={inputClass} placeholder="Nigeria" />
+                      {errors.country && <p className={errorClass}>{errors.country.message}</p>}
+                    </div>
                   </div>
-                  <div className="md:col-span-2">
-                    <label className={labelClass}>Order Notes (optional)</label>
-                    <textarea {...register("notes")} className={`${inputClass} h-24 resize-none`} placeholder="Any special instructions..." id="checkout-notes" />
+                </div>
+
+                {/* 03 ORDER NOTES */}
+                <div className="border-t border-b border-white/10 py-10 flex flex-col md:flex-row gap-8">
+                  <div className="md:w-1/4 shrink-0">
+                    <h2 className="text-[10px] uppercase tracking-[0.2em] text-white font-medium flex items-center">
+                      <span className="italic font-serif text-lg mr-4 text-white/40 leading-none">03</span> ORDER NOTES
+                    </h2>
+                  </div>
+                  <div className="md:w-3/4">
+                    <label className={labelClass}>Anything we should know? (Optional)</label>
+                    <input {...register("notes")} className={inputClass} placeholder="Special instructions, delivery requests..." />
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Order Summary */}
-            <div className="lg:col-span-1">
-              <div className="bg-surface-2 border border-white/5 p-6 sticky top-24">
-                <h2 className="font-display text-xl tracking-wider mb-6">ORDER SUMMARY</h2>
-
-                <div className="space-y-4 max-h-72 overflow-y-auto pr-1">
-                  {items.map((item) => (
-                    <div key={item.id} className="flex gap-3">
-                      <div className="relative w-14 h-18 shrink-0 bg-surface-3 overflow-hidden">
+            {/* Right Column - Order Summary Card */}
+            <div className="lg:col-span-5 xl:col-span-4">
+              <div className="bg-[#0A0A0A] border border-white/5 rounded-2xl p-8 sticky top-24 shadow-2xl">
+                <div className="flex justify-between items-baseline mb-8">
+                  <h2 className="font-serif text-2xl text-white">Order summary</h2>
+                  <span className="text-[10px] uppercase tracking-[0.2em] text-text-secondary">
+                    {items.length} ITEM{items.length !== 1 && 'S'}
+                  </span>
+                </div>
+                
+                <div className="space-y-6 mb-8 max-h-[40vh] overflow-y-auto pr-2 custom-scrollbar">
+                  {items.map(item => (
+                    <div key={item.id} className="flex gap-5">
+                      <div className="relative w-16 h-20 bg-surface-2 overflow-hidden shrink-0">
                         {item.image && <Image src={item.image} alt={item.name} fill className="object-cover" />}
                       </div>
-                      <div className="flex-1 text-xs">
-                        <p className="font-medium text-sm text-white line-clamp-1">{item.name}</p>
-                        <p className="text-text-muted mt-0.5">{item.color} / {item.size} × {item.quantity}</p>
-                        <p className="text-brand-pink mt-0.5">{formatPrice(item.price * item.quantity)}</p>
+                      <div className="flex-1 flex flex-col justify-center">
+                        <div className="flex justify-between items-start gap-2">
+                          <p className="font-medium text-[13px] text-white leading-snug">{item.name}</p>
+                          <p className="text-[13px] font-medium text-white">{formatPrice(item.price)}</p>
+                        </div>
+                        <p className="text-xs text-text-secondary mt-1">{item.color} · Size {item.size}</p>
+                        
+                        {/* Quantity Selector Style */}
+                        <div className="mt-3 flex items-center gap-4 border border-white/10 rounded-full px-3 py-1 w-fit">
+                          <button 
+                            type="button" 
+                            onClick={() => updateQuantity(item.id, Math.max(1, item.quantity - 1))}
+                            className="text-white/40 hover:text-white transition-colors text-xs"
+                          >
+                            —
+                          </button>
+                          <span className="text-xs font-medium w-3 text-center">{item.quantity}</span>
+                          <button 
+                            type="button"
+                            onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                            className="text-white/40 hover:text-white transition-colors text-xs"
+                          >
+                            +
+                          </button>
+                        </div>
                       </div>
                     </div>
                   ))}
                 </div>
 
-                <div className="border-t border-white/5 mt-6 pt-4 space-y-2 text-sm">
-                  <div className="flex justify-between text-text-secondary">
-                    <span>Subtotal</span><span>{formatPrice(totalPrice())}</span>
+                <div className="border-t border-white/10 py-6 space-y-4">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-text-secondary">Subtotal</span>
+                    <span className="text-white">{formatPrice(totalPrice())}</span>
                   </div>
-                  <div className="flex justify-between text-text-secondary">
-                    <span>Shipping</span><span>TBD</span>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-text-secondary">Shipping</span>
+                    <span className="text-[11px] text-text-secondary">Confirmed on WhatsApp</span>
                   </div>
-                </div>
-                <div className="border-t border-white/5 mt-4 pt-4 flex justify-between">
-                  <span className="font-medium uppercase tracking-wider">Total</span>
-                  <span className="font-display text-2xl">{formatPrice(totalPrice())}</span>
                 </div>
 
-                {/* WhatsApp CTA */}
-                <div className="mt-6 p-4 bg-neon-pink/8 border border-neon-pink/20 rounded-sm mb-6">
-                  <div className="flex items-start gap-2">
-                    <MessageSquare size={14} className="text-neon-pink mt-0.5 shrink-0" />
-                    <p className="text-xs text-text-secondary leading-relaxed">
-                      After placing your order, you&apos;ll be redirected to WhatsApp to confirm your order with us directly.
-                    </p>
-                  </div>
+                <div className="flex justify-between items-end pt-2 pb-8">
+                  <span className="text-[10px] uppercase tracking-[0.2em] font-medium text-text-secondary mb-1">Total</span>
+                  <span className="font-serif text-3xl md:text-4xl text-white">{formatPrice(totalPrice())}</span>
                 </div>
+
+                <div className="bg-[#111111] rounded-lg p-4 mb-6 flex items-start gap-3 border border-white/5">
+                  <MessageSquare size={16} className="text-text-secondary mt-0.5 shrink-0" />
+                  <p className="text-xs text-text-secondary leading-relaxed">
+                    After placing your order, you'll be redirected to WhatsApp to confirm directly with our team.
+                  </p>
+                </div>
+
+                <label className="flex items-start gap-3 mb-8 cursor-pointer group">
+                  <div className="relative flex items-center justify-center mt-0.5 shrink-0">
+                    <input type="checkbox" {...register("whatsappConsent")} className="peer sr-only" />
+                    <div className="w-4.5 h-4.5 border border-white/20 rounded-sm peer-checked:bg-white peer-checked:border-white transition-colors"></div>
+                    <svg className="absolute w-3 h-3 text-black opacity-0 peer-checked:opacity-100 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  </div>
+                  <div>
+                    <span className="text-xs text-text-secondary group-hover:text-white transition-colors leading-tight">
+                      I agree to be contacted on WhatsApp about this order
+                    </span>
+                    {errors.whatsappConsent && <p className="text-red-400 text-[10px] mt-1">{errors.whatsappConsent.message}</p>}
+                  </div>
+                </label>
 
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="w-full bg-brand-pink text-white py-4 font-medium uppercase tracking-widest text-sm hover:bg-brand-pink/80 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
-                  id="place-order-btn"
+                  className="w-full bg-white text-black py-4 rounded-full font-semibold text-[11px] tracking-[0.15em] uppercase hover:bg-white/90 transition-colors flex items-center justify-center gap-3 disabled:opacity-50"
                 >
-                  {submitting ? (
-                    <><Loader2 size={16} className="animate-spin" /> Processing...</>
-                  ) : (
-                    <><MessageSquare size={16} /> Place Order via WhatsApp</>
-                  )}
+                  {submitting ? <Loader2 size={16} className="animate-spin" /> : 'Place order via WhatsApp'}
+                  {!submitting && <ArrowRight size={14} />}
                 </button>
+
+                <p className="text-center text-[9px] tracking-[0.2em] text-text-secondary uppercase mt-8">
+                  Secure Checkout · TBS Lagos
+                </p>
               </div>
             </div>
+            
           </div>
         </form>
       </div>
     </div>
   );
 }
+
