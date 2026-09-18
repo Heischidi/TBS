@@ -7,9 +7,9 @@ import { z } from "zod";
 import Image from "next/image";
 import { useCartStore } from "@/store/cart";
 import { formatPrice } from "@/lib/utils";
-import { buildWhatsAppMessage, buildWhatsAppUrl } from "@/lib/whatsapp";
 import { useRouter } from "next/navigation";
-import { MessageSquare, Loader2, ArrowRight } from "lucide-react";
+import { Loader2, ArrowRight, Lock } from "lucide-react";
+import { usePaystackPayment } from "react-paystack";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 
@@ -22,7 +22,6 @@ const checkoutSchema = z.object({
   state: z.string().min(2, "State required"),
   country: z.string().min(2, "Country required"),
   notes: z.string().optional(),
-  whatsappConsent: z.boolean().refine(val => val === true, "You must agree to be contacted on WhatsApp"),
 });
 
 type CheckoutForm = z.infer<typeof checkoutSchema>;
@@ -57,6 +56,12 @@ export default function CheckoutPage() {
     return null;
   }
 
+  const initializePayment = usePaystackPayment({
+    publicKey: process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY || "",
+    amount: 0,
+    email: "",
+  });
+
   const onSubmit = async (data: CheckoutForm) => {
     setSubmitting(true);
     try {
@@ -77,36 +82,27 @@ export default function CheckoutPage() {
       if (!res.ok) throw new Error("Order failed");
       const order = await res.json();
 
-      // Build WhatsApp message
-      const message = buildWhatsAppMessage({
-        orderNumber: order.orderNumber,
-        customerName: data.name,
-        phone: data.phone,
-        email: data.email,
-        items: items.map((item) => ({
-          productName: item.name,
-          size: item.size,
-          color: item.color,
-          quantity: item.quantity,
-          price: item.price,
-        })),
-        totalAmount: totalPrice(),
-        address: data.address,
-        city: data.city,
-        state: data.state,
-        country: data.country,
+      // Open Paystack Modal
+      initializePayment({
+        onSuccess: (response: any) => {
+          clearCart();
+          router.push("/checkout/success");
+        },
+        onClose: () => {
+          alert("Payment cancelled. You can complete it later from your orders page.");
+          router.push("/profile/orders");
+        },
+        config: {
+          reference: order.orderNumber,
+          email: data.email,
+          amount: Math.round(totalPrice() * 100), // in kobo
+          currency: "NGN",
+        }
       });
-
-      clearCart();
-
-      // Redirect to WhatsApp
-      const waUrl = buildWhatsAppUrl(message);
-      window.location.href = waUrl;
-
     } catch (err) {
       alert("Something went wrong. Please try again.");
+      setSubmitting(false);
     }
-    setSubmitting(false);
   };
 
   const inputClass = "w-full bg-transparent border-b border-white/20 pb-2 text-sm text-white focus:outline-none focus:border-white transition-colors placeholder:text-white/20";
@@ -139,7 +135,7 @@ export default function CheckoutPage() {
                   Almost <span className="font-serif italic text-white/90">yours.</span>
                 </h1>
                 <p className="text-text-secondary text-sm max-w-md leading-relaxed">
-                  A few details and your order goes straight to our team for confirmation on WhatsApp.
+                  A few details and your order will be securely processed via Paystack.
                 </p>
               </div>
 
@@ -279,33 +275,19 @@ export default function CheckoutPage() {
                   <span className="font-serif text-3xl md:text-4xl text-white">{formatPrice(totalPrice())}</span>
                 </div>
 
-                <div className="bg-[#111111] rounded-lg p-4 mb-6 flex items-start gap-3 border border-white/5">
-                  <MessageSquare size={16} className="text-text-secondary mt-0.5 shrink-0" />
+                <div className="bg-[#111111] rounded-lg p-4 mb-8 flex items-start gap-3 border border-white/5">
+                  <Lock size={16} className="text-text-secondary mt-0.5 shrink-0" />
                   <p className="text-xs text-text-secondary leading-relaxed">
-                    After placing your order, you'll be redirected to WhatsApp to confirm directly with our team.
+                    Payments are securely processed by Paystack. You will be redirected to complete your payment.
                   </p>
                 </div>
-
-                <label className="flex items-start gap-3 mb-8 cursor-pointer group">
-                  <div className="relative flex items-center justify-center mt-0.5 shrink-0">
-                    <input type="checkbox" {...register("whatsappConsent")} className="peer sr-only" />
-                    <div className="w-4.5 h-4.5 border border-white/20 rounded-sm peer-checked:bg-white peer-checked:border-white transition-colors"></div>
-                    <svg className="absolute w-3 h-3 text-black opacity-0 peer-checked:opacity-100 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                  </div>
-                  <div>
-                    <span className="text-xs text-text-secondary group-hover:text-white transition-colors leading-tight">
-                      I agree to be contacted on WhatsApp about this order
-                    </span>
-                    {errors.whatsappConsent && <p className="text-red-400 text-[10px] mt-1">{errors.whatsappConsent.message}</p>}
-                  </div>
-                </label>
 
                 <button
                   type="submit"
                   disabled={submitting}
                   className="w-full bg-white text-black py-4 rounded-full font-semibold text-[11px] tracking-[0.15em] uppercase hover:bg-white/90 transition-colors flex items-center justify-center gap-3 disabled:opacity-50"
                 >
-                  {submitting ? <Loader2 size={16} className="animate-spin" /> : 'Place order via WhatsApp'}
+                  {submitting ? <Loader2 size={16} className="animate-spin" /> : 'Pay Now'}
                   {!submitting && <ArrowRight size={14} />}
                 </button>
 
