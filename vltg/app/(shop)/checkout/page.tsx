@@ -13,6 +13,9 @@ import { usePaystackPayment } from "react-paystack";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 
+export const dynamic = 'force-dynamic';
+
+
 const checkoutSchema = z.object({
   name: z.string().min(2, "Full name required"),
   email: z.string().email("Valid email required"),
