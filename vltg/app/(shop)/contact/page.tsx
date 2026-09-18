@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import { Mail, Share2, CheckCircle, Clock, MapPin, ArrowUpRight } from "lucide-react";
@@ -48,7 +48,7 @@ export default function ContactPage() {
       <div className="min-h-screen bg-black text-white">
 
         {/* ── HERO ──────────────────────────────────────────────── */}
-        <div className="pt-40 pb-20 px-6 md:px-16 max-w-7xl mx-auto">
+        <div className="pt-44 pb-20 px-6 md:px-16 max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
@@ -56,7 +56,7 @@ export default function ContactPage() {
           >
             {/* Online pill */}
             <div
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-10 text-xs uppercase tracking-widest font-semibold"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-8 text-xs uppercase tracking-widest font-semibold"
               style={{ background: "rgba(37,211,102,0.08)", border: "1px solid rgba(37,211,102,0.25)", color: "#25D366" }}
             >
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
@@ -68,8 +68,8 @@ export default function ContactPage() {
               className="font-black leading-none tracking-tighter mb-8"
               style={{
                 fontFamily: "var(--font-inter)",
-                fontSize: "clamp(4rem, 12vw, 10rem)",
-                lineHeight: 0.9,
+                fontSize: "clamp(3.5rem, 9vw, 8rem)",
+                lineHeight: 1,
               }}
             >
               LET&apos;S{" "}
