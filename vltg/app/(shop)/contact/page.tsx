@@ -48,53 +48,29 @@ export default function ContactPage() {
       <div className="min-h-screen bg-black text-white">
 
         {/* ── HERO ──────────────────────────────────────────────── */}
-        <div className="pt-44 pb-20 px-6 md:px-16 max-w-7xl mx-auto">
+        <div className="pt-36 pb-16 px-6 md:px-16 max-w-7xl mx-auto">
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
+            initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
           >
-            {/* Online pill */}
             <div
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-8 text-xs uppercase tracking-widest font-semibold"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6 text-xs uppercase tracking-widest font-semibold"
               style={{ background: "rgba(37,211,102,0.08)", border: "1px solid rgba(37,211,102,0.25)", color: "#25D366" }}
             >
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
               We&apos;re online — reply within minutes
             </div>
 
-            {/* Giant heading */}
-            <h1
-              className="font-black leading-none tracking-tighter mb-8"
-              style={{
-                fontFamily: "var(--font-inter)",
-                fontSize: "clamp(3.5rem, 9vw, 8rem)",
-                lineHeight: 1,
-              }}
-            >
-              LET&apos;S{" "}
-              <em
-                style={{
-                  fontStyle: "italic",
-                  background: "linear-gradient(135deg, #c9a84c 0%, #f0d98a 50%, #c9a84c 100%)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
-                }}
-              >
-                TALK
-              </em>
-            </h1>
-
-            <p
-              className="text-lg md:text-xl max-w-xl leading-relaxed"
-              style={{ color: "rgba(255,255,255,0.45)" }}
-            >
-              Questions about an order, a collab, or a custom drop?
-              <br />Reach out — we&apos;re always listening.
+            <p className="text-2xl md:text-3xl font-semibold text-white mb-3" style={{ letterSpacing: "-0.01em" }}>
+              Get in touch
+            </p>
+            <p className="text-base md:text-lg max-w-lg leading-relaxed" style={{ color: "rgba(255,255,255,0.4)" }}>
+              Questions about an order, a collab, or a custom drop? Reach out — we&apos;re always listening.
             </p>
           </motion.div>
         </div>
+
 
         {/* ── DIVIDER ───────────────────────────────────────────── */}
         <div className="w-full h-px" style={{ background: "rgba(255,255,255,0.06)" }} />
