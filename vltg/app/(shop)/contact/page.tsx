@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { Mail, Share2, CheckCircle, Clock, MapPin, ArrowUpRight } from "lucide-react";
@@ -34,9 +34,9 @@ export default function ContactPage() {
   };
 
   const contacts = [
-    { label: "WhatsApp", value: "+234 800 000 0000", description: "Instant replies", href: WA_LINK, icon: <WhatsAppIcon size={20} />, color: "#25D366", fast: true },
-    { label: "Email", value: "hello@tbs.com", description: "Press & partnerships", href: "mailto:hello@tbs.com", icon: <Mail size={20} />, color: "#c9a84c", fast: false },
-    { label: "Instagram", value: "@tbs_official", description: "DMs & quick updates", href: "https://instagram.com/tbs_official", icon: <InstagramIcon size={20} />, color: "#E1306C", fast: false },
+    { label: "WhatsApp", value: "+234 800 000 0000", description: "Instant replies", href: WA_LINK, icon: <WhatsAppIcon size={24} />, color: "#25D366", fast: true },
+    { label: "Email", value: "hello@tbs.com", description: "Press & partnerships", href: "mailto:hello@tbs.com", icon: <Mail size={24} />, color: "#c9a84c", fast: false },
+    { label: "Instagram", value: "@tbs_official", description: "DMs & quick updates", href: "https://instagram.com/tbs_official", icon: <InstagramIcon size={24} />, color: "#E1306C", fast: false },
   ];
 
   const inputStyle = { background: "#111", border: "1px solid #2a2a2a", color: "rgba(255,255,255,0.85)" } as React.CSSProperties;
@@ -48,45 +48,44 @@ export default function ContactPage() {
       <div className="min-h-screen bg-black text-white">
 
         {/* ── HERO ──────────────────────────────────────────────── */}
-        <div className="pt-36 pb-16 px-6 md:px-16 max-w-7xl mx-auto">
+        <div className="pt-40 pb-24 px-6 md:px-16 max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
           >
             <div
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6 text-xs uppercase tracking-widest font-semibold"
+              className="inline-flex items-center gap-3 px-5 py-3 rounded-full mb-8 text-[13px] uppercase tracking-widest font-semibold"
               style={{ background: "rgba(37,211,102,0.08)", border: "1px solid rgba(37,211,102,0.25)", color: "#25D366" }}
             >
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
               We&apos;re online — reply within minutes
             </div>
 
-            <p className="text-2xl md:text-3xl font-semibold text-white mb-3" style={{ letterSpacing: "-0.01em" }}>
+            <p className="text-4xl md:text-5xl font-semibold text-white mb-6" style={{ letterSpacing: "-0.01em" }}>
               Get in touch
             </p>
-            <p className="text-base md:text-lg max-w-lg leading-relaxed" style={{ color: "rgba(255,255,255,0.4)" }}>
+            <p className="text-lg md:text-xl max-w-2xl leading-relaxed" style={{ color: "rgba(255,255,255,0.4)" }}>
               Questions about an order, a collab, or a custom drop? Reach out — we&apos;re always listening.
             </p>
           </motion.div>
         </div>
 
-
         {/* ── DIVIDER ───────────────────────────────────────────── */}
         <div className="w-full h-px" style={{ background: "rgba(255,255,255,0.06)" }} />
 
         {/* ── BODY ──────────────────────────────────────────────── */}
-        <div className="px-6 md:px-16 max-w-7xl mx-auto py-20">
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-16 lg:gap-24 items-start">
+        <div className="px-6 md:px-16 max-w-7xl mx-auto py-24 lg:py-32">
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-20 lg:gap-32 items-start">
 
             {/* ── LEFT: contact cards ──────────────────────────── */}
             <motion.div
               initial={{ opacity: 0, x: -24 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.2, duration: 0.6 }}
-              className="lg:col-span-2 space-y-4"
+              className="lg:col-span-2 space-y-6"
             >
-              <p className="text-[11px] uppercase tracking-[0.3em] font-bold mb-8" style={{ color: "rgba(255,255,255,0.25)" }}>
+              <p className="text-[13px] uppercase tracking-[0.3em] font-bold mb-10" style={{ color: "rgba(255,255,255,0.25)" }}>
                 Direct Channels
               </p>
 
@@ -96,7 +95,7 @@ export default function ContactPage() {
                   href={c.href}
                   target={c.href.startsWith("http") ? "_blank" : undefined}
                   rel="noopener noreferrer"
-                  className="group flex items-center justify-between p-5 rounded-2xl transition-all duration-200"
+                  className="group flex items-center justify-between p-6 md:p-8 rounded-[2rem] transition-all duration-200"
                   style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)" }}
                   onMouseEnter={(e) => {
                     (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.06)";
@@ -107,39 +106,39 @@ export default function ContactPage() {
                     (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.08)";
                   }}
                 >
-                  <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-6">
                     <div
-                      className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0"
+                      className="w-14 h-14 rounded-2xl flex items-center justify-center shrink-0"
                       style={{ background: `${c.color}18`, color: c.color }}
                     >
                       {c.icon}
                     </div>
                     <div>
-                      <div className="flex items-center gap-2 mb-0.5">
-                        <p className="text-[10px] uppercase tracking-widest" style={{ color: "rgba(255,255,255,0.3)" }}>{c.label}</p>
+                      <div className="flex items-center gap-3 mb-1">
+                        <p className="text-xs uppercase tracking-widest font-semibold" style={{ color: "rgba(255,255,255,0.3)" }}>{c.label}</p>
                         {c.fast && (
-                          <span className="px-1.5 py-0.5 rounded text-[8px] font-bold font-mono" style={{ background: "rgba(37,211,102,0.12)", color: "#25D366" }}>FAST</span>
+                          <span className="px-2 py-0.5 rounded md:rounded-md text-[9px] font-bold font-mono" style={{ background: "rgba(37,211,102,0.12)", color: "#25D366" }}>FAST</span>
                         )}
                       </div>
-                      <p className="text-white text-base font-semibold">{c.value}</p>
-                      <p className="text-xs mt-0.5" style={{ color: "rgba(255,255,255,0.3)" }}>{c.description}</p>
+                      <p className="text-white text-lg md:text-xl font-semibold mb-1">{c.value}</p>
+                      <p className="text-sm" style={{ color: "rgba(255,255,255,0.3)" }}>{c.description}</p>
                     </div>
                   </div>
-                  <ArrowUpRight size={16} className="text-white/20 group-hover:text-white/60 transition-colors shrink-0" />
+                  <ArrowUpRight size={20} className="text-white/20 group-hover:text-white/60 transition-colors shrink-0" />
                 </a>
               ))}
 
               {/* Hours */}
               <div
-                className="mt-6 p-5 rounded-2xl space-y-3"
+                className="mt-10 p-6 md:p-8 rounded-[2rem] space-y-4"
                 style={{ background: "rgba(201,168,76,0.05)", border: "1px solid rgba(201,168,76,0.15)" }}
               >
-                <div className="flex items-center gap-3 text-sm" style={{ color: "rgba(255,255,255,0.5)" }}>
-                  <Clock size={15} style={{ color: "#c9a84c" }} />
+                <div className="flex items-center gap-4 text-base" style={{ color: "rgba(255,255,255,0.5)" }}>
+                  <Clock size={18} style={{ color: "#c9a84c" }} />
                   Mon – Sat · 9 AM – 6 PM WAT
                 </div>
-                <div className="flex items-center gap-3 text-sm" style={{ color: "rgba(255,255,255,0.5)" }}>
-                  <MapPin size={15} style={{ color: "#c9a84c" }} />
+                <div className="flex items-center gap-4 text-base" style={{ color: "rgba(255,255,255,0.5)" }}>
+                  <MapPin size={18} style={{ color: "#c9a84c" }} />
                   Lagos, Nigeria · Worldwide Shipping
                 </div>
               </div>
@@ -150,7 +149,7 @@ export default function ContactPage() {
               initial={{ opacity: 0, x: 24 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.3, duration: 0.6 }}
-              className="lg:col-span-3 rounded-3xl p-8 md:p-10"
+              className="lg:col-span-3 rounded-[2.5rem] p-10 md:p-14 lg:p-16"
               style={{ background: "#0d0d0d", border: "1px solid rgba(255,255,255,0.08)" }}
             >
               <AnimatePresence mode="wait">
@@ -160,16 +159,16 @@ export default function ContactPage() {
                     initial={{ opacity: 0, scale: 0.92 }}
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0 }}
-                    className="flex flex-col items-center justify-center gap-5 py-24 text-center"
+                    className="flex flex-col items-center justify-center gap-6 py-32 text-center"
                   >
                     <div
-                      className="w-20 h-20 rounded-full flex items-center justify-center"
+                      className="w-24 h-24 rounded-full flex items-center justify-center mb-4"
                       style={{ background: "rgba(37,211,102,0.1)", border: "1px solid rgba(37,211,102,0.25)", color: "#25D366" }}
                     >
-                      <CheckCircle size={36} />
+                      <CheckCircle size={44} />
                     </div>
-                    <p className="text-white text-xl font-bold">Sent to WhatsApp!</p>
-                    <p className="text-base max-w-xs" style={{ color: "rgba(255,255,255,0.4)" }}>We&apos;ll get back to you shortly.</p>
+                    <p className="text-white text-2xl md:text-3xl font-bold">Sent to WhatsApp!</p>
+                    <p className="text-lg max-w-sm" style={{ color: "rgba(255,255,255,0.4)" }}>We&apos;ll get back to you shortly.</p>
                   </motion.div>
                 ) : (
                   <motion.form
@@ -178,19 +177,19 @@ export default function ContactPage() {
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     onSubmit={handleSubmit}
-                    className="space-y-6"
+                    className="space-y-10"
                   >
-                    <p className="text-[11px] uppercase tracking-[0.3em] font-bold mb-8" style={{ color: "rgba(255,255,255,0.25)" }}>
+                    <p className="text-[13px] uppercase tracking-[0.3em] font-bold mb-10" style={{ color: "rgba(255,255,255,0.25)" }}>
                       Send us a message
                     </p>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                       {[
                         { label: "Your Name", key: "name", type: "text", placeholder: "John Doe" },
                         { label: "Email Address", key: "email", type: "email", placeholder: "john@email.com" },
                       ].map((f) => (
-                        <div key={f.key}>
-                          <label htmlFor={`contact-${f.key}`} className="block text-[10px] uppercase tracking-widest mb-2 font-semibold" style={{ color: "rgba(255,255,255,0.35)" }}>
+                        <div key={f.key} className="space-y-3">
+                          <label htmlFor={`contact-${f.key}`} className="block text-xs uppercase tracking-[0.2em] font-bold" style={{ color: "rgba(255,255,255,0.35)" }}>
                             {f.label}
                           </label>
                           <input
@@ -200,7 +199,7 @@ export default function ContactPage() {
                             value={form[f.key as keyof typeof form]}
                             onChange={(e) => setForm((p) => ({ ...p, [f.key]: e.target.value }))}
                             placeholder={f.placeholder}
-                            className="w-full px-4 py-3.5 rounded-xl text-sm placeholder-white/20 focus:outline-none transition-colors duration-200"
+                            className="w-full px-5 py-4 rounded-2xl text-base placeholder-white/20 focus:outline-none transition-colors duration-200"
                             style={inputStyle}
                             onFocus={onFocus}
                             onBlur={onBlur}
@@ -209,8 +208,8 @@ export default function ContactPage() {
                       ))}
                     </div>
 
-                    <div>
-                      <label htmlFor="contact-subject" className="block text-[10px] uppercase tracking-widest mb-2 font-semibold" style={{ color: "rgba(255,255,255,0.35)" }}>
+                    <div className="space-y-3">
+                      <label htmlFor="contact-subject" className="block text-xs uppercase tracking-[0.2em] font-bold" style={{ color: "rgba(255,255,255,0.35)" }}>
                         Subject
                       </label>
                       <input
@@ -220,15 +219,15 @@ export default function ContactPage() {
                         value={form.subject}
                         onChange={(e) => setForm((p) => ({ ...p, subject: e.target.value }))}
                         placeholder="Order inquiry, collaboration…"
-                        className="w-full px-4 py-3.5 rounded-xl text-sm placeholder-white/20 focus:outline-none transition-colors duration-200"
+                        className="w-full px-5 py-4 rounded-2xl text-base placeholder-white/20 focus:outline-none transition-colors duration-200"
                         style={inputStyle}
                         onFocus={onFocus}
                         onBlur={onBlur}
                       />
                     </div>
 
-                    <div>
-                      <label htmlFor="contact-message" className="block text-[10px] uppercase tracking-widest mb-2 font-semibold" style={{ color: "rgba(255,255,255,0.35)" }}>
+                    <div className="space-y-3">
+                      <label htmlFor="contact-message" className="block text-xs uppercase tracking-[0.2em] font-bold" style={{ color: "rgba(255,255,255,0.35)" }}>
                         Message
                       </label>
                       <textarea
@@ -238,7 +237,7 @@ export default function ContactPage() {
                         onChange={(e) => setForm((p) => ({ ...p, message: e.target.value }))}
                         placeholder="What's on your mind?"
                         rows={6}
-                        className="w-full px-4 py-3.5 rounded-xl text-sm placeholder-white/20 focus:outline-none transition-colors duration-200 resize-none"
+                        className="w-full px-5 py-4 rounded-2xl text-base placeholder-white/20 focus:outline-none transition-colors duration-200 resize-none leading-relaxed"
                         style={inputStyle}
                         onFocus={onFocus}
                         onBlur={onBlur}
@@ -248,10 +247,10 @@ export default function ContactPage() {
                     <button
                       id="contact-submit"
                       type="submit"
-                      className="w-full flex items-center justify-center gap-3 py-5 rounded-xl font-bold text-base text-white transition-all duration-200 hover:opacity-90 active:scale-[0.98]"
+                      className="w-full flex items-center justify-center gap-3 py-5 mt-4 rounded-2xl font-bold text-lg text-white transition-all duration-200 hover:opacity-90 active:scale-[0.98]"
                       style={{ background: "linear-gradient(135deg, #1ebe57, #25D366)", letterSpacing: "0.05em" }}
                     >
-                      <WhatsAppIcon size={20} />
+                      <WhatsAppIcon size={24} />
                       Send via WhatsApp
                     </button>
                   </motion.form>
