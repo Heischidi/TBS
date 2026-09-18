@@ -1,3 +1,5 @@
+"use client";
+
 import dynamic from "next/dynamic";
 
 // react-paystack accesses `window` at module evaluation time,
