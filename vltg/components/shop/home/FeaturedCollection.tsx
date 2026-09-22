@@ -61,10 +61,10 @@ export function FeaturedCollection({ products, collections }: Props) {
           </Link>
         </motion.div>
 
-        {/* Collections Row — 2 per row, centred */}
-        {collections.length > 0 && (
+        {/* Collections Row — only show collections that have a cover image */}
+        {collections.filter(col => col.coverImage).length > 0 && (
           <div className="grid grid-cols-2 gap-5 max-w-2xl mx-auto mb-16">
-            {collections.map((col, i) => (
+            {collections.filter(col => col.coverImage).map((col, i) => (
               <motion.div
                 key={col.id}
                 initial={{ opacity: 0, y: 20 }}
