@@ -28,22 +28,15 @@ function useCountdown(endHours = 5) {
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
-const DEMO_FLASH: FlashProduct[] = [
-  { id: "f1", slug: "signature-oversized-tee",   name: "Signature Oversized Tee",  price: 13000, comparePrice: 18500, image: "/images/tbs-col-1.jpg", stock: 6  },
-  { id: "f2", slug: "heavyweight-fleece-hoodie", name: "Fleece Hoodie",            price: 26500, comparePrice: 38000, image: "/images/tbs-col-2.jpg", stock: 3  },
-  { id: "f3", slug: "tactical-cargo-pants",      name: "Tactical Cargo Pants",     price: 21000, comparePrice: 32000, image: "/images/tbs-col-3.jpg", stock: 9  },
-  { id: "f4", slug: "tbs-trucker-cap",           name: "TBS Arch Trucker Cap",     price: 7500,  comparePrice: 12000, image: "/images/tbs-hero-1.jpg", stock: 14 },
-  { id: "f5", slug: "signature-oversized-tee",   name: "Washed Graphic Tee",       price: 11000, comparePrice: 16000, image: "/images/tbs-hero-2.jpg", stock: 5  },
-  { id: "f6", slug: "heavyweight-fleece-hoodie", name: "Zip-Up Hoodie",            price: 29000, comparePrice: 42000, image: "/images/tbs-col-1.jpg", stock: 2  },
-];
-
 function calcDiscount(price: number, compare: number) {
   return Math.round((1 - price / compare) * 100);
 }
 
 export function FlashSale({ products }: { products?: FlashProduct[] }) {
   const time = useCountdown(5);
-  const items = products && products.length > 0 ? products : DEMO_FLASH;
+  const items = products && products.length > 0 ? products : [];
+
+  if (items.length === 0) return null;
 
   return (
     <section className="flash-sale-bg section" id="flash-sale">

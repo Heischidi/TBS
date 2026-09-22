@@ -15,18 +15,28 @@ interface HeroBanner {
   ctaLink?: string | null;
 }
 
-// Fallback banner when DB is empty — clean gradient, no broken images
-const defaultBanner: HeroBanner = {
-  id: "default-1",
-  title: "THE BLACK SHEEP",
-  subtitle: "Premium streetwear for those who move culture forward",
-  image: "",
-  ctaText: "Shop Now",
-  ctaLink: "/shop",
-};
+// Fallback banner when DB is empty — uses local brand images
+const defaultBanners: HeroBanner[] = [
+  {
+    id: "default-1",
+    title: "NEW SEASON\nNEW RULES",
+    subtitle: "Premium streetwear for those who move culture forward",
+    image: "/images/tbs-hero-1.jpg",
+    ctaText: "Shop Now",
+    ctaLink: "/shop",
+  },
+  {
+    id: "default-2",
+    title: "LIMITED\nDROPS ONLY",
+    subtitle: "Exclusive pieces. Never restocked. Always remembered.",
+    image: "/images/tbs-hero-1.jpg",
+    ctaText: "View Collection",
+    ctaLink: "/collections",
+  },
+];
 
 export function HeroSection({ banners }: { banners: HeroBanner[] }) {
-  const displayBanners = banners.length > 0 ? banners : [defaultBanner];
+  const displayBanners = banners.length > 0 ? banners : defaultBanners;
   const [current, setCurrent] = useState(0);
 
   useEffect(() => {
