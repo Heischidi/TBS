@@ -92,7 +92,7 @@ export async function POST(request: Request) {
       },
     });
 
-    // Fire emails after order is created
+    // Fire emails after order is created — non-fatal, never block the order response
     const emailData = {
       orderNumber: order.orderNumber,
       customerName: order.customer.name,
@@ -107,10 +107,14 @@ export async function POST(request: Request) {
       state: order.state,
       country: order.country,
     };
-    await Promise.all([
-      sendOrderConfirmationEmail(emailData),
-      sendAdminNewOrderEmail(emailData),
-    ]);
+    try {
+      await Promise.all([
+        sendOrderConfirmationEmail(emailData),
+        sendAdminNewOrderEmail(emailData),
+      ]);
+    } catch (emailError) {
+      console.error("Email sending failed (non-fatal):", emailError);
+    }
 
     return NextResponse.json(order, { status: 201 });
   } catch (error) {
