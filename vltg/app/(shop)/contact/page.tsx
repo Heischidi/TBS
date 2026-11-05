@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import { Mail, Share2, CheckCircle, Clock, MapPin, ArrowUpRight } from "lucide-react";
@@ -48,7 +48,7 @@ export default function ContactPage() {
       <div className="min-h-screen bg-black text-white">
 
         {/* ── HERO ──────────────────────────────────────────────── */}
-        <div className="pt-40 pb-24 px-6 md:px-16 max-w-7xl mx-auto">
+        <div className="pt-40 pb-24 px-4 sm:px-6 md:px-10 max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
@@ -75,7 +75,7 @@ export default function ContactPage() {
         <div className="w-full h-px" style={{ background: "rgba(255,255,255,0.06)" }} />
 
         {/* ── BODY ──────────────────────────────────────────────── */}
-        <div className="px-6 md:px-16 max-w-7xl mx-auto py-24 lg:py-32">
+        <div className="px-4 sm:px-6 md:px-10 max-w-7xl mx-auto py-24 lg:py-32">
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-20 lg:gap-32 items-start">
 
             {/* ── LEFT: contact cards ──────────────────────────── */}
@@ -95,7 +95,7 @@ export default function ContactPage() {
                   href={c.href}
                   target={c.href.startsWith("http") ? "_blank" : undefined}
                   rel="noopener noreferrer"
-                  className="group flex items-center justify-between p-6 md:p-8 rounded-[2rem] transition-all duration-200"
+                  className="group flex items-center justify-between p-6 md:p-8 rounded-4xl transition-all duration-200"
                   style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)" }}
                   onMouseEnter={(e) => {
                     (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.06)";
@@ -130,7 +130,7 @@ export default function ContactPage() {
 
               {/* Hours */}
               <div
-                className="mt-10 p-6 md:p-8 rounded-[2rem] space-y-4"
+                className="mt-10 p-6 md:p-8 rounded-4xl space-y-4"
                 style={{ background: "rgba(201,168,76,0.05)", border: "1px solid rgba(201,168,76,0.15)" }}
               >
                 <div className="flex items-center gap-4 text-base" style={{ color: "rgba(255,255,255,0.5)" }}>

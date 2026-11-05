@@ -112,7 +112,7 @@ export default function CheckoutPage() {
 
   return (
     <div className="min-h-screen pt-32 pb-24 bg-[#050505]">
-      <div className="max-w-350 mx-auto px-6 md:px-12 lg:px-16">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-10 lg:px-16">
         
         {/* Stepper */}
         <div className="flex items-center gap-4 text-[10px] font-medium tracking-[0.2em] text-text-secondary uppercase mb-16 pt-8">

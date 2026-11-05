@@ -37,7 +37,7 @@
   --surface-3:   var(--grey-700);
 
   /* ── Spacing tokens ──────────────────────────────────────── */
-  --section-px:  clamp(1.25rem, 4vw, 5rem);   /* horizontal padding */
+  --section-px:  clamp(1rem, 3vw, 3rem);      /* horizontal padding */
   --section-py:  clamp(3rem, 6vw, 5.5rem);     /* vertical padding */
   --content-gap: clamp(1.25rem, 2vw, 2rem);    /* element gap */
 }
@@ -94,9 +94,9 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: 0.05em;
 }
 
-/* Double-quote decoration on all main headings */
-h1::before, h2::before, h3::before { content: '"'; }
-h1::after,  h2::after,  h3::after  { content: '"'; }
+/* Double-quote decoration — opt-in only via .quoted-heading class */
+.quoted-heading::before { content: '"'; }
+.quoted-heading::after  { content: '"'; }
 
 /* Smooth transitions everywhere */
 a, button {
