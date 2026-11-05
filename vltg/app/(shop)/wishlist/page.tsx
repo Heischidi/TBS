@@ -28,7 +28,7 @@ export default function WishlistPage() {
 
   return (
     <div className="min-h-screen pt-36 pb-24 bg-black">
-      <div className="max-w-2xl mx-auto px-4">
+      <div className="site-container max-w-3xl">
 
         {/* Header */}
         <div className="border-b border-white/10 pb-6 mb-8 text-center">

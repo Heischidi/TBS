@@ -148,7 +148,7 @@ export function ProductDetailClient({ product, related }: { product: Product; re
 
   return (
     <div className="min-h-screen pt-44 md:pt-48 pb-32 md:pb-24">
-      <div className="max-w-7xl mx-auto px-4 md:px-8">
+      <div className="site-container">
         {/* Breadcrumb */}
         <nav className="flex items-center gap-2 text-[10px] text-text-muted uppercase tracking-wider py-5">
           <a href="/" className="hover:text-white transition-colors">Home</a>

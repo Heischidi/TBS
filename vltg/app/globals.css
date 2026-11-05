@@ -37,15 +37,23 @@
   --surface-3:   var(--grey-700);
 
   /* ── Spacing tokens ──────────────────────────────────────── */
-  --section-px:  clamp(1rem, 3vw, 3rem);      /* horizontal padding */
+  --section-px:  clamp(1rem, 3vw, 2.5rem);    /* horizontal padding */
   --section-py:  clamp(3rem, 6vw, 5.5rem);     /* vertical padding */
   --content-gap: clamp(1.25rem, 2vw, 2rem);    /* element gap */
 }
 
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
-  padding: 0;
+}
+
+html,
+body {
   margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100%;
 }
 
 html {
@@ -59,6 +67,28 @@ body {
   color: #F5F5F5;
   font-family: var(--font-inter);
   overflow-x: hidden;
+}
+
+/* ── Centering & Layout Helpers ─────────────────────────────── */
+.mx-auto {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.w-full {
+  width: 100%;
+}
+
+/* Unified Page Container matching Navbar (1320px) */
+.site-container,
+.main-container {
+  width: 100%;
+  max-width: 1320px;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding-left: var(--section-px);
+  padding-right: var(--section-px);
+  box-sizing: border-box;
 }
 
 /* Custom scrollbar */
@@ -114,11 +144,13 @@ a, button {
 
 /* Constrained, centred content block with fluid horizontal padding */
 .section-inner {
+  width: 100%;
   max-width: 1320px;
-  margin-left: auto;
-  margin-right: auto;
+  margin-left: auto !important;
+  margin-right: auto !important;
   padding-left: var(--section-px);
   padding-right: var(--section-px);
+  box-sizing: border-box;
 }
 
 /* Section header spacing */

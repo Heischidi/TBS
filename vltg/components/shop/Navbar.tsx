@@ -88,7 +88,7 @@ export function Navbar() {
         style={{ marginTop: "var(--announcement-height, 0px)" }}
       >
         {/* Main nav row */}
-        <div style={{ maxWidth: 1320, margin: "0 auto", paddingLeft: "var(--section-px)", paddingRight: "var(--section-px)" }}>
+        <div className="site-container">
           <div className="flex items-center justify-between h-14 md:h-16">
             {/* Logo */}
             <Link href="/" className="relative z-10 shrink-0">
@@ -310,7 +310,7 @@ export function Navbar() {
             showCategoryPills && scrolledOrNotHome ? "opacity-100" : "opacity-0 pointer-events-none h-0 overflow-hidden"
           )}
         >
-          <div style={{ maxWidth: 1320, margin: "0 auto", paddingLeft: "var(--section-px)", paddingRight: "var(--section-px)" }}>
+          <div className="site-container">
             <div className="h-scroll-track py-2.5 gap-2.5 overflow-x-auto">
               {categoryPills.map((pill) => (
                 <Link
@@ -388,7 +388,7 @@ export function Navbar() {
                         pathname === link.href ? "text-brand-pink" : "text-white"
                       )}
                     >
-                      "{link.label}"
+                      {link.label}
                     </Link>
                   </motion.div>
                 ))}
@@ -402,7 +402,7 @@ export function Navbar() {
                       href="/profile"
                       className="block font-display text-lg tracking-widest py-2 border-b border-white/4 text-brand-pink"
                     >
-                      "My Profile"
+                      My Profile
                     </Link>
                   </motion.div>
                 ) : (
@@ -415,7 +415,7 @@ export function Navbar() {
                       href="/login"
                       className="block font-display text-lg tracking-widest py-2 border-b border-white/4 text-white"
                     >
-                      "Login / Register"
+                      Login / Register
                     </Link>
                   </motion.div>
                 )}

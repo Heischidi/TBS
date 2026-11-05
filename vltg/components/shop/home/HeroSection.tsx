@@ -91,7 +91,7 @@ export function HeroSection({ banners }: { banners: HeroBanner[] }) {
 
       {/* Content */}
       <div className="relative z-10 h-full flex items-center">
-        <div className="max-w-7xl mx-auto px-6 md:px-12 w-full">
+        <div className="site-container w-full">
           <AnimatePresence mode="wait">
             <motion.div
               key={banner.id}

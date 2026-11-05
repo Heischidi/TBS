@@ -109,8 +109,8 @@ export function ShopClient({ categories, collections }: { categories: Category[]
   return (
     <div className="min-h-screen pt-44 md:pt-48">
       {/* Top bar */}
-      <div className="bg-surface-1 border-b border-white/5 px-4 md:px-8 py-5 sticky top-14 md:top-16 z-30 backdrop-blur-lg bg-black/90">
-        <div className="max-w-7xl mx-auto">
+      <div className="bg-surface-1 border-b border-white/5 py-5 sticky top-14 md:top-16 z-30 backdrop-blur-lg bg-black/90">
+        <div className="site-container">
           {/* Row 1: title + search + sort + density */}
           <div className="flex items-center justify-between gap-3 mb-4">
             <div>
@@ -243,7 +243,7 @@ export function ShopClient({ categories, collections }: { categories: Category[]
             exit={{ height: 0, opacity: 0 }}
             className="bg-surface-2 border-b border-white/5 overflow-hidden"
           >
-            <div className="max-w-7xl mx-auto px-4 md:px-8 py-4 flex flex-wrap items-center gap-4">
+            <div className="site-container py-4 flex flex-wrap items-center gap-4">
               <div className="flex items-center gap-2">
                 <span className="text-xs text-text-muted uppercase tracking-wider">Price (₦)</span>
                 <input
@@ -268,7 +268,7 @@ export function ShopClient({ categories, collections }: { categories: Category[]
       </AnimatePresence>
 
       {/* Products */}
-      <div className="max-w-7xl mx-auto px-4 md:px-8 py-8">
+      <div className="site-container py-8">
         {loading ? (
           <div className={cn("grid gap-3 md:gap-4", gridClass)}>
             {Array(12).fill(null).map((_, i) => (

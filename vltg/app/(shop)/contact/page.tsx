@@ -48,7 +48,7 @@ export default function ContactPage() {
       <div className="min-h-screen bg-black text-white">
 
         {/* ── HERO ──────────────────────────────────────────────── */}
-        <div className="pt-40 pb-24 px-4 sm:px-6 md:px-10 max-w-7xl mx-auto">
+        <div className="site-container pt-40 pb-24">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
@@ -75,7 +75,7 @@ export default function ContactPage() {
         <div className="w-full h-px" style={{ background: "rgba(255,255,255,0.06)" }} />
 
         {/* ── BODY ──────────────────────────────────────────────── */}
-        <div className="px-4 sm:px-6 md:px-10 max-w-7xl mx-auto py-24 lg:py-32">
+        <div className="site-container py-24 lg:py-32">
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-20 lg:gap-32 items-start">
 
             {/* ── LEFT: contact cards ──────────────────────────── */}

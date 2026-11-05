@@ -81,7 +81,7 @@ export function ProfileClient({ user }: ProfileClientProps) {
   };
 
   return (
-    <div className="max-w-6xl mx-auto">
+    <div className="w-full">
       {/* Header card */}
       <div className="bg-surface-2 border border-white/5 p-6 md:p-8 mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 relative">
         <div className="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-neon-pink-dark via-neon-pink to-neon-pink-dark" />

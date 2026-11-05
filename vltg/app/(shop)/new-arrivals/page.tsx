@@ -69,7 +69,7 @@ export default async function NewArrivalsPage() {
 
   return (
     <div className="min-h-screen pt-44 md:pt-48 pb-24">
-      <div className="w-full max-w-7xl mx-auto px-4 md:px-8">
+      <div className="site-container">
         <div className="mb-10 border-b border-white/5 pb-8">
           <p className="text-brand-pink text-[10px] font-bold uppercase tracking-[0.4em] mb-3">Just Dropped</p>
           <h1 className="font-display text-5xl md:text-6xl text-white">NEW ARRIVALS</h1>

@@ -132,14 +132,14 @@ export default async function CollectionDetailPage({ params }: Props) {
       <div className="relative h-72 md:h-96 bg-surface-2">
         {collection.coverImage && <Image src={collection.coverImage} alt={collection.name} fill className="object-cover opacity-60" />}
         <div className="absolute inset-0 bg-linear-to-t from-black via-black/50 to-transparent" />
-        <div className="absolute bottom-8 left-0 right-0 max-w-7xl mx-auto px-4 md:px-8">
+        <div className="absolute bottom-8 left-0 right-0 site-container">
           <p className="text-brand-pink text-xs font-bold uppercase tracking-[0.4em] mb-2">Collection</p>
           <h1 className="font-display text-5xl md:text-6xl text-white">{collection.name}</h1>
           {collection.description && <p className="text-text-secondary mt-3">{collection.description}</p>}
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 md:px-8 pt-12">
+      <div className="site-container pt-12">
         <p className="text-text-muted text-sm mb-8">{collection.products.length} pieces</p>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
           {collection.products.map((p: any) => (
