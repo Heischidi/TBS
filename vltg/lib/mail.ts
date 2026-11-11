@@ -82,7 +82,8 @@ function ctaButton(href: string, label: string) {
 }
 
 type OrderItem = {
-  product: { name: string };
+  product: { name: string } | null;
+  productName?: string | null;
   quantity: number;
   size: string;
   color: string;
@@ -94,7 +95,7 @@ function orderItemsTable(items: OrderItem[], total: number | string, currencySym
     .map(
       (item) => `
       <tr>
-        <td style="padding:10px 0;border-bottom:1px solid #222;color:#ccc;font-size:13px;">${item.product.name}</td>
+        <td style="padding:10px 0;border-bottom:1px solid #222;color:#ccc;font-size:13px;">${item.product?.name ?? item.productName ?? "Item"}</td>
         <td style="padding:10px 0;border-bottom:1px solid #222;color:#ccc;font-size:13px;text-align:center;">${item.size} / ${item.color}</td>
         <td style="padding:10px 0;border-bottom:1px solid #222;color:#ccc;font-size:13px;text-align:center;">x${item.quantity}</td>
         <td style="padding:10px 0;border-bottom:1px solid #222;color:#fff;font-size:13px;text-align:right;">${currencySymbol}${Number(item.price).toLocaleString()}</td>

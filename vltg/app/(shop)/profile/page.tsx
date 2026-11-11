@@ -86,10 +86,15 @@ export default async function ProfilePage() {
               size: item.size,
               color: item.color,
               price: item.price.toString(),
-              product: {
-                name: item.product.name,
-                images: item.product.images,
-              },
+              product: item.product
+                ? {
+                    name: item.product.name,
+                    images: item.product.images,
+                  }
+                : {
+                    name: item.productName || "Unavailable product",
+                    images: item.productImage ? [item.productImage] : [],
+                  },
             })),
           })),
         }
