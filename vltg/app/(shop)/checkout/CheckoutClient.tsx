@@ -111,11 +111,11 @@ export default function CheckoutPage() {
   const errorClass = "text-red-400 text-[10px] mt-1 tracking-wide";
 
   return (
-    <div className="min-h-screen pt-32 pb-24 bg-[#050505]">
+    <div className="min-h-screen pt-24 md:pt-32 pb-24 bg-[#050505]">
       <div className="site-container">
         
         {/* Stepper */}
-        <div className="flex items-center gap-4 text-[10px] font-medium tracking-[0.2em] text-text-secondary uppercase mb-16 pt-8">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-[10px] font-medium tracking-[0.2em] text-text-secondary uppercase mb-10 md:mb-16 pt-4 md:pt-8">
           <Link href="/cart" className="hover:text-white transition-colors">01 BAG</Link>
           <span className="w-6 h-px bg-white/20"></span>
           <span className="text-white">02 DETAILS</span>
@@ -124,7 +124,7 @@ export default function CheckoutPage() {
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-20">
             
             {/* Left Column - Form */}
             <div className="lg:col-span-7 xl:col-span-8">
@@ -132,7 +132,7 @@ export default function CheckoutPage() {
               {/* Title Section */}
               <div className="mb-16">
                 <p className="text-[10px] uppercase tracking-[0.2em] text-text-secondary mb-4">Secure Checkout</p>
-                <h1 className="text-5xl md:text-7xl font-light tracking-tight mb-6 text-white">
+                <h1 className="text-4xl sm:text-5xl md:text-7xl font-light tracking-tight mb-6 text-white">
                   Almost <span className="font-serif italic text-white/90">yours.</span>
                 </h1>
                 <p className="text-text-secondary text-sm max-w-md leading-relaxed">
@@ -216,7 +216,7 @@ export default function CheckoutPage() {
 
             {/* Right Column - Order Summary Card */}
             <div className="lg:col-span-5 xl:col-span-4">
-              <div className="bg-[#0A0A0A] border border-white/5 rounded-2xl p-8 sticky top-24 shadow-2xl">
+              <div className="bg-[#0A0A0A] border border-white/5 rounded-2xl p-5 sm:p-8 sticky top-24 shadow-2xl">
                 <div className="flex justify-between items-baseline mb-8">
                   <h2 className="font-serif text-2xl text-white">Order summary</h2>
                   <span className="text-[10px] uppercase tracking-[0.2em] text-text-secondary">

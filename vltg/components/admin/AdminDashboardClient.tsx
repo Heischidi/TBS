@@ -62,8 +62,8 @@ export function AdminDashboardClient({ stats, recentOrders, lowStock }: {
         </p>
       </div>
 
-      {/* ── KPI Cards Row (6 Cards Grid) ─────────────────────────────────── */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: "12px" }}>
+      {/* KPI Cards Row */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-6 gap-3">
         {kpiCards.map((card, i) => (
           <motion.div
             key={card.label}
@@ -114,11 +114,11 @@ export function AdminDashboardClient({ stats, recentOrders, lowStock }: {
         ))}
       </div>
 
-      {/* ── 2-Column Main Layout ─────────────────────────────────────────── */}
-      <div style={{ display: "grid", gridTemplateColumns: "minmax(0, 1fr) 320px", gap: "20px", alignItems: "start" }}>
+      {/* 2-Column Main Layout */}
+      <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_320px] gap-5 items-start">
 
         {/* Left Box: Recent Orders */}
-        <div style={{ backgroundColor: "#111111", border: "1px solid #1F1F1F", borderRadius: "8px", overflow: "hidden" }}>
+        <div style={{ backgroundColor: "#111111", border: "1px solid #1F1F1F", borderRadius: "8px", overflow: "hidden", minWidth: 0 }}>
           {/* Header */}
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "16px 20px", borderBottom: "1px solid #1F1F1F" }}>
             <div>
@@ -155,7 +155,7 @@ export function AdminDashboardClient({ stats, recentOrders, lowStock }: {
             </div>
           ) : (
             <div style={{ overflowX: "auto" }}>
-              <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "12px" }}>
+              <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "12px", minWidth: "520px" }}>
                 <thead>
                   <tr style={{ borderBottom: "1px solid #1F1F1F" }}>
                     {["Order", "Customer", "Amount", "Status", "Date"].map((h) => (

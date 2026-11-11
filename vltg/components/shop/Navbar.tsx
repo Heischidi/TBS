@@ -187,7 +187,7 @@ export function Navbar() {
             </nav>
 
             {/* Actions */}
-            <div className="flex items-center gap-3 md:gap-4">
+            <div className="flex items-center gap-1 sm:gap-3 md:gap-4">
               {/* Search — desktop expandable */}
               <div className="hidden md:flex items-center">
                 <AnimatePresence mode="wait">
@@ -337,7 +337,7 @@ export function Navbar() {
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.3 }}
-              className="lg:hidden bg-black/98 backdrop-blur-xl border-t border-white/5 overflow-hidden"
+              className="lg:hidden bg-black/98 backdrop-blur-xl border-t border-white/5 overflow-y-auto max-h-[calc(100dvh-3.5rem)]"
             >
               {/* Mobile search */}
               <div className="px-4 pt-4">

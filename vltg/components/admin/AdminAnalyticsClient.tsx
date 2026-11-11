@@ -56,7 +56,7 @@ export function AdminAnalyticsClient({ orders, products, customers }: {
       </div>
 
       {/* KPI Cards Row */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: "12px" }}>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         {[
           { label: "TOTAL REVENUE", value: formatPrice(totalRevenue), color: PINK },
           { label: "TOTAL ORDERS", value: orders.length, color: "#FFFFFF" },
@@ -112,12 +112,12 @@ export function AdminAnalyticsClient({ orders, products, customers }: {
         ) : (
           <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
             {topProducts.map((p, i) => (
-              <div key={p.name} style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-                <span style={{ color: "#666666", fontSize: "12px", width: "20px", textAlign: "right", fontWeight: 600 }}>{i + 1}</span>
-                <div style={{ flex: 1 }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "4px" }}>
-                    <span style={{ color: "#FFFFFF", fontSize: "13px", fontWeight: 600 }}>{p.name}</span>
-                    <span style={{ color: "#666666", fontSize: "11px" }}>{p.units} units</span>
+              <div key={p.name} className="flex items-center gap-3 sm:gap-4">
+                <span style={{ color: "#666666", fontSize: "12px", width: "20px", textAlign: "right", fontWeight: 600, flexShrink: 0 }}>{i + 1}</span>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "8px", marginBottom: "4px" }}>
+                    <span style={{ color: "#FFFFFF", fontSize: "13px", fontWeight: 600 }} className="truncate">{p.name}</span>
+                    <span style={{ color: "#666666", fontSize: "11px", flexShrink: 0 }}>{p.units} units</span>
                   </div>
                   <div style={{ height: "6px", backgroundColor: "#1C1C1E", borderRadius: "3px", overflow: "hidden" }}>
                     <div
@@ -130,7 +130,7 @@ export function AdminAnalyticsClient({ orders, products, customers }: {
                     />
                   </div>
                 </div>
-                <span style={{ color: PINK, fontSize: "13px", fontWeight: 700, width: "90px", textAlign: "right" }}>{formatPrice(p.revenue)}</span>
+                <span style={{ color: PINK, fontSize: "13px", fontWeight: 700, textAlign: "right", flexShrink: 0 }} className="w-20 sm:w-24">{formatPrice(p.revenue)}</span>
               </div>
             ))}
           </div>

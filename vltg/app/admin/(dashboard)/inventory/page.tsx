@@ -29,7 +29,7 @@ export default async function AdminInventoryPage() {
       </div>
 
       {/* Summary Cards Row */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: "12px" }}>
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
         <div style={{ backgroundColor: "#111111", border: "1px solid #1F1F1F", borderRadius: "8px", padding: "16px 18px" }}>
           <p style={{ color: "#EF4444", fontSize: "9px", fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", margin: "0 0 10px 0" }}>
             Out of Stock
@@ -59,7 +59,7 @@ export default async function AdminInventoryPage() {
       {/* Products Table Box */}
       <div style={{ backgroundColor: "#111111", border: "1px solid #1F1F1F", borderRadius: "8px", overflow: "hidden" }}>
         <div style={{ overflowX: "auto" }}>
-          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "13px" }}>
+          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "13px", minWidth: "460px" }}>
             <thead>
               <tr style={{ borderBottom: "1px solid #1F1F1F" }}>
                 <th style={{ textAlign: "left", padding: "12px 16px", color: "#666666", fontSize: "10px", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 700 }}>Product</th>

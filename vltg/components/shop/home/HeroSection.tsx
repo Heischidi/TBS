@@ -50,7 +50,7 @@ export function HeroSection({ banners }: { banners: HeroBanner[] }) {
   const banner = displayBanners[current];
 
   return (
-    <section className="relative w-full h-screen min-h-[600px] overflow-hidden">
+    <section className="relative w-full h-svh min-h-[560px] overflow-hidden">
       {/* Background — full-screen photo with Ken Burns zoom */}
       <AnimatePresence mode="wait">
         <motion.div
@@ -154,18 +154,18 @@ export function HeroSection({ banners }: { banners: HeroBanner[] }) {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.7, duration: 0.6 }}
-                className="flex flex-wrap gap-4 mt-10"
+                className="flex flex-wrap gap-3 sm:gap-4 mt-8 sm:mt-10"
               >
                 <Link
                   href={banner.ctaLink || "/shop"}
-                  className="bg-white text-black px-10 py-4 font-semibold uppercase tracking-widest text-sm transition-all duration-300 hover:bg-white/90"
+                  className="bg-white text-black px-6 sm:px-10 py-3.5 sm:py-4 font-semibold uppercase tracking-widest text-xs sm:text-sm transition-all duration-300 hover:bg-white/90"
                   id="hero-cta-primary"
                 >
                   {banner.ctaText || "Shop Now"}
                 </Link>
                 <Link
                   href="/collections"
-                  className="border border-white/40 text-white px-10 py-4 font-medium uppercase tracking-widest text-sm hover:border-white hover:bg-white/10 transition-all duration-300 backdrop-blur-sm"
+                  className="border border-white/40 text-white px-6 sm:px-10 py-3.5 sm:py-4 font-medium uppercase tracking-widest text-xs sm:text-sm hover:border-white hover:bg-white/10 transition-all duration-300 backdrop-blur-sm"
                   id="hero-cta-secondary"
                 >
                   View Collections
@@ -198,7 +198,7 @@ export function HeroSection({ banners }: { banners: HeroBanner[] }) {
       <motion.div
         animate={{ y: [0, 10, 0] }}
         transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-        className="absolute bottom-8 right-8 z-10 flex flex-col items-center gap-2 text-white/40"
+        className="hidden sm:flex absolute bottom-8 right-8 z-10 flex-col items-center gap-2 text-white/40"
       >
         <span className="text-[10px] uppercase tracking-[0.3em]">Scroll</span>
         <ChevronDown size={14} />

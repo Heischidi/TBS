@@ -60,13 +60,14 @@ html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip;
 }
 
 body {
   background-color: #000000;
   color: #F5F5F5;
   font-family: var(--font-inter);
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 /* ── Centering & Layout Helpers ─────────────────────────────── */
@@ -486,10 +487,10 @@ a, button {
   border-top: 1px solid rgba(255,255,255,0.04);
 }
 
-/* Sticky PDP mobile bar */
+/* Sticky PDP mobile bar (sits cleanly above 64px MobileBottomNav) */
 .sticky-pdp-bar {
   position: fixed;
-  bottom: 0;
+  bottom: 64px;
   left: 0;
   right: 0;
   z-index: 40;

@@ -12,7 +12,7 @@ export default function CartPage() {
 
   if (items.length === 0) {
     return (
-      <div className="min-h-screen pt-44 md:pt-48 flex flex-col items-center justify-center text-center px-4">
+      <div className="min-h-screen pt-24 md:pt-32 flex flex-col items-center justify-center text-center px-4">
         <ShoppingBag size={64} className="text-text-muted mb-6" />
         <h1 className="font-display text-4xl text-white">YOUR CART IS EMPTY</h1>
         <p className="text-text-secondary text-sm mt-3">Add some pieces to get started</p>
@@ -24,7 +24,7 @@ export default function CartPage() {
   }
 
   return (
-    <div className="min-h-screen pt-44 md:pt-48 pb-24">
+    <div className="min-h-screen pt-24 md:pt-32 pb-24">
       <div className="site-container">
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
@@ -45,10 +45,10 @@ export default function CartPage() {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -20 }}
-                  className="flex gap-5 p-5 bg-surface-2 border border-white/5"
+                  className="flex gap-3 sm:gap-5 p-4 sm:p-5 bg-surface-2 border border-white/5"
                 >
                   {/* Image */}
-                  <div className="relative w-24 h-32 shrink-0 bg-surface-3 overflow-hidden">
+                  <div className="relative w-20 h-28 sm:w-24 sm:h-32 shrink-0 bg-surface-3 overflow-hidden">
                     {item.image ? (
                       <Image src={item.image} alt={item.name} fill className="object-cover" />
                     ) : (
@@ -57,7 +57,7 @@ export default function CartPage() {
                   </div>
 
                   {/* Details */}
-                  <div className="flex-1">
+                  <div className="flex-1 min-w-0">
                     <div className="flex justify-between">
                       <div>
                         <Link href={`/products/${item.slug}`} className="font-medium hover:text-brand-pink transition-colors">

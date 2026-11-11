@@ -107,12 +107,12 @@ export function ShopClient({ categories, collections }: { categories: Category[]
   }[cols];
 
   return (
-    <div className="min-h-screen pt-44 md:pt-48">
+    <div className="min-h-screen pt-20 md:pt-28">
       {/* Top bar */}
-      <div className="bg-surface-1 border-b border-white/5 py-5 sticky top-14 md:top-16 z-30 backdrop-blur-lg bg-black/90">
+      <div className="bg-surface-1 border-b border-white/5 py-4 sm:py-5 sticky top-14 md:top-16 z-30 backdrop-blur-lg bg-black/90">
         <div className="site-container">
           {/* Row 1: title + search + sort + density */}
-          <div className="flex items-center justify-between gap-3 mb-4">
+          <div className="flex flex-wrap items-center justify-between gap-3 mb-3 sm:mb-4">
             <div>
               <h1 className="font-display text-2xl md:text-3xl text-white">SHOP ALL</h1>
               <p className="text-text-muted text-xs mt-0.5">{total} products</p>
@@ -180,6 +180,19 @@ export function ShopClient({ categories, collections }: { categories: Category[]
                 {hasFilters && <span className="w-1.5 h-1.5 bg-brand-pink rounded-full" />}
               </button>
             </div>
+          </div>
+
+          {/* Mobile search */}
+          <div className="relative sm:hidden mb-3">
+            <Search size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted" />
+            <input
+              type="text"
+              value={search}
+              onChange={(e) => { setSearch(e.target.value); }}
+              placeholder="Search products…"
+              className="input-dark pl-8 pr-4 py-2 text-xs w-full rounded-full"
+              aria-label="Search products"
+            />
           </div>
 
           {/* Row 2: Horizontal filter chips */}

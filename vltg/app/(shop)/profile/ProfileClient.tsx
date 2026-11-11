@@ -83,15 +83,15 @@ export function ProfileClient({ user }: ProfileClientProps) {
   return (
     <div className="w-full">
       {/* Header card */}
-      <div className="bg-surface-2 border border-white/5 p-6 md:p-8 mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 relative">
+      <div className="bg-surface-2 border border-white/5 p-5 md:p-8 mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 relative">
         <div className="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-neon-pink-dark via-neon-pink to-neon-pink-dark" />
-        <div className="flex items-center gap-4">
-          <div className="w-16 h-16 rounded-full bg-white/5 border border-white/10 flex items-center justify-center font-display text-2xl text-white">
+        <div className="flex items-center gap-4 min-w-0">
+          <div className="w-14 h-14 sm:w-16 sm:h-16 shrink-0 rounded-full bg-white/5 border border-white/10 flex items-center justify-center font-display text-xl sm:text-2xl text-white">
             {user.name.split(" ").map(n => n[0]).join("").toUpperCase().slice(0, 2)}
           </div>
-          <div>
+          <div className="min-w-0">
             <h1 className="font-display text-2xl text-white tracking-wider">{user.name}</h1>
-            <p className="text-text-muted text-xs uppercase tracking-wider mt-0.5">{user.email}</p>
+            <p className="text-text-muted text-xs uppercase tracking-wider mt-0.5 break-all">{user.email}</p>
           </div>
         </div>
         <button
@@ -104,10 +104,10 @@ export function ProfileClient({ user }: ProfileClientProps) {
       </div>
 
       {/* Tabs */}
-      <div className="flex border-b border-white/5 mb-8">
+      <div className="flex border-b border-white/5 mb-8 overflow-x-auto">
         <button
           onClick={() => setActiveTab("orders")}
-          className={`flex items-center gap-2 px-6 py-4 font-display text-xs uppercase tracking-widest border-b-2 transition-all ${
+          className={`flex items-center gap-2 px-4 sm:px-6 py-4 font-display text-xs uppercase tracking-widest border-b-2 transition-all whitespace-nowrap ${
             activeTab === "orders"
               ? "border-brand-pink text-white"
               : "border-transparent text-text-muted hover:text-white"
@@ -118,7 +118,7 @@ export function ProfileClient({ user }: ProfileClientProps) {
         </button>
         <button
           onClick={() => setActiveTab("details")}
-          className={`flex items-center gap-2 px-6 py-4 font-display text-xs uppercase tracking-widest border-b-2 transition-all ${
+          className={`flex items-center gap-2 px-4 sm:px-6 py-4 font-display text-xs uppercase tracking-widest border-b-2 transition-all whitespace-nowrap ${
             activeTab === "details"
               ? "border-brand-pink text-white"
               : "border-transparent text-text-muted hover:text-white"

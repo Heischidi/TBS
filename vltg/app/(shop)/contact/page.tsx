@@ -48,7 +48,7 @@ export default function ContactPage() {
       <div className="min-h-screen bg-black text-white">
 
         {/* ── HERO ──────────────────────────────────────────────── */}
-        <div className="site-container pt-40 pb-24">
+        <div className="site-container pt-28 md:pt-36 pb-14 md:pb-24">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
@@ -75,8 +75,8 @@ export default function ContactPage() {
         <div className="w-full h-px" style={{ background: "rgba(255,255,255,0.06)" }} />
 
         {/* ── BODY ──────────────────────────────────────────────── */}
-        <div className="site-container py-24 lg:py-32">
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-20 lg:gap-32 items-start">
+        <div className="site-container py-12 md:py-24 lg:py-32">
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 md:gap-16 lg:gap-24 items-start">
 
             {/* ── LEFT: contact cards ──────────────────────────── */}
             <motion.div
@@ -95,7 +95,7 @@ export default function ContactPage() {
                   href={c.href}
                   target={c.href.startsWith("http") ? "_blank" : undefined}
                   rel="noopener noreferrer"
-                  className="group flex items-center justify-between p-6 md:p-8 rounded-4xl transition-all duration-200"
+                  className="group flex items-center justify-between gap-3 p-5 md:p-8 rounded-4xl transition-all duration-200"
                   style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)" }}
                   onMouseEnter={(e) => {
                     (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.06)";
@@ -106,21 +106,21 @@ export default function ContactPage() {
                     (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.08)";
                   }}
                 >
-                  <div className="flex items-center gap-6">
+                  <div className="flex items-center gap-4 sm:gap-6 min-w-0">
                     <div
-                      className="w-14 h-14 rounded-2xl flex items-center justify-center shrink-0"
+                      className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center shrink-0"
                       style={{ background: `${c.color}18`, color: c.color }}
                     >
                       {c.icon}
                     </div>
-                    <div>
+                    <div className="min-w-0">
                       <div className="flex items-center gap-3 mb-1">
                         <p className="text-xs uppercase tracking-widest font-semibold" style={{ color: "rgba(255,255,255,0.3)" }}>{c.label}</p>
                         {c.fast && (
                           <span className="px-2 py-0.5 rounded md:rounded-md text-[9px] font-bold font-mono" style={{ background: "rgba(37,211,102,0.12)", color: "#25D366" }}>FAST</span>
                         )}
                       </div>
-                      <p className="text-white text-lg md:text-xl font-semibold mb-1">{c.value}</p>
+                      <p className="text-white text-base sm:text-lg md:text-xl font-semibold mb-1 break-all">{c.value}</p>
                       <p className="text-sm" style={{ color: "rgba(255,255,255,0.3)" }}>{c.description}</p>
                     </div>
                   </div>
@@ -149,7 +149,7 @@ export default function ContactPage() {
               initial={{ opacity: 0, x: 24 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.3, duration: 0.6 }}
-              className="lg:col-span-3 rounded-[2.5rem] p-10 md:p-14 lg:p-16"
+              className="lg:col-span-3 rounded-3xl md:rounded-[2.5rem] p-6 sm:p-8 md:p-12 lg:p-16"
               style={{ background: "#0d0d0d", border: "1px solid rgba(255,255,255,0.08)" }}
             >
               <AnimatePresence mode="wait">

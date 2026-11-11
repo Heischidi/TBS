@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import {
   LayoutDashboard, Package, ShoppingCart, Users,
   Image as ImageIcon, BarChart2, Layers, AlertTriangle,
-  ChevronLeft, Newspaper,
+  ChevronLeft, Newspaper, X,
 } from "lucide-react";
 
 const PINK = "#6B7C3A";
@@ -36,30 +36,23 @@ const navItems = [
 
 interface Props {
   user: { name?: string | null; email?: string | null; role?: string };
+  mobileOpen?: boolean;
+  onClose?: () => void;
 }
 
-export function AdminSidebar({ user }: Props) {
+function SidebarContent({
+  user,
+  phrase,
+  onNavigate,
+}: {
+  user: Props["user"];
+  phrase: string;
+  onNavigate?: () => void;
+}) {
   const pathname = usePathname();
-  const [phrase, setPhrase] = useState("");
-
-  useEffect(() => {
-    setPhrase(BRAND_PHRASES[Math.floor(Math.random() * BRAND_PHRASES.length)]);
-  }, []);
 
   return (
-    <aside
-      style={{
-        width: "210px",
-        backgroundColor: "#0A0A0A",
-        borderRight: "1px solid #1F1F1F",
-        display: "flex",
-        flexDirection: "column",
-        flexShrink: 0,
-        height: "100%",
-      }}
-      className="hidden md:flex"
-    >
-      {/* Navigation List */}
+    <>
       <nav style={{ flex: 1, padding: "16px 10px", overflowY: "auto", display: "flex", flexDirection: "column", gap: "4px" }}>
         {navItems.map(({ href, icon: Icon, label }) => {
           const active = pathname === href || (href !== "/admin/dashboard" && pathname.startsWith(href + "/"));
@@ -67,6 +60,7 @@ export function AdminSidebar({ user }: Props) {
             <Link
               key={href}
               href={href}
+              onClick={onNavigate}
               style={{
                 display: "flex",
                 alignItems: "center",
@@ -76,7 +70,7 @@ export function AdminSidebar({ user }: Props) {
                 fontWeight: active ? 600 : 400,
                 textDecoration: "none",
                 borderRadius: "6px",
-                backgroundColor: active ? "rgba(255, 20, 147, 0.12)" : "transparent",
+                backgroundColor: active ? "rgba(107, 124, 58, 0.14)" : "transparent",
                 color: active ? PINK : "#999999",
                 transition: "all 0.15s ease",
               }}
@@ -89,16 +83,13 @@ export function AdminSidebar({ user }: Props) {
         })}
       </nav>
 
-      {/* Footer */}
       <div style={{ padding: "16px 14px", borderTop: "1px solid #1F1F1F", display: "flex", flexDirection: "column", gap: "12px" }}>
-        {/* Brand phrase */}
         {phrase && (
           <p style={{ color: PINK, fontSize: "8px", letterSpacing: "0.2em", textTransform: "uppercase", opacity: 0.7, margin: 0, lineHeight: 1.5 }}>
             {phrase}
           </p>
         )}
 
-        {/* View Store */}
         <a
           href="/"
           target="_blank"
@@ -117,7 +108,6 @@ export function AdminSidebar({ user }: Props) {
           View Store
         </a>
 
-        {/* Logged in info box */}
         <div
           style={{
             backgroundColor: "#121212",
@@ -134,6 +124,65 @@ export function AdminSidebar({ user }: Props) {
           </p>
         </div>
       </div>
-    </aside>
+    </>
+  );
+}
+
+export function AdminSidebar({ user, mobileOpen = false, onClose }: Props) {
+  const [phrase, setPhrase] = useState("");
+
+  useEffect(() => {
+    setPhrase(BRAND_PHRASES[Math.floor(Math.random() * BRAND_PHRASES.length)]);
+  }, []);
+
+  return (
+    <>
+      {/* Desktop persistent sidebar — note: no inline `display` so Tailwind `hidden md:flex` controls visibility */}
+      <aside
+        style={{
+          width: "210px",
+          backgroundColor: "#0A0A0A",
+          borderRight: "1px solid #1F1F1F",
+        }}
+        className="hidden md:flex flex-col shrink-0 h-full"
+      >
+        <SidebarContent user={user} phrase={phrase} />
+      </aside>
+
+      {/* Mobile slide-over drawer */}
+      {mobileOpen && (
+        <div className="md:hidden fixed inset-0 z-50 flex">
+          <div
+            onClick={onClose}
+            className="fixed inset-0 bg-black/75 backdrop-blur-xs"
+            aria-hidden="true"
+          />
+          <aside
+            style={{
+              width: "240px",
+              maxWidth: "80vw",
+              backgroundColor: "#0A0A0A",
+              borderRight: "1px solid #1F1F1F",
+            }}
+            className="relative z-10 flex flex-col h-full shadow-2xl"
+          >
+            <div className="flex items-center justify-between px-4 py-3.5 border-b border-[#1F1F1F]">
+              <span className="text-white text-xs font-bold uppercase tracking-widest">
+                Admin Menu
+              </span>
+              <button
+                type="button"
+                onClick={onClose}
+                aria-label="Close admin menu"
+                className="p-1.5 text-white/60 hover:text-white"
+              >
+                <X size={18} />
+              </button>
+            </div>
+            <SidebarContent user={user} phrase={phrase} onNavigate={onClose} />
+          </aside>
+        </div>
+      )}
+    </>
   );
 }

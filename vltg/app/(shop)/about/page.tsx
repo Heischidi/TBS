@@ -11,7 +11,7 @@ export default function AboutPage() {
     <div className="min-h-screen bg-black text-white">
 
       {/* ── HERO ──────────────────────────────────────────── */}
-      <section className="relative pt-36 pb-28 overflow-hidden">
+      <section className="relative pt-28 md:pt-36 pb-16 md:pb-28 overflow-hidden">
         <div className="about-glow-1" aria-hidden="true" />
         <div className="about-glow-2" aria-hidden="true" />
 
@@ -152,7 +152,7 @@ export default function AboutPage() {
         /* Hero title */
         .about-hero-title {
           font-family: var(--font-bebas);
-          font-size: clamp(4rem, 12vw, 10rem);
+          font-size: clamp(3rem, 12vw, 10rem);
           line-height: 1; color: #fff;
         }
 
@@ -238,8 +238,10 @@ export default function AboutPage() {
           .about-copy-grid { grid-template-columns: 1fr !important; }
           .about-ghost-label-wrap { position: static; }
           .about-stats-grid { grid-template-columns: 1fr; }
+          .about-stat-cell { padding: 2rem 1.25rem; }
           .about-stat-border { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.06); }
           .about-values-grid { grid-template-columns: 1fr; }
+          .about-value-card { padding: 1.75rem; }
         }
       `}</style>
     </div>

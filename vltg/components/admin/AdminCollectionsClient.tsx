@@ -68,7 +68,7 @@ export function AdminCollectionsClient({ collections: initialCollections }: {
         <h2 style={{ color: "#FFFFFF", fontSize: "14px", fontWeight: 700, margin: "0 0 16px 0", letterSpacing: "0.05em", textTransform: "uppercase" }}>
           New Collection
         </h2>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "16px" }}>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label style={{ display: "block", color: "#666666", fontSize: "10px", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 700, marginBottom: "6px" }}>
               Name *
@@ -170,24 +170,22 @@ export function AdminCollectionsClient({ collections: initialCollections }: {
             key={col.id}
             layout
             style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "16px",
               backgroundColor: "#111111",
               border: "1px solid #1F1F1F",
               padding: "14px 16px",
               borderRadius: "8px",
             }}
+            className="flex flex-wrap sm:flex-nowrap items-center gap-3 sm:gap-4"
           >
             <div style={{ position: "relative", width: "56px", height: "48px", backgroundColor: "#1C1C1E", borderRadius: "4px", overflow: "hidden", flexShrink: 0 }}>
               {col.coverImage && <Image src={col.coverImage} alt={col.name} fill style={{ objectFit: "cover" }} />}
             </div>
-            <div style={{ flex: 1 }}>
-              <p style={{ color: "#FFFFFF", fontSize: "14px", fontWeight: 700, margin: 0 }}>{col.name}</p>
-              <p style={{ color: "#666666", fontSize: "11px", fontFamily: "monospace", margin: "2px 0 0 0" }}>{col.slug}</p>
-              {col.description && <p style={{ color: "#AAAAAA", fontSize: "12px", margin: "4px 0 0 0" }}>{col.description}</p>}
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <p style={{ color: "#FFFFFF", fontSize: "14px", fontWeight: 700, margin: 0 }} className="truncate">{col.name}</p>
+              <p style={{ color: "#666666", fontSize: "11px", fontFamily: "monospace", margin: "2px 0 0 0" }} className="truncate">{col.slug}</p>
+              {col.description && <p style={{ color: "#AAAAAA", fontSize: "12px", margin: "4px 0 0 0" }} className="line-clamp-2">{col.description}</p>}
             </div>
-            <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "12px", flexShrink: 0 }}>
               <span style={{ color: PINK, fontSize: "12px", fontWeight: 700 }}>{col._count.products} products</span>
               <span style={{ fontSize: "10px", padding: "2px 8px", borderRadius: "12px", border: col.isActive ? `1px solid ${PINK}` : "1px solid #333333", color: col.isActive ? PINK : "#666666" }}>
                 {col.isActive ? "Active" : "Hidden"}

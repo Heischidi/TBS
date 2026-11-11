@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Navbar } from "@/components/shop/Navbar";
 import { Footer } from "@/components/shop/Footer";
+import { MobileBottomNav } from "@/components/shop/MobileBottomNav";
 import { HeroSection } from "@/components/shop/home/HeroSection";
 import { MarqueeStrip } from "@/components/shop/home/MarqueeStrip";
 import { CategoryGrid } from "@/components/shop/home/CategoryGrid";
@@ -189,7 +190,7 @@ export default async function HomePage() {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen">
+      <main className="min-h-screen pb-16 md:pb-0">
         {/* 1. Full-screen hero slideshow */}
         <HeroSection banners={renderData.heroBanners} />
 
@@ -227,6 +228,7 @@ export default async function HomePage() {
         <Newsletter />
       </main>
       <Footer />
+      <MobileBottomNav />
     </>
   );
 }

@@ -37,7 +37,7 @@ export function CategoryGrid() {
         </motion.div>
 
         {/* Grid */}
-        <div className="grid grid-cols-4 md:grid-cols-8 gap-4 md:gap-8">
+        <div className="grid grid-cols-4 md:grid-cols-8 gap-3 sm:gap-4 md:gap-8">
           {categories.map((cat, i) => {
             const Icon = cat.icon;
             return (
@@ -50,12 +50,12 @@ export function CategoryGrid() {
               >
                 <Link
                   href={cat.href}
-                  className="category-tile flex flex-col items-center gap-3 group"
+                  className="category-tile flex flex-col items-center gap-2 sm:gap-3 group"
                   id={`category-${cat.label.toLowerCase().replace(/[^a-z]/g, "")}`}
                 >
                   {/* Icon circle */}
                   <div
-                    className="w-16 h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center transition-all duration-300 group-hover:scale-110"
+                    className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center transition-all duration-300 group-hover:scale-110"
                     style={{
                       background: `radial-gradient(circle, ${cat.color}20 0%, ${cat.color}06 100%)`,
                       border: `1.5px solid ${cat.color}30`,

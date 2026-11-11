@@ -168,20 +168,21 @@ export function AdminContentClient({
       </div>
 
       {/* Tabs */}
-      <div style={{ display: "flex", gap: "4px", backgroundColor: "#111111", border: "1px solid #1F1F1F", padding: "4px", borderRadius: "6px", width: "fit-content" }}>
+      <div style={{ display: "flex", gap: "4px", backgroundColor: "#111111", border: "1px solid #1F1F1F", padding: "4px", borderRadius: "6px", width: "fit-content", maxWidth: "100%", overflowX: "auto" }}>
         {(["hero", "lookbook"] as const).map((t) => (
           <button
             key={t}
             onClick={() => setTab(t)}
             style={{
-              padding: "8px 16px",
-              fontSize: "12px",
+              padding: "8px 14px",
+              fontSize: "11px",
               fontWeight: 700,
               textTransform: "uppercase",
               letterSpacing: "0.08em",
               border: "none",
               borderRadius: "4px",
               cursor: "pointer",
+              whiteSpace: "nowrap",
               backgroundColor: tab === t ? PINK : "transparent",
               color: tab === t ? "#000000" : "#888888",
               transition: "all 0.15s ease",
@@ -276,16 +277,16 @@ export function AdminContentClient({
           {/* Banners List */}
           <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
             {banners.length === 0 ? <p style={{ color: "#666666", fontSize: "13px" }}>No banners yet. Add your first one above.</p> : banners.map((banner) => (
-              <div key={banner.id} style={{ display: "flex", alignItems: "center", gap: "16px", backgroundColor: "#111111", border: "1px solid #1F1F1F", padding: "14px 16px", borderRadius: "8px" }}>
+              <div key={banner.id} style={{ backgroundColor: "#111111", border: "1px solid #1F1F1F", padding: "14px 16px", borderRadius: "8px" }} className="flex flex-wrap sm:flex-nowrap items-center gap-3 sm:gap-4">
                 <div style={{ position: "relative", width: "80px", height: "50px", backgroundColor: "#1C1C1E", borderRadius: "4px", overflow: "hidden", flexShrink: 0 }}>
                   {banner.image && <Image src={banner.image} alt={banner.title} fill style={{ objectFit: "cover" }} />}
                 </div>
-                <div style={{ flex: 1 }}>
-                  <p style={{ color: "#FFFFFF", fontSize: "14px", fontWeight: 700, margin: 0 }}>{banner.title}</p>
-                  {banner.subtitle && <p style={{ color: "#AAAAAA", fontSize: "12px", margin: "2px 0 0 0" }}>{banner.subtitle}</p>}
-                  <p style={{ color: PINK, fontSize: "11px", margin: "4px 0 0 0" }}>{banner.ctaText} &rarr; {banner.ctaLink}</p>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <p style={{ color: "#FFFFFF", fontSize: "14px", fontWeight: 700, margin: 0 }} className="truncate">{banner.title}</p>
+                  {banner.subtitle && <p style={{ color: "#AAAAAA", fontSize: "12px", margin: "2px 0 0 0" }} className="line-clamp-2">{banner.subtitle}</p>}
+                  <p style={{ color: PINK, fontSize: "11px", margin: "4px 0 0 0" }} className="truncate">{banner.ctaText} &rarr; {banner.ctaLink}</p>
                 </div>
-                <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "12px", flexShrink: 0 }}>
                   <span style={{ fontSize: "10px", padding: "2px 8px", borderRadius: "12px", border: banner.isActive ? `1px solid ${PINK}` : "1px solid #333333", color: banner.isActive ? PINK : "#666666" }}>
                     {banner.isActive ? "Active" : "Hidden"}
                   </span>
@@ -303,12 +304,13 @@ export function AdminContentClient({
             <label htmlFor="lookbook-upload-category" style={{ display: "block", color: "#666666", fontSize: "10px", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 700 }}>
               Upload to category
             </label>
-            <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "nowrap" }}>
               <select
                 id="lookbook-upload-category"
                 value={uploadCategory}
                 onChange={(e) => setUploadCategory(e.target.value)}
-                style={{ backgroundColor: "#161618", border: "1px solid #222224", borderRadius: "6px", padding: "10px 12px", color: "#FFFFFF", fontSize: "13px", outline: "none", minWidth: "240px" }}
+                style={{ backgroundColor: "#161618", border: "1px solid #222224", borderRadius: "6px", padding: "10px 12px", color: "#FFFFFF", fontSize: "13px", outline: "none" }}
+                className="flex-1 min-w-0 sm:flex-initial sm:min-w-[240px]"
               >
                 <option value="">Uncategorised (shows under “All” only)</option>
                 {assignableCategories.map((c) => (
@@ -448,7 +450,7 @@ export function AdminContentClient({
             <input ref={lookbookFileRef} type="file" accept="image/*" multiple className="hidden" onChange={(e) => e.target.files && handleLookbookUpload(e.target.files)} id="lookbook-upload" />
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))", gap: "12px" }}>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
             {lookbook.map((img) => (
               <div key={img.id} style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
                 <div className="group relative aspect-square rounded-sm overflow-hidden" style={{ backgroundColor: "#1C1C1E" }}>

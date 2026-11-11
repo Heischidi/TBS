@@ -147,7 +147,7 @@ export function ProductDetailClient({ product, related }: { product: Product; re
   };
 
   return (
-    <div className="min-h-screen pt-44 md:pt-48 pb-32 md:pb-24">
+    <div className="min-h-screen pt-24 md:pt-32 pb-40 md:pb-24">
       <div className="site-container">
         {/* Breadcrumb */}
         <nav className="flex items-center gap-2 text-[10px] text-text-muted uppercase tracking-wider py-5">

@@ -59,7 +59,7 @@ export default async function CollectionsPage() {
   }
 
   return (
-    <div className="min-h-screen pt-44 md:pt-48 pb-24">
+    <div className="min-h-screen pt-24 md:pt-32 pb-24">
       <div className="site-container">
         <div className="mb-10 border-b border-white/5 pb-8">
           <p className="text-brand-pink text-[10px] font-bold uppercase tracking-[0.4em] mb-3">Curated Drops</p>

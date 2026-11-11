@@ -89,7 +89,6 @@ export function AdminGalleryClient({ initialImages }: Props) {
           border: dragOver ? `1px dashed ${PINK}` : "1px dashed #222224",
           backgroundColor: dragOver ? "rgba(255, 20, 147, 0.05)" : "#111111",
           borderRadius: "8px",
-          padding: "48px",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -98,6 +97,7 @@ export function AdminGalleryClient({ initialImages }: Props) {
           cursor: "pointer",
           transition: "all 0.15s ease",
         }}
+        className="p-6 sm:p-12 text-center"
       >
         <input
           ref={fileRef}
@@ -138,7 +138,7 @@ export function AdminGalleryClient({ initialImages }: Props) {
           <p style={{ color: "#999999", fontSize: "13px", fontWeight: 600, margin: 0 }}>No gallery images yet</p>
         </div>
       ) : (
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))", gap: "12px" }}>
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
           <AnimatePresence>
             {images.map((url) => (
               <motion.div
