@@ -46,16 +46,29 @@ async function sendEmail({
 
 // ─── Shared HTML helpers ─────────────────────────────────────────────────────
 
-function emailWrapper(content: string) {
+function emailWrapper(
+  content: string,
+  footer = `You're receiving this because you placed an order with ${brandName}.`
+) {
   return `
     <div style="background-color:#000;color:#fff;padding:40px;font-family:sans-serif;max-width:600px;margin:0 auto;border:1px solid #222;">
       <h1 style="color:#6B7C3A;letter-spacing:2px;text-transform:uppercase;font-size:24px;margin-bottom:24px;text-align:center;">${brandName}</h1>
       ${content}
       <p style="color:#5A5A5A;font-size:11px;margin-top:40px;text-align:center;">
-        You're receiving this because you placed an order with ${brandName}.
+        ${footer}
       </p>
     </div>
   `;
+}
+
+/** Escapes user-supplied text before it is placed into an HTML email. */
+function escapeHtml(value: string) {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
 }
 
 function ctaButton(href: string, label: string) {
@@ -276,4 +289,120 @@ export async function sendOutForDeliveryEmail(order: Pick<OrderEmailData, "order
       </p>
     `),
   });
+}
+
+
+// ─── B2B Enquiry Emails ──────────────────────────────────────────────────────
+
+export type B2BEnquiryData = {
+  name: string;
+  company: string;
+  email: string;
+  phone?: string;
+  country?: string;
+  message: string;
+};
+
+export type B2BEnquiryResult = "sent" | "not-configured" | "failed";
+
+/**
+ * Like sendEmail, but reports the outcome instead of swallowing it — a contact
+ * form must never tell a visitor "sent" when nothing was delivered.
+ */
+async function sendEmailStrict({
+  to,
+  subject,
+  html,
+  replyTo,
+}: {
+  to: string;
+  subject: string;
+  html: string;
+  replyTo?: string;
+}): Promise<boolean> {
+  try {
+    const transporter = createTransporter();
+    await transporter.sendMail({
+      from: `"${brandName}" <${fromEmail}>`,
+      to,
+      replyTo,
+      subject,
+      html,
+    });
+    return true;
+  } catch (error) {
+    console.error(`Failed to send email to ${to}:`, error);
+    return false;
+  }
+}
+
+/**
+ * Sends a B2B enquiry to the team (reply-to set to the enquirer) and a short
+ * acknowledgement to the enquirer. Only the team email determines the result;
+ * a failed acknowledgement never fails the enquiry.
+ */
+export async function sendB2BEnquiryEmails(data: B2BEnquiryData): Promise<B2BEnquiryResult> {
+  const teamEmail = process.env.B2B_ENQUIRY_EMAIL || adminEmail;
+
+  if (!isEmailConfigured()) {
+    console.log("=========================================");
+    console.log(`[LOCAL DEV] B2B enquiry from ${data.name} <${data.email}> (${data.company})`);
+    console.log(`[LOCAL DEV] Would be sent to: ${teamEmail}`);
+    console.log(data.message);
+    console.log("=========================================");
+    return "not-configured";
+  }
+
+  const row = (label: string, value?: string) =>
+    value
+      ? `<p style="margin:0 0 4px;color:#9A9A9A;font-size:12px;">${label}</p>
+         <p style="margin:0 0 14px;color:#fff;font-size:14px;">${escapeHtml(value)}</p>`
+      : "";
+
+  const delivered = await sendEmailStrict({
+    to: teamEmail,
+    replyTo: data.email,
+    subject: `B2B enquiry — ${data.company} (${data.name})`,
+    html: emailWrapper(
+      `
+      <p style="color:#6B7C3A;font-size:13px;text-align:center;letter-spacing:2px;margin:0 0 20px;text-transform:uppercase;">
+        New B2B Enquiry
+      </p>
+      <div style="background:#111;padding:16px;border:1px solid #222;">
+        ${row("Name", data.name)}
+        ${row("Company / Brand", data.company)}
+        ${row("Email", data.email)}
+        ${row("Phone / WhatsApp", data.phone)}
+        ${row("Country", data.country)}
+      </div>
+      <div style="background:#111;padding:16px;border:1px solid #222;margin-top:16px;">
+        <p style="margin:0 0 8px;color:#9A9A9A;font-size:12px;">Request</p>
+        <p style="margin:0;color:#fff;font-size:14px;line-height:1.6;white-space:pre-wrap;">${escapeHtml(data.message)}</p>
+      </div>
+      <p style="color:#9A9A9A;font-size:12px;text-align:center;margin-top:20px;">
+        Reply to this email to respond directly to ${escapeHtml(data.name)}.
+      </p>
+    `,
+      `Submitted through the ${brandName} B2B enquiry form.`
+    ),
+  });
+
+  if (!delivered) return "failed";
+
+  // Best-effort acknowledgement to the enquirer.
+  await sendEmailStrict({
+    to: data.email,
+    subject: `We received your enquiry - ${brandName}`,
+    html: emailWrapper(
+      `
+      <p style="color:#9A9A9A;font-size:14px;text-align:center;line-height:1.6;">
+        Hi ${escapeHtml(data.name)}, thanks for reaching out about working with ${brandName}.
+        Our team has your request and will get back to you shortly.
+      </p>
+    `,
+      `You're receiving this because you submitted a B2B enquiry on ${brandName}.`
+    ),
+  });
+
+  return "sent";
 }

@@ -3,12 +3,13 @@
 import { useState, useRef } from "react";
 import Image from "next/image";
 import { Plus, Trash2, Upload, X, Loader2 } from "lucide-react";
+import { ASSIGNABLE_CATEGORIES } from "@/lib/lookbook";
 
 interface HeroBanner {
   id: string; title: string; subtitle?: string | null;
   image: string; ctaText?: string | null; ctaLink?: string | null; isActive: boolean; order: number;
 }
-interface LookbookImage { id: string; image: string; caption?: string | null; order: number; }
+interface LookbookImage { id: string; image: string; caption?: string | null; category?: string | null; order: number; }
 
 const PINK = "#6B7C3A";
 
@@ -21,6 +22,7 @@ export function AdminContentClient({ banners: initialBanners, lookbook: initialL
   const [newBanner, setNewBanner] = useState({ title: "", subtitle: "", image: "", ctaText: "Shop Now", ctaLink: "/shop", isActive: true });
   const [uploading, setUploading] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [uploadCategory, setUploadCategory] = useState("");
   const fileRef = useRef<HTMLInputElement>(null);
   const lookbookFileRef = useRef<HTMLInputElement>(null);
 
@@ -66,7 +68,7 @@ export function AdminContentClient({ banners: initialBanners, lookbook: initialL
       const url = await uploadFile(file);
       const res = await fetch("/api/content/lookbook", {
         method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ image: url, order: lookbook.length }),
+        body: JSON.stringify({ image: url, order: lookbook.length, category: uploadCategory || null }),
       });
       if (res.ok) {
         const img = await res.json();
@@ -74,6 +76,19 @@ export function AdminContentClient({ banners: initialBanners, lookbook: initialL
       }
     }
     setUploading(false);
+  };
+
+  const updateLookbookCategory = async (id: string, category: string) => {
+    const previous = lookbook;
+    setLookbook((prev) => prev.map((i) => (i.id === id ? { ...i, category: category || null } : i)));
+    const res = await fetch(`/api/content/lookbook/${id}`, {
+      method: "PATCH", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ category }),
+    });
+    if (!res.ok) {
+      setLookbook(previous);
+      alert("Could not update the category. Please try again.");
+    }
   };
 
   const deleteLookbook = async (id: string) => {
@@ -225,6 +240,22 @@ export function AdminContentClient({ banners: initialBanners, lookbook: initialL
 
       {tab === "lookbook" && (
         <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+          <div>
+            <label htmlFor="lookbook-upload-category" style={{ display: "block", color: "#666666", fontSize: "10px", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 700, marginBottom: "6px" }}>
+              Upload to category
+            </label>
+            <select
+              id="lookbook-upload-category"
+              value={uploadCategory}
+              onChange={(e) => setUploadCategory(e.target.value)}
+              style={{ backgroundColor: "#161618", border: "1px solid #222224", borderRadius: "6px", padding: "10px 12px", color: "#FFFFFF", fontSize: "13px", outline: "none", minWidth: "240px" }}
+            >
+              <option value="">Uncategorised (shows under “All” only)</option>
+              {ASSIGNABLE_CATEGORIES.map((c) => (
+                <option key={c.slug} value={c.slug}>{c.label}</option>
+              ))}
+            </select>
+          </div>
           <div
             style={{ border: "1px dashed #222224", borderRadius: "8px", padding: "36px", textAlign: "center", cursor: "pointer", backgroundColor: "#111111" }}
             onClick={() => lookbookFileRef.current?.click()}
@@ -241,15 +272,29 @@ export function AdminContentClient({ banners: initialBanners, lookbook: initialL
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))", gap: "12px" }}>
             {lookbook.map((img) => (
-              <div key={img.id} className="group relative aspect-square rounded-sm overflow-hidden" style={{ backgroundColor: "#1C1C1E" }}>
-                <Image src={img.image} alt={img.caption || ""} fill style={{ objectFit: "cover" }} />
-                <button
-                  onClick={() => deleteLookbook(img.id)}
-                  style={{ position: "absolute", top: "8px", right: "8px", backgroundColor: "#EF4444", border: "none", borderRadius: "50%", padding: "4px", cursor: "pointer", color: "#FFF" }}
-                  className="opacity-0 group-hover:opacity-100 transition-opacity"
+              <div key={img.id} style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+                <div className="group relative aspect-square rounded-sm overflow-hidden" style={{ backgroundColor: "#1C1C1E" }}>
+                  <Image src={img.image} alt={img.caption || ""} fill style={{ objectFit: "cover" }} />
+                  <button
+                    onClick={() => deleteLookbook(img.id)}
+                    style={{ position: "absolute", top: "8px", right: "8px", backgroundColor: "#EF4444", border: "none", borderRadius: "50%", padding: "4px", cursor: "pointer", color: "#FFF" }}
+                    className="opacity-0 group-hover:opacity-100 transition-opacity"
+                    aria-label="Delete image"
+                  >
+                    <Trash2 size={12} />
+                  </button>
+                </div>
+                <select
+                  value={img.category || ""}
+                  onChange={(e) => updateLookbookCategory(img.id, e.target.value)}
+                  aria-label="Image category"
+                  style={{ width: "100%", backgroundColor: "#161618", border: "1px solid #222224", borderRadius: "4px", padding: "6px 8px", color: img.category ? "#FFFFFF" : "#888888", fontSize: "11px", outline: "none" }}
                 >
-                  <Trash2 size={12} />
-                </button>
+                  <option value="">Uncategorised</option>
+                  {ASSIGNABLE_CATEGORIES.map((c) => (
+                    <option key={c.slug} value={c.slug}>{c.label}</option>
+                  ))}
+                </select>
               </div>
             ))}
           </div>

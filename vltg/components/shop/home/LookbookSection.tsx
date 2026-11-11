@@ -19,8 +19,24 @@ const placeholderImages = [
   { id: "p6", image: "", caption: "Culture Forward" },
 ];
 
-export function LookbookSection({ images }: { images: LookbookImage[] }) {
-  const displayImages = images.length > 0 ? images : placeholderImages;
+interface LookbookSectionProps {
+  images: LookbookImage[];
+  /** Render the "Editorial / LOOKBOOK" heading (hide it on pages that already have one). */
+  showHeader?: boolean;
+  /** Fall back to TBS placeholder tiles when there are no images. */
+  usePlaceholders?: boolean;
+  /** Shown instead of the grid when there is nothing to display. */
+  emptyMessage?: string;
+}
+
+export function LookbookSection({
+  images,
+  showHeader = true,
+  usePlaceholders = true,
+  emptyMessage = "Nothing here yet — check back soon.",
+}: LookbookSectionProps) {
+  const displayImages =
+    images.length > 0 ? images : usePlaceholders ? placeholderImages : [];
   const [selected, setSelected] = useState<LookbookImage | null>(null);
 
   return (
@@ -28,57 +44,65 @@ export function LookbookSection({ images }: { images: LookbookImage[] }) {
       <section className="section">
         <div className="section-inner">
           {/* Header */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center section-header"
-          >
-            <p className="text-brand-pink text-[10px] font-bold uppercase tracking-[0.5em] mb-3">Editorial</p>
-            <h2 className="font-display text-2xl md:text-3xl text-white tracking-wide">LOOKBOOK</h2>
-            <p className="text-text-secondary text-sm mt-4 max-w-md mx-auto leading-relaxed">
-              Style captured. Culture frozen in time.
-            </p>
-          </motion.div>
+          {showHeader && (
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-center section-header"
+            >
+              <p className="text-brand-pink text-[10px] font-bold uppercase tracking-[0.5em] mb-3">Editorial</p>
+              <h2 className="font-display text-2xl md:text-3xl text-white tracking-wide">LOOKBOOK</h2>
+              <p className="text-text-secondary text-sm mt-4 max-w-md mx-auto leading-relaxed">
+                Style captured. Culture frozen in time.
+              </p>
+            </motion.div>
+          )}
 
-          {/* Masonry grid */}
-          <div className="columns-2 md:columns-3 gap-5 space-y-5">
-            {displayImages.map((img, i) => (
-              <motion.div
-                key={img.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.06 }}
-                className="break-inside-avoid group relative overflow-hidden bg-surface-3 rounded-md cursor-pointer"
-                onClick={() => img.image && setSelected(img)}
-              >
-                <div className={`relative ${i % 3 === 0 ? "aspect-3/4" : "aspect-square"} overflow-hidden`}>
-                  {img.image ? (
-                    <Image
-                      src={img.image} alt={img.caption || "Lookbook"} fill
-                      sizes="(max-width: 768px) 50vw, 33vw"
-                      className="object-cover transition-transform duration-700 group-hover:scale-105"
-                    />
-                  ) : (
-                    <div className={`w-full h-full bg-linear-to-br ${
-                      ["from-surface-3 to-black", "from-neon-pink/10 to-black", "from-grey-700 to-black"][i % 3]
-                    } flex items-center justify-center`}>
-                      <span className="font-brand text-5xl text-white/10 tracking-widest">TBS</span>
+          {displayImages.length === 0 ? (
+            <p className="text-center text-text-muted text-sm uppercase tracking-widest py-24">
+              {emptyMessage}
+            </p>
+          ) : (
+            /* Masonry grid */
+            <div className="columns-2 md:columns-3 gap-5 space-y-5">
+              {displayImages.map((img, i) => (
+                <motion.div
+                  key={img.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.06 }}
+                  className="break-inside-avoid group relative overflow-hidden bg-surface-3 rounded-md cursor-pointer"
+                  onClick={() => img.image && setSelected(img)}
+                >
+                  <div className={`relative ${i % 3 === 0 ? "aspect-3/4" : "aspect-square"} overflow-hidden`}>
+                    {img.image ? (
+                      <Image
+                        src={img.image} alt={img.caption || "Lookbook"} fill
+                        sizes="(max-width: 768px) 50vw, 33vw"
+                        className="object-cover transition-transform duration-700 group-hover:scale-105"
+                      />
+                    ) : (
+                      <div className={`w-full h-full bg-linear-to-br ${
+                        ["from-surface-3 to-black", "from-neon-pink/10 to-black", "from-grey-700 to-black"][i % 3]
+                      } flex items-center justify-center`}>
+                        <span className="font-brand text-5xl text-white/10 tracking-widest">TBS</span>
+                      </div>
+                    )}
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex items-center justify-center">
+                      <ZoomIn size={24} className="text-white opacity-0 group-hover:opacity-100 transition-opacity" />
                     </div>
-                  )}
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex items-center justify-center">
-                    <ZoomIn size={24} className="text-white opacity-0 group-hover:opacity-100 transition-opacity" />
+                    {img.caption && (
+                      <div className="absolute bottom-0 left-0 right-0 p-4 bg-linear-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+                        <p className="text-white text-xs uppercase tracking-widest">{img.caption}</p>
+                      </div>
+                    )}
                   </div>
-                  {img.caption && (
-                    <div className="absolute bottom-0 left-0 right-0 p-4 bg-linear-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
-                      <p className="text-white text-xs uppercase tracking-widest">{img.caption}</p>
-                    </div>
-                  )}
-                </div>
-              </motion.div>
-            ))}
-          </div>
+                </motion.div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 

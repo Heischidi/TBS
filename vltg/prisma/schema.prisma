@@ -147,6 +147,7 @@ model LookbookImage {
   id        String   @id @default(cuid())
   image     String
   caption   String?
+  category  String?
   order     Int      @default(0)
   createdAt DateTime @default(now())
 }
