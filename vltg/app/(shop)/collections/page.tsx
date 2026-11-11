@@ -5,19 +5,23 @@ import Image from "next/image";
 
 export const metadata: Metadata = { title: "Collections", description: "Explore all TBS collections." };
 
+export const dynamic = "force-dynamic";
+
 export default async function CollectionsPage() {
   let collections: any[] = [];
+  let dbFailed = false;
   try {
     collections = await db.collection.findMany({
       where: { isActive: true }, orderBy: { createdAt: "desc" },
       include: { _count: { select: { products: true } } },
     });
   } catch (e) {
-    console.warn("DB connection failed in collections page. Serving mock data.");
+    dbFailed = true;
+    console.warn("DB connection failed in collections page. Serving mock data.", e);
   }
 
-  // Fallback mock collections if DB is empty or down
-  if (collections.length === 0) {
+  // Fallback mock collections only when DB is unreachable
+  if (dbFailed) {
     collections = [
       {
         id: "mock-c1",

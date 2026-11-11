@@ -7,6 +7,8 @@ interface Props {
   params: Promise<{ slug: string }>;
 }
 
+export const dynamic = "force-dynamic";
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   try {
@@ -26,6 +28,7 @@ export default async function ProductPage({ params }: Props) {
   const { slug } = await params;
   let product: any = null;
   let related: any[] = [];
+  let dbFailed = false;
   try {
     product = await db.product.findUnique({
       where: { slug, isPublished: true },
@@ -39,11 +42,12 @@ export default async function ProductPage({ params }: Props) {
       });
     }
   } catch (e) {
-    console.warn("DB connection failed in product detail page. Serving mock data.");
+    dbFailed = true;
+    console.warn("DB connection failed in product detail page. Serving mock data.", e);
   }
 
-  // Fallback mock products if DB is offline or empty
-  if (!product) {
+  // Fallback mock products only when DB is offline
+  if (dbFailed) {
     const mockProducts: Record<string, any> = {
       "signature-oversized-tee": {
         id: "mock-p1",

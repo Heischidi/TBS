@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { requireAdmin } from "@/lib/admin-guard";
+import { revalidateStorefront } from "@/lib/revalidate";
 
 export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
@@ -30,6 +31,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
       where: { id },
       data: { name, slug, description, price: parseFloat(price), comparePrice: comparePrice ? parseFloat(comparePrice) : null, images: images || [], sizes: sizes || [], colors: colors || [], stock: parseInt(stock) || 0, categoryId, collectionId: collectionId || null, isNewArrival: !!isNewArrival, isFeatured: !!isFeatured, isBestSeller: !!isBestSeller, isTrending: !!isTrending, isPublished: isPublished !== false },
     });
+    revalidateStorefront();
     return NextResponse.json(product);
   } catch (error: unknown) {
     if ((error as { code?: string })?.code === "P2025") return NextResponse.json({ error: "Product not found" }, { status: 404 });
@@ -65,6 +67,7 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
       await tx.product.delete({ where: { id } });
     });
 
+    revalidateStorefront();
     return NextResponse.json({ success: true });
   } catch (error: unknown) {
     if ((error as { code?: string })?.code === "P2025") return NextResponse.json({ error: "Product not found" }, { status: 404 });

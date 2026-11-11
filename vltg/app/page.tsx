@@ -20,6 +20,8 @@ export const metadata: Metadata = {
     "Shop the latest premium streetwear from TBS. Flash sales, new arrivals, and limited drops. Free shipping on orders over ₦50,000.",
 };
 
+export const dynamic = "force-dynamic";
+
 async function getHomeData() {
   const [
     heroBanners,
@@ -45,8 +47,8 @@ export default async function HomePage() {
 
   let data = dbData;
 
-  // Fallback to high-fidelity mock data if DB is empty/unavailable
-  if (!data || data.collections.length === 0 || data.featuredProducts.length === 0) {
+  // Fallback to mock data only when DB is offline/unavailable
+  if (!data) {
     const mockHeroBanners = [
       {
         id: "mock-h1",

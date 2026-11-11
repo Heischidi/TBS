@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
+import { requireAdmin } from "@/lib/admin-guard";
+import { revalidateStorefront } from "@/lib/revalidate";
 
 export async function GET(request: Request) {
   try {
@@ -36,6 +38,7 @@ export async function GET(request: Request) {
 
     let products: any[] = [];
     let total = 0;
+    let dbFailed = false;
 
     try {
       [products, total] = await Promise.all([
@@ -49,11 +52,12 @@ export async function GET(request: Request) {
         db.product.count({ where }),
       ]);
     } catch (e) {
-      console.warn("DB connection failed in /api/products endpoint. Serving mock database.");
+      dbFailed = true;
+      console.warn("DB connection failed in /api/products endpoint. Serving mock database.", e);
     }
 
-    // Fallback to high-fidelity mock products database if empty or DB is offline
-    if (products.length === 0) {
+    // Fallback to mock products only when DB is offline
+    if (dbFailed) {
       const allMockProducts = [
         {
           id: "mock-p1",
@@ -144,6 +148,9 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
+  const denied = await requireAdmin();
+  if (denied) return denied;
+
   try {
     const body = await request.json();
     const { name, slug, description, price, comparePrice, images, sizes, colors, stock, categoryId, collectionId, isNewArrival, isFeatured, isBestSeller, isTrending, isPublished } = body;
@@ -152,6 +159,7 @@ export async function POST(request: Request) {
       data: { name, slug, description, price: parseFloat(price), comparePrice: comparePrice ? parseFloat(comparePrice) : null, images: images || [], sizes: sizes || [], colors: colors || [], stock: parseInt(stock) || 0, categoryId, collectionId: collectionId || null, isNewArrival: !!isNewArrival, isFeatured: !!isFeatured, isBestSeller: !!isBestSeller, isTrending: !!isTrending, isPublished: isPublished !== false },
     });
 
+    revalidateStorefront();
     return NextResponse.json(product, { status: 201 });
   } catch (error: any) {
     if (error.code === "P2002") return NextResponse.json({ error: "Slug already exists" }, { status: 409 });

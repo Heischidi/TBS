@@ -7,8 +7,11 @@ export const metadata: Metadata = {
   description: "Shop the latest new arrivals from TBS.",
 };
 
+export const dynamic = "force-dynamic";
+
 export default async function NewArrivalsPage() {
   let products: any[] = [];
+  let dbFailed = false;
   try {
     products = await db.product.findMany({
       where: { isNewArrival: true, isPublished: true },
@@ -16,11 +19,12 @@ export default async function NewArrivalsPage() {
       include: { category: true },
     });
   } catch (e) {
-    console.warn("DB connection failed in new-arrivals page. Serving mock data.");
+    dbFailed = true;
+    console.warn("DB connection failed in new-arrivals page. Serving mock data.", e);
   }
 
-  // Fallback mock products if DB is empty or down
-  if (products.length === 0) {
+  // Fallback mock products only when DB is unreachable
+  if (dbFailed) {
     products = [
       {
         id: "mock-p1",

@@ -4,8 +4,11 @@ import { ProductCard } from "@/components/shop/ProductCard";
 
 export const metadata: Metadata = { title: "Best Sellers", description: "Shop TBS best selling products." };
 
+export const dynamic = "force-dynamic";
+
 export default async function BestSellersPage() {
   let products: any[] = [];
+  let dbFailed = false;
   try {
     products = await db.product.findMany({
       where: { isBestSeller: true, isPublished: true },
@@ -13,11 +16,12 @@ export default async function BestSellersPage() {
       include: { category: true },
     });
   } catch (e) {
-    console.warn("DB connection failed in best-sellers page. Serving mock data.");
+    dbFailed = true;
+    console.warn("DB connection failed in best-sellers page. Serving mock data.", e);
   }
 
-  // Fallback mock products if DB is empty or down
-  if (products.length === 0) {
+  // Fallback mock products only when DB is unreachable
+  if (dbFailed) {
     products = [
       {
         id: "mock-p1",

@@ -14,6 +14,8 @@ export const metadata: Metadata = {
     "Shop the latest premium streetwear from TBS. Bold designs, limited drops, and timeless quality.",
 };
 
+export const dynamic = "force-dynamic";
+
 async function getHomeData() {
   const [
     heroBanners,

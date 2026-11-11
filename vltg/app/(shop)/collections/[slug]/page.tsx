@@ -6,6 +6,8 @@ import { ProductCard } from "@/components/shop/ProductCard";
 
 interface Props { params: Promise<{ slug: string }> }
 
+export const dynamic = "force-dynamic";
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   try {
@@ -19,6 +21,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function CollectionDetailPage({ params }: Props) {
   const { slug } = await params;
   let collection: any = null;
+  let dbFailed = false;
   try {
     collection = await db.collection.findUnique({
       where: { slug, isActive: true },
@@ -30,11 +33,12 @@ export default async function CollectionDetailPage({ params }: Props) {
       },
     });
   } catch (e) {
-    console.warn("DB connection failed in collection detail page. Serving mock data.");
+    dbFailed = true;
+    console.warn("DB connection failed in collection detail page. Serving mock data.", e);
   }
 
-  // Fallback mock collection if DB is offline or empty
-  if (!collection) {
+  // Fallback mock collection only when DB is offline
+  if (dbFailed) {
     const mockCollections: Record<string, any> = {
       "t-shirts": {
         name: "T-Shirts",
