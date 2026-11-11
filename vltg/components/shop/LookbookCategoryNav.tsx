@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import {
   B2B_ENQUIRY_HREF,
   LOOKBOOK_CATEGORIES,
+  LookbookCategory,
   topLevelOf,
 } from "@/lib/lookbook";
 
@@ -13,9 +14,15 @@ const hrefFor = (slug: string) => (slug ? `/lookbook?category=${slug}` : "/lookb
  * Category tabs for the lookbook. `selected` is the resolved slug from the URL
  * ("" = All, "archives" = every year, "archives-2024", "b2b", ...).
  */
-export function LookbookCategoryNav({ selected }: { selected: string }) {
+export function LookbookCategoryNav({
+  selected,
+  categories = LOOKBOOK_CATEGORIES,
+}: {
+  selected: string;
+  categories?: LookbookCategory[];
+}) {
   const active = topLevelOf(selected);
-  const activeCategory = LOOKBOOK_CATEGORIES.find((c) => c.slug === active);
+  const activeCategory = categories.find((c) => c.slug === active);
 
   return (
     <div className="space-y-3">
@@ -28,7 +35,7 @@ export function LookbookCategoryNav({ selected }: { selected: string }) {
         >
           All
         </Link>
-        {LOOKBOOK_CATEGORIES.map((cat) => (
+        {categories.map((cat) => (
           <Link
             key={cat.slug}
             href={hrefFor(cat.slug)}

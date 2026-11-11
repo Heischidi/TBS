@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { requireAdmin } from "@/lib/admin-guard";
-import { isAssignableCategory } from "@/lib/lookbook";
+import { isValidAssignableLookbookCategory } from "@/lib/lookbook-server";
 
 export async function POST(request: Request) {
   const denied = await requireAdmin();
@@ -12,7 +12,11 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Image is required" }, { status: 400 });
   }
 
-  if (body.category != null && body.category !== "" && !isAssignableCategory(body.category)) {
+  if (
+    body.category != null &&
+    body.category !== "" &&
+    !(await isValidAssignableLookbookCategory(body.category))
+  ) {
     return NextResponse.json({ error: "Invalid category" }, { status: 400 });
   }
 

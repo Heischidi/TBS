@@ -152,6 +152,14 @@ model LookbookImage {
   createdAt DateTime @default(now())
 }
 
+model LookbookCategory {
+  id        String   @id @default(cuid())
+  name      String
+  slug      String   @unique
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+}
+
 model Setting {
   key   String @id
   value String @db.Text

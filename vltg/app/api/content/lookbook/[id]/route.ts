@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { requireAdmin } from "@/lib/admin-guard";
-import { isAssignableCategory } from "@/lib/lookbook";
+import { isValidAssignableLookbookCategory } from "@/lib/lookbook-server";
 
 export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const denied = await requireAdmin();
@@ -14,7 +14,7 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
   }
 
   const category = body.category === "" || body.category === null ? null : body.category;
-  if (category !== null && !isAssignableCategory(category)) {
+  if (category !== null && !(await isValidAssignableLookbookCategory(category))) {
     return NextResponse.json({ error: "Invalid category" }, { status: 400 });
   }
 

@@ -5,6 +5,7 @@ import { db } from "@/lib/db";
 import { LookbookSection } from "@/components/shop/home/LookbookSection";
 import { LookbookCategoryNav } from "@/components/shop/LookbookCategoryNav";
 import { B2B_ENQUIRY_HREF, categoryLabel, resolveCategoryParam } from "@/lib/lookbook";
+import { getLookbookCategories } from "@/lib/lookbook-server";
 
 export const metadata: Metadata = {
   title: "Lookbook — TBS | Editorial",
@@ -23,8 +24,11 @@ export default async function LookbookPage({
 }: {
   searchParams: Promise<{ category?: string }>;
 }) {
-  const { category } = await searchParams;
-  const selected = resolveCategoryParam(category);
+  const [{ category }, { categories }] = await Promise.all([
+    searchParams,
+    getLookbookCategories(),
+  ]);
+  const selected = resolveCategoryParam(category, categories);
 
   const where =
     selected === ""
@@ -44,7 +48,7 @@ export default async function LookbookPage({
   const heading =
     selected === ""
       ? "Style captured. Culture frozen in time."
-      : `${categoryLabel(selected) ?? (selected === "archives" ? "Archives" : "Lookbook")}`;
+      : `${categoryLabel(selected, categories) ?? (selected === "archives" ? "Archives" : "Lookbook")}`;
 
   return (
     <div className="min-h-screen bg-black pt-24">
@@ -56,7 +60,7 @@ export default async function LookbookPage({
       </div>
 
       <div className="site-container pt-6">
-        <LookbookCategoryNav selected={selected} />
+        <LookbookCategoryNav selected={selected} categories={categories} />
       </div>
 
       {selected === "b2b" && (
