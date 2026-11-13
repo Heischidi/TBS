@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { db } from "@/lib/db";
 import { requireAdmin } from "@/lib/admin-guard";
 
@@ -15,14 +16,21 @@ export async function DELETE(
     return NextResponse.json({ error: "Category not found" }, { status: 404 });
   }
 
+  // Archive subtopic images stay grouped under their parent year instead of losing their year.
+  const fallbackCategory = existing.parentSlug ?? null;
+
   await db.$transaction([
     db.lookbookImage.updateMany({
       where: { category: existing.slug },
-      data: { category: null },
+      data: { category: fallbackCategory },
     }),
     db.lookbookCategory.delete({ where: { id } }),
   ]);
 
-  return NextResponse.json({ success: true, slug: existing.slug });
+  revalidatePath("/lookbook");
+  return NextResponse.json({
+    success: true,
+    slug: existing.slug,
+    fallbackCategory,
+  });
 }
-

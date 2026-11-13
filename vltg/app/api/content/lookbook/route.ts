@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { db } from "@/lib/db";
 import { requireAdmin } from "@/lib/admin-guard";
 import { isValidAssignableLookbookCategory } from "@/lib/lookbook-server";
@@ -28,5 +29,7 @@ export async function POST(request: Request) {
       order: Number.isInteger(body.order) ? body.order : 0,
     },
   });
+  revalidatePath("/lookbook");
+  revalidatePath("/");
   return NextResponse.json(image, { status: 201 });
 }

@@ -7,10 +7,10 @@ import { X, ZoomIn } from "lucide-react";
 import { AnimatePresence } from "framer-motion";
 
 interface LookbookImage {
-  id: string; image: string; caption?: string | null;
+  id: string; image: string; caption?: string | null; tag?: string | null;
 }
 
-const placeholderImages = [
+const placeholderImages: LookbookImage[] = [
   { id: "p1", image: "", caption: "SS25 Collection" },
   { id: "p2", image: "", caption: "Urban Edge" },
   { id: "p3", image: "", caption: "Night Moves" },
@@ -93,6 +93,13 @@ export function LookbookSection({
                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex items-center justify-center">
                       <ZoomIn size={24} className="text-white opacity-0 group-hover:opacity-100 transition-opacity" />
                     </div>
+                    {img.tag && (
+                      <div className="absolute top-3 left-3 pointer-events-none">
+                        <span className="inline-block bg-black/75 border border-white/15 backdrop-blur-xs text-white/90 text-[10px] uppercase tracking-widest px-2.5 py-1 rounded-sm">
+                          {img.tag}
+                        </span>
+                      </div>
+                    )}
                     {img.caption && (
                       <div className="absolute bottom-0 left-0 right-0 p-4 bg-linear-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
                         <p className="text-white text-xs uppercase tracking-widest">{img.caption}</p>

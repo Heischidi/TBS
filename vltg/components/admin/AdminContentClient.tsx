@@ -4,7 +4,9 @@ import { useState, useRef } from "react";
 import Image from "next/image";
 import { Plus, Trash2, Upload, X, Loader2 } from "lucide-react";
 import {
+  ARCHIVE_YEARS,
   CustomLookbookCategory,
+  archiveYearOf,
   buildAssignableCategories,
   mergeLookbookCategories,
 } from "@/lib/lookbook";
@@ -35,15 +37,33 @@ export function AdminContentClient({
   const [saving, setSaving] = useState(false);
   const [uploadCategory, setUploadCategory] = useState("");
   const [addingCategory, setAddingCategory] = useState(false);
+  const [newCategoryParent, setNewCategoryParent] = useState("");
   const [newCategoryName, setNewCategoryName] = useState("");
   const [categorySaving, setCategorySaving] = useState(false);
   const [categoryError, setCategoryError] = useState<string | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   const lookbookFileRef = useRef<HTMLInputElement>(null);
+  const newCategoryInputRef = useRef<HTMLInputElement>(null);
 
   const assignableCategories = buildAssignableCategories(
     mergeLookbookCategories(customCategories)
   );
+  const topLevelCustomCategories = customCategories.filter((c) => !c.parentSlug);
+  const archiveSubtopicsByYear = ARCHIVE_YEARS.map((year) => {
+    const yearSlug = `archives-${year}`;
+    return {
+      year,
+      yearSlug,
+      subtopics: customCategories.filter((c) => c.parentSlug === yearSlug),
+    };
+  });
+
+  const openAddCategoryForm = (parentSlug = "") => {
+    setNewCategoryParent(parentSlug);
+    setAddingCategory(true);
+    setCategoryError(null);
+    setTimeout(() => newCategoryInputRef.current?.focus(), 0);
+  };
 
   const uploadFile = async (file: File): Promise<string> => {
     const formData = new FormData();
@@ -118,7 +138,7 @@ export function AdminContentClient({
   const addLookbookCategory = async () => {
     const trimmed = newCategoryName.trim();
     if (!trimmed) {
-      setCategoryError("Enter a category name");
+      setCategoryError(newCategoryParent ? "Enter a subtopic name" : "Enter a category name");
       return;
     }
     setCategorySaving(true);
@@ -127,7 +147,10 @@ export function AdminContentClient({
       const res = await fetch("/api/content/lookbook/categories", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: trimmed }),
+        body: JSON.stringify({
+          name: trimmed,
+          parentSlug: newCategoryParent || null,
+        }),
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
@@ -144,15 +167,20 @@ export function AdminContentClient({
   };
 
   const deleteLookbookCategory = async (cat: CustomLookbookCategory) => {
-    if (!confirm(`Remove category "${cat.name}"? Images in it will become uncategorised.`)) return;
+    const confirmText = cat.parentSlug
+      ? `Remove subtopic "${cat.name}"? Images in it will stay in ${cat.parentSlug.replace("archives-", "")}.`
+      : `Remove category "${cat.name}"? Images in it will become uncategorised.`;
+    if (!confirm(confirmText)) return;
     const res = await fetch(`/api/content/lookbook/categories/${cat.id}`, { method: "DELETE" });
     if (!res.ok) {
       alert("Could not remove category. Please try again.");
       return;
     }
+    const data = await res.json().catch(() => ({}));
+    const fallback: string | null = data.fallbackCategory ?? cat.parentSlug ?? null;
     setCustomCategories((prev) => prev.filter((c) => c.id !== cat.id));
-    setLookbook((prev) => prev.map((img) => (img.category === cat.slug ? { ...img, category: null } : img)));
-    if (uploadCategory === cat.slug) setUploadCategory("");
+    setLookbook((prev) => prev.map((img) => (img.category === cat.slug ? { ...img, category: fallback } : img)));
+    if (uploadCategory === cat.slug) setUploadCategory(fallback ?? "");
   };
 
   return (
@@ -310,7 +338,7 @@ export function AdminContentClient({
                 value={uploadCategory}
                 onChange={(e) => setUploadCategory(e.target.value)}
                 style={{ backgroundColor: "#161618", border: "1px solid #222224", borderRadius: "6px", padding: "10px 12px", color: "#FFFFFF", fontSize: "13px", outline: "none" }}
-                className="flex-1 min-w-0 sm:flex-initial sm:min-w-[240px]"
+                className="flex-1 min-w-0 sm:flex-initial sm:min-w-60"
               >
                 <option value="">Uncategorised (shows under “All” only)</option>
                 {assignableCategories.map((c) => (
@@ -321,10 +349,14 @@ export function AdminContentClient({
                 type="button"
                 id="add-lookbook-category-toggle"
                 onClick={() => {
-                  setAddingCategory((open) => !open);
-                  setCategoryError(null);
+                  if (addingCategory) {
+                    setAddingCategory(false);
+                    setCategoryError(null);
+                  } else {
+                    openAddCategoryForm(archiveYearOf(uploadCategory) ?? "");
+                  }
                 }}
-                title={addingCategory ? "Close" : "Add lookbook category"}
+                title={addingCategory ? "Close" : "Add lookbook category or archive subtopic"}
                 aria-label={addingCategory ? "Close add lookbook category" : "Add lookbook category"}
                 aria-expanded={addingCategory}
                 style={{
@@ -346,54 +378,76 @@ export function AdminContentClient({
             </div>
 
             {addingCategory && (
-              <div style={{ display: "flex", flexDirection: "column", gap: "6px", maxWidth: "420px", marginTop: "2px" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                  <input
-                    id="new-lookbook-category-input"
-                    type="text"
-                    value={newCategoryName}
+              <div style={{ display: "flex", flexDirection: "column", gap: "8px", maxWidth: "520px", marginTop: "2px", backgroundColor: "#111111", border: "1px solid #1F1F1F", borderRadius: "8px", padding: "12px" }}>
+                <div className="flex flex-col sm:flex-row gap-2">
+                  <select
+                    id="new-lookbook-category-parent"
+                    value={newCategoryParent}
                     onChange={(e) => {
-                      setNewCategoryName(e.target.value);
+                      setNewCategoryParent(e.target.value);
                       if (categoryError) setCategoryError(null);
                     }}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") {
-                        e.preventDefault();
-                        addLookbookCategory();
-                      } else if (e.key === "Escape") {
-                        setAddingCategory(false);
-                        setCategoryError(null);
-                      }
-                    }}
-                    placeholder="New lookbook category name..."
-                    autoFocus
-                    style={{ flex: 1, backgroundColor: "#161618", border: "1px solid #222224", borderRadius: "6px", padding: "9px 12px", color: "#FFFFFF", fontSize: "13px", outline: "none" }}
-                  />
-                  <button
-                    type="button"
-                    id="save-lookbook-category-btn"
-                    onClick={addLookbookCategory}
-                    disabled={categorySaving}
-                    style={{
-                      backgroundColor: PINK,
-                      color: "#000000",
-                      border: "none",
-                      borderRadius: "6px",
-                      padding: "9px 14px",
-                      fontSize: "12px",
-                      fontWeight: 700,
-                      textTransform: "uppercase",
-                      letterSpacing: "0.06em",
-                      cursor: "pointer",
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: "6px",
-                      opacity: categorySaving ? 0.6 : 1,
-                    }}
+                    aria-label="Category level or archive year"
+                    style={{ backgroundColor: "#161618", border: "1px solid #222224", borderRadius: "6px", padding: "9px 10px", color: "#FFFFFF", fontSize: "12px", outline: "none" }}
+                    className="sm:w-44 shrink-0"
                   >
-                    {categorySaving ? <Loader2 size={13} className="animate-spin" /> : <Plus size={13} />}
-                    Add
-                  </button>
+                    <option value="">Top-level Category</option>
+                    {ARCHIVE_YEARS.map((y) => (
+                      <option key={y} value={`archives-${y}`}>
+                        Archives — {y} tag
+                      </option>
+                    ))}
+                  </select>
+                  <div className="flex items-center gap-2 flex-1 min-w-0">
+                    <input
+                      ref={newCategoryInputRef}
+                      id="new-lookbook-category-input"
+                      type="text"
+                      value={newCategoryName}
+                      onChange={(e) => {
+                        setNewCategoryName(e.target.value);
+                        if (categoryError) setCategoryError(null);
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          e.preventDefault();
+                          addLookbookCategory();
+                        } else if (e.key === "Escape") {
+                          setAddingCategory(false);
+                          setCategoryError(null);
+                        }
+                      }}
+                      placeholder={newCategoryParent ? `Subtopic for ${newCategoryParent.replace("archives-", "")}...` : "New lookbook category name..."}
+                      autoFocus
+                      style={{ flex: 1, minWidth: 0, backgroundColor: "#161618", border: "1px solid #222224", borderRadius: "6px", padding: "9px 12px", color: "#FFFFFF", fontSize: "13px", outline: "none" }}
+                    />
+                    <button
+                      type="button"
+                      id="save-lookbook-category-btn"
+                      onClick={addLookbookCategory}
+                      disabled={categorySaving}
+                      style={{
+                        backgroundColor: PINK,
+                        color: "#000000",
+                        border: "none",
+                        borderRadius: "6px",
+                        padding: "9px 14px",
+                        fontSize: "12px",
+                        fontWeight: 700,
+                        textTransform: "uppercase",
+                        letterSpacing: "0.06em",
+                        cursor: "pointer",
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: "6px",
+                        flexShrink: 0,
+                        opacity: categorySaving ? 0.6 : 1,
+                      }}
+                    >
+                      {categorySaving ? <Loader2 size={13} className="animate-spin" /> : <Plus size={13} />}
+                      Add
+                    </button>
+                  </div>
                 </div>
                 {categoryError && (
                   <p role="alert" style={{ color: "#F87171", fontSize: "12px", margin: 0 }}>
@@ -403,10 +457,10 @@ export function AdminContentClient({
               </div>
             )}
 
-            {customCategories.length > 0 && (
+            {topLevelCustomCategories.length > 0 && (
               <div style={{ display: "flex", alignItems: "center", gap: "6px", flexWrap: "wrap", marginTop: "2px" }}>
                 <span style={{ color: "#666666", fontSize: "11px" }}>Custom:</span>
-                {customCategories.map((cat) => (
+                {topLevelCustomCategories.map((cat) => (
                   <span
                     key={cat.id}
                     style={{
@@ -435,6 +489,109 @@ export function AdminContentClient({
                 ))}
               </div>
             )}
+
+            {/* Archive Year Subtopics / Tags */}
+            <div style={{ backgroundColor: "#111111", border: "1px solid #1F1F1F", borderRadius: "8px", padding: "12px 14px", marginTop: "4px", display: "flex", flexDirection: "column", gap: "10px" }}>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "8px", flexWrap: "wrap" }}>
+                <span style={{ color: "#888888", fontSize: "10px", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 700 }}>
+                  Archive Year Subtopics / Tags
+                </span>
+                <span style={{ color: "#555555", fontSize: "11px" }}>
+                  Add subtopics under each year, then pick one when uploading photos
+                </span>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
+                {archiveSubtopicsByYear.map(({ year, yearSlug, subtopics }) => (
+                  <div
+                    key={yearSlug}
+                    style={{ backgroundColor: "#161618", border: "1px solid #222224", borderRadius: "6px", padding: "10px", display: "flex", flexDirection: "column", gap: "8px" }}
+                  >
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "8px" }}>
+                      <button
+                        type="button"
+                        onClick={() => setUploadCategory(yearSlug)}
+                        style={{
+                          background: "none",
+                          border: "none",
+                          padding: 0,
+                          cursor: "pointer",
+                          color: uploadCategory === yearSlug ? PINK : "#FFFFFF",
+                          fontSize: "12px",
+                          fontWeight: 700,
+                          letterSpacing: "0.06em",
+                        }}
+                        title={`Upload directly to Archives ${year}`}
+                      >
+                        {year}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => openAddCategoryForm(yearSlug)}
+                        style={{
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: "4px",
+                          backgroundColor: "transparent",
+                          border: "1px solid #2B2B2E",
+                          borderRadius: "999px",
+                          padding: "2px 8px",
+                          fontSize: "10px",
+                          fontWeight: 600,
+                          color: "#CCCCCC",
+                          cursor: "pointer",
+                        }}
+                        className="hover:border-white/40 hover:text-white transition-colors"
+                      >
+                        <Plus size={10} /> Subtopic
+                      </button>
+                    </div>
+                    {subtopics.length === 0 ? (
+                      <p style={{ color: "#555555", fontSize: "11px", margin: 0 }}>No subtopics yet</p>
+                    ) : (
+                      <div style={{ display: "flex", flexWrap: "wrap", gap: "5px" }}>
+                        {subtopics.map((sub) => {
+                          const isSelected = uploadCategory === sub.slug;
+                          return (
+                            <span
+                              key={sub.id}
+                              style={{
+                                display: "inline-flex",
+                                alignItems: "center",
+                                gap: "5px",
+                                backgroundColor: isSelected ? "rgba(107, 124, 58, 0.2)" : "#111111",
+                                border: `1px solid ${isSelected ? PINK : "#2A2A2D"}`,
+                                borderRadius: "999px",
+                                padding: "2px 8px",
+                                fontSize: "11px",
+                                color: isSelected ? "#FFFFFF" : "#CCCCCC",
+                              }}
+                            >
+                              <button
+                                type="button"
+                                onClick={() => setUploadCategory(sub.slug)}
+                                style={{ background: "none", border: "none", padding: 0, color: "inherit", fontSize: "inherit", cursor: "pointer" }}
+                                title={`Select "${sub.name}" for upload`}
+                              >
+                                {sub.name}
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => deleteLookbookCategory(sub)}
+                                aria-label={`Delete subtopic ${sub.name}`}
+                                style={{ background: "none", border: "none", color: "#777777", cursor: "pointer", padding: 0, display: "inline-flex" }}
+                                className="hover:text-red-400"
+                              >
+                                <X size={10} />
+                              </button>
+                            </span>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
           <div
             style={{ border: "1px dashed #222224", borderRadius: "8px", padding: "36px", textAlign: "center", cursor: "pointer", backgroundColor: "#111111" }}

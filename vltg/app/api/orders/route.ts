@@ -18,6 +18,8 @@ export async function GET(request: Request) {
       { orderNumber: { contains: search, mode: "insensitive" } },
       { customer: { name: { contains: search, mode: "insensitive" } } },
       { customer: { email: { contains: search, mode: "insensitive" } } },
+      { customerName: { contains: search, mode: "insensitive" } },
+      { customerEmail: { contains: search, mode: "insensitive" } },
     ];
 
     const [orders, total] = await Promise.all([
@@ -52,15 +54,15 @@ export async function POST(request: Request) {
     // Upsert customer and link to logged-in user if session is active
     const customer = await db.customer.upsert({
       where: { email },
-      update: { 
-        name, 
-        phone, 
+      update: {
+        name,
+        phone,
         ...(userId ? { userId } : {})
       },
-      create: { 
-        name, 
-        email, 
-        phone, 
+      create: {
+        name,
+        email,
+        phone,
         ...(userId ? { userId } : {})
       },
     });
@@ -95,8 +97,8 @@ export async function POST(request: Request) {
     // Fire emails after order is created — non-fatal, never block the order response
     const emailData = {
       orderNumber: order.orderNumber,
-      customerName: order.customer.name,
-      customerEmail: order.customer.email,
+      customerName: order.customer?.name ?? order.customerName ?? name,
+      customerEmail: order.customer?.email ?? order.customerEmail ?? email,
       items: order.items.map((item) => ({
         ...item,
         price: item.price.toNumber(),

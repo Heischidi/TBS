@@ -15,18 +15,19 @@ interface Stats {
 }
 interface Order {
   id: string; orderNumber: string; status: string; totalAmount: any;
-  createdAt: string; customer: { name: string };
+  createdAt: string; customer: { name: string } | null;
+  customerName?: string | null;
   items: { quantity: number }[];
 }
 interface Product { id: string; name: string; stock: number; images: string[]; }
 
 const STATUS_CONFIG: Record<string, { label: string; className: string }> = {
-  PENDING_PAYMENT:   { label: "Pending",    className: "status-pending" },
-  PAYMENT_CONFIRMED: { label: "Confirmed",  className: "status-confirmed" },
-  PROCESSING:        { label: "Processing", className: "status-processing" },
-  SHIPPED:           { label: "Shipped",    className: "status-shipped" },
-  DELIVERED:         { label: "Delivered",  className: "status-delivered" },
-  CANCELLED:         { label: "Cancelled",  className: "status-cancelled" },
+  PENDING_PAYMENT: { label: "Pending", className: "status-pending" },
+  PAYMENT_CONFIRMED: { label: "Confirmed", className: "status-confirmed" },
+  PROCESSING: { label: "Processing", className: "status-processing" },
+  SHIPPED: { label: "Shipped", className: "status-shipped" },
+  DELIVERED: { label: "Delivered", className: "status-delivered" },
+  CANCELLED: { label: "Cancelled", className: "status-cancelled" },
 };
 
 const PINK = "#6B7C3A";
@@ -35,18 +36,18 @@ export function AdminDashboardClient({ stats, recentOrders, lowStock }: {
   stats: Stats; recentOrders: Order[]; lowStock: Product[];
 }) {
   const kpiCards = [
-    { label: "TOTAL ORDERS", value: stats.total,               icon: ShoppingCart, valueColor: "#FFFFFF", iconColor: "#888888", bgIcon: "#1F1F1F" },
-    { label: "PENDING",      value: stats.pending,             icon: Clock,        valueColor: "#F59E0B", iconColor: "#F59E0B", bgIcon: "rgba(245, 158, 11, 0.15)" },
-    { label: "COMPLETED",    value: stats.completed,           icon: CheckCircle,  valueColor: "#FFFFFF", iconColor: "#888888", bgIcon: "#1F1F1F" },
-    { label: "CANCELLED",    value: stats.cancelled,           icon: XCircle,      valueColor: "#EF4444", iconColor: "#EF4444", bgIcon: "rgba(239, 68, 68, 0.15)" },
-    { label: "REVENUE",      value: formatPrice(stats.revenue), icon: null,         valueColor: "#FFFFFF", iconText: "N",        bgIcon: "#1F1F1F" },
-    { label: "CUSTOMERS",    value: stats.customers,           icon: Users,        valueColor: "#FFFFFF", iconColor: "#888888", bgIcon: "#1F1F1F" },
+    { label: "TOTAL ORDERS", value: stats.total, icon: ShoppingCart, valueColor: "#FFFFFF", iconColor: "#888888", bgIcon: "#1F1F1F" },
+    { label: "PENDING", value: stats.pending, icon: Clock, valueColor: "#F59E0B", iconColor: "#F59E0B", bgIcon: "rgba(245, 158, 11, 0.15)" },
+    { label: "COMPLETED", value: stats.completed, icon: CheckCircle, valueColor: "#FFFFFF", iconColor: "#888888", bgIcon: "#1F1F1F" },
+    { label: "CANCELLED", value: stats.cancelled, icon: XCircle, valueColor: "#EF4444", iconColor: "#EF4444", bgIcon: "rgba(239, 68, 68, 0.15)" },
+    { label: "REVENUE", value: formatPrice(stats.revenue), icon: null, valueColor: "#FFFFFF", iconText: "N", bgIcon: "#1F1F1F" },
+    { label: "CUSTOMERS", value: stats.customers, icon: Users, valueColor: "#FFFFFF", iconColor: "#888888", bgIcon: "#1F1F1F" },
   ];
 
   const quickActions = [
-    { label: "Add Product",    sub: "Create a new listing",  icon: Plus,      href: "/admin/products",  iconColor: PINK, iconBg: "rgba(255, 20, 147, 0.15)" },
-    { label: "View Reports",   sub: "Analytics & insights",  icon: BarChart2, href: "/admin/analytics", iconColor: "#888888", iconBg: "#222224" },
-    { label: "Store Settings", sub: "Configure your store",  icon: Settings,  href: "/admin/content",   iconColor: "#888888", iconBg: "#222224" },
+    { label: "Add Product", sub: "Create a new listing", icon: Plus, href: "/admin/products", iconColor: PINK, iconBg: "rgba(255, 20, 147, 0.15)" },
+    { label: "View Reports", sub: "Analytics & insights", icon: BarChart2, href: "/admin/analytics", iconColor: "#888888", iconBg: "#222224" },
+    { label: "Store Settings", sub: "Configure your store", icon: Settings, href: "/admin/content", iconColor: "#888888", iconBg: "#222224" },
   ];
 
   return (
@@ -175,7 +176,7 @@ export function AdminDashboardClient({ stats, recentOrders, lowStock }: {
                             #{order.orderNumber}
                           </Link>
                         </td>
-                        <td style={{ padding: "12px 16px", color: "#AAAAAA" }}>{order.customer.name}</td>
+                        <td style={{ padding: "12px 16px", color: "#AAAAAA" }}>{order.customer?.name ?? order.customerName ?? "Deleted customer"}</td>
                         <td style={{ padding: "12px 16px", color: "#FFFFFF", fontWeight: 500 }}>{formatPrice(Number(order.totalAmount))}</td>
                         <td style={{ padding: "12px 16px" }}>
                           <span className={cn("text-[10px] px-2 py-0.5 border rounded-full uppercase tracking-wider", s.className)}>{s.label}</span>

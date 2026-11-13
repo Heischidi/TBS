@@ -18,7 +18,7 @@ export async function getLookbookCategories(): Promise<{
   try {
     customCategories = await db.lookbookCategory.findMany({
       orderBy: [{ order: "asc" }, { createdAt: "asc" }],
-      select: { id: true, name: true, slug: true, order: true },
+      select: { id: true, name: true, slug: true, parentSlug: true, order: true },
     });
   } catch (error) {
     console.error("Failed to load lookbook categories:", error);

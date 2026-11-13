@@ -32,21 +32,24 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
       include: { customer: true },
     });
 
+    const customerName = order.customer?.name ?? order.customerName ?? "Customer";
+    const customerEmail = order.customer?.email ?? order.customerEmail;
+
     // Send customer notification based on new status
-    if (status === "PAYMENT_CONFIRMED") {
+    if (status === "PAYMENT_CONFIRMED" && customerEmail) {
       await sendPaymentConfirmedEmail({
         orderNumber: order.orderNumber,
-        customerName: order.customer.name,
-        customerEmail: order.customer.email,
+        customerName,
+        customerEmail,
         totalAmount: order.totalAmount.toNumber(),
       });
     }
 
-    if (status === "SHIPPED") {
+    if (status === "SHIPPED" && customerEmail) {
       await sendOutForDeliveryEmail({
         orderNumber: order.orderNumber,
-        customerName: order.customer.name,
-        customerEmail: order.customer.email,
+        customerName,
+        customerEmail,
       });
     }
 

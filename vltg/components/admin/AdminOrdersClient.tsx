@@ -7,7 +7,8 @@ import { formatPrice, formatDateTime, cn } from "@/lib/utils";
 
 interface Order {
   id: string; orderNumber: string; status: string; totalAmount: any;
-  createdAt: string; customer: { name: string; email: string };
+  createdAt: string; customer: { name: string; email: string } | null;
+  customerName?: string | null; customerEmail?: string | null;
   items: { quantity: number }[];
 }
 
@@ -22,12 +23,12 @@ const STATUS_OPTIONS = [
 ];
 
 const STATUS_CONFIG: Record<string, { label: string; className: string }> = {
-  PENDING_PAYMENT:   { label: "Pending Payment", className: "status-pending" },
-  PAYMENT_CONFIRMED: { label: "Confirmed",       className: "status-confirmed" },
-  PROCESSING:        { label: "Processing",      className: "status-processing" },
-  SHIPPED:           { label: "Shipped",         className: "status-shipped" },
-  DELIVERED:         { label: "Delivered",       className: "status-delivered" },
-  CANCELLED:         { label: "Cancelled",       className: "status-cancelled" },
+  PENDING_PAYMENT: { label: "Pending Payment", className: "status-pending" },
+  PAYMENT_CONFIRMED: { label: "Confirmed", className: "status-confirmed" },
+  PROCESSING: { label: "Processing", className: "status-processing" },
+  SHIPPED: { label: "Shipped", className: "status-shipped" },
+  DELIVERED: { label: "Delivered", className: "status-delivered" },
+  CANCELLED: { label: "Cancelled", className: "status-cancelled" },
 };
 
 const PINK = "#6B7C3A";
@@ -173,8 +174,8 @@ export function AdminOrdersClient() {
                       </Link>
                     </td>
                     <td style={{ padding: "12px 12px" }}>
-                      <p style={{ color: "#FFFFFF", fontSize: "12px", fontWeight: 600, margin: 0 }}>{order.customer.name}</p>
-                      <p style={{ color: "#666666", fontSize: "10px", margin: "2px 0 0 0" }}>{order.customer.email}</p>
+                      <p style={{ color: "#FFFFFF", fontSize: "12px", fontWeight: 600, margin: 0 }}>{order.customer?.name ?? order.customerName ?? "Deleted customer"}</p>
+                      <p style={{ color: "#666666", fontSize: "10px", margin: "2px 0 0 0" }}>{order.customer?.email ?? order.customerEmail ?? "—"}</p>
                     </td>
                     <td style={{ padding: "12px 12px", color: "#AAAAAA", fontSize: "12px" }}>
                       {order.items.reduce((a, i) => a + i.quantity, 0)} item{order.items.reduce((a, i) => a + i.quantity, 0) !== 1 ? "s" : ""}

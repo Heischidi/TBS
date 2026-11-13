@@ -21,7 +21,8 @@ interface OrderItem {
 interface Order {
   id: string; orderNumber: string; status: string; totalAmount: any; createdAt: string;
   address: string; city: string; state: string; country: string; notes?: string | null;
-  customer: { name: string; email: string; phone?: string | null };
+  customer: { name: string; email: string; phone?: string | null } | null;
+  customerName?: string | null; customerEmail?: string | null; customerPhone?: string | null;
   items: OrderItem[];
 }
 
@@ -56,10 +57,14 @@ export function AdminOrderDetailClient({ order }: { order: Order }) {
     setUpdating(false);
   };
 
+  const customerName = order.customer?.name ?? order.customerName ?? "Deleted customer";
+  const customerEmail = order.customer?.email ?? order.customerEmail ?? "";
+  const customerPhone = order.customer?.phone ?? order.customerPhone ?? null;
+
   const handleWhatsApp = () => {
     const msg = buildWhatsAppMessage({
-      orderNumber: order.orderNumber, customerName: order.customer.name,
-      phone: order.customer.phone || "", email: order.customer.email,
+      orderNumber: order.orderNumber, customerName,
+      phone: customerPhone || "", email: customerEmail,
       items: order.items.map((i) => ({ productName: i.product?.name ?? i.productName ?? "Deleted product", size: i.size, color: i.color, quantity: i.quantity, price: Number(i.price) })),
       totalAmount: Number(order.totalAmount), address: order.address,
       city: order.city, state: order.state, country: order.country,
@@ -120,9 +125,9 @@ export function AdminOrderDetailClient({ order }: { order: Order }) {
           <h2 style={{ color: "#666666", fontSize: "10px", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", margin: "0 0 12px 0" }}>
             Customer
           </h2>
-          <p style={{ color: "#FFFFFF", fontSize: "14px", fontWeight: 700, margin: 0 }}>{order.customer.name}</p>
-          <p style={{ color: "#AAAAAA", fontSize: "12px", margin: "2px 0 0 0" }}>{order.customer.email}</p>
-          {order.customer.phone && <p style={{ color: "#AAAAAA", fontSize: "12px", margin: "2px 0 0 0" }}>{order.customer.phone}</p>}
+          <p style={{ color: "#FFFFFF", fontSize: "14px", fontWeight: 700, margin: 0 }}>{customerName}</p>
+          {customerEmail && <p style={{ color: "#AAAAAA", fontSize: "12px", margin: "2px 0 0 0" }}>{customerEmail}</p>}
+          {customerPhone && <p style={{ color: "#AAAAAA", fontSize: "12px", margin: "2px 0 0 0" }}>{customerPhone}</p>}
           <button
             onClick={handleWhatsApp}
             style={{

@@ -4,7 +4,14 @@ import { ArrowRight } from "lucide-react";
 import { db } from "@/lib/db";
 import { LookbookSection } from "@/components/shop/home/LookbookSection";
 import { LookbookCategoryNav } from "@/components/shop/LookbookCategoryNav";
-import { B2B_ENQUIRY_HREF, categoryLabel, resolveCategoryParam } from "@/lib/lookbook";
+import {
+  B2B_ENQUIRY_HREF,
+  archiveSubtopicLabel,
+  categoryLabel,
+  isArchiveYearSlug,
+  lookbookWhereForCategory,
+  resolveCategoryParam,
+} from "@/lib/lookbook";
 import { getLookbookCategories } from "@/lib/lookbook-server";
 
 export const metadata: Metadata = {
@@ -29,21 +36,23 @@ export default async function LookbookPage({
     getLookbookCategories(),
   ]);
   const selected = resolveCategoryParam(category, categories);
+  const where = lookbookWhereForCategory(selected);
 
-  const where =
-    selected === ""
-      ? {}
-      : selected === "archives"
-        ? { category: { startsWith: "archives-" } }
-        : { category: selected };
-
-  let images: { id: string; image: string; caption?: string | null }[] = [];
+  let rawImages: { id: string; image: string; caption?: string | null; category?: string | null }[] = [];
   try {
-    images = await db.lookbookImage.findMany({ where, orderBy: { order: "asc" } });
+    rawImages = await db.lookbookImage.findMany({ where, orderBy: { order: "asc" } });
   } catch (error) {
     // DB offline — "All" falls back to LookbookSection's own placeholder tiles.
     console.error("Failed to load lookbook images:", error);
   }
+
+  const showSubtopicBadges = selected === "archives" || isArchiveYearSlug(selected);
+  const images = rawImages.map((img) => ({
+    id: img.id,
+    image: img.image,
+    caption: img.caption,
+    tag: showSubtopicBadges ? archiveSubtopicLabel(img.category, categories) : null,
+  }));
 
   const heading =
     selected === ""

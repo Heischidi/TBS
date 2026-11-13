@@ -42,11 +42,12 @@ export async function POST(req: Request) {
       });
 
       // Send payment confirmation email
-      if (updatedOrder) {
+      const customerEmail = updatedOrder?.customer?.email ?? updatedOrder?.customerEmail;
+      if (updatedOrder && customerEmail) {
         await sendPaymentConfirmedEmail({
           orderNumber: updatedOrder.orderNumber,
-          customerName: updatedOrder.customer.name,
-          customerEmail: updatedOrder.customer.email,
+          customerName: updatedOrder.customer?.name ?? updatedOrder.customerName ?? "Customer",
+          customerEmail,
           totalAmount: updatedOrder.totalAmount.toNumber(),
         });
       }

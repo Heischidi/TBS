@@ -96,8 +96,11 @@ model Order {
   id               String      @id @default(cuid())
   orderNumber      String      @unique
   paymentReference String?     @unique
-  customerId       String
-  customer         Customer    @relation(fields: [customerId], references: [id])
+  customerId       String?
+  customer         Customer?   @relation(fields: [customerId], references: [id], onDelete: SetNull)
+  customerName     String?
+  customerEmail    String?
+  customerPhone    String?
   items            OrderItem[]
   status           OrderStatus @default(PENDING_PAYMENT)
   totalAmount      Decimal     @db.Decimal(10, 2)
@@ -155,11 +158,12 @@ model LookbookImage {
 }
 
 model LookbookCategory {
-  id        String   @id @default(cuid())
-  name      String
-  slug      String   @unique
-  order     Int      @default(0)
-  createdAt DateTime @default(now())
+  id         String   @id @default(cuid())
+  name       String
+  slug       String   @unique
+  parentSlug String?
+  order      Int      @default(0)
+  createdAt  DateTime @default(now())
 }
 
 model Setting {

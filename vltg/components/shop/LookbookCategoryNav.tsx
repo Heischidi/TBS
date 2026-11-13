@@ -5,6 +5,7 @@ import {
   B2B_ENQUIRY_HREF,
   LOOKBOOK_CATEGORIES,
   LookbookCategory,
+  archiveYearOf,
   topLevelOf,
 } from "@/lib/lookbook";
 
@@ -12,7 +13,7 @@ const hrefFor = (slug: string) => (slug ? `/lookbook?category=${slug}` : "/lookb
 
 /**
  * Category tabs for the lookbook. `selected` is the resolved slug from the URL
- * ("" = All, "archives" = every year, "archives-2024", "b2b", ...).
+ * ("" = All, "archives" = every year, "archives-2023", "archives-2023-pop-up", "b2b", ...).
  */
 export function LookbookCategoryNav({
   selected,
@@ -23,6 +24,11 @@ export function LookbookCategoryNav({
 }) {
   const active = topLevelOf(selected);
   const activeCategory = categories.find((c) => c.slug === active);
+  const activeYearSlug = archiveYearOf(selected);
+  const activeYear =
+    activeCategory?.slug === "archives" && activeYearSlug
+      ? activeCategory.children?.find((y) => y.slug === activeYearSlug)
+      : undefined;
 
   return (
     <div className="space-y-3">
@@ -57,14 +63,46 @@ export function LookbookCategoryNav({
           >
             All Years
           </Link>
-          {activeCategory.children.map((year) => (
+          {activeCategory.children.map((year) => {
+            const yearSelected = activeYearSlug === year.slug;
+            return (
+              <Link
+                key={year.slug}
+                href={hrefFor(year.slug)}
+                aria-current={yearSelected ? "page" : undefined}
+                className={cn("filter-chip shrink-0 text-[11px]", yearSelected && "active")}
+              >
+                {year.label}
+              </Link>
+            );
+          })}
+        </nav>
+      )}
+
+      {/* Selected Archive year: subtopics / tags */}
+      {activeYear?.subtopics && activeYear.subtopics.length > 0 && (
+        <nav aria-label={`${activeYear.label} subtopics`} className="h-scroll-track">
+          <Link
+            href={hrefFor(activeYear.slug)}
+            aria-current={selected === activeYear.slug ? "page" : undefined}
+            className={cn(
+              "filter-chip shrink-0 text-[10px]",
+              selected === activeYear.slug && "active"
+            )}
+          >
+            All {activeYear.label}
+          </Link>
+          {activeYear.subtopics.map((sub) => (
             <Link
-              key={year.slug}
-              href={hrefFor(year.slug)}
-              aria-current={selected === year.slug ? "page" : undefined}
-              className={cn("filter-chip shrink-0 text-[11px]", selected === year.slug && "active")}
+              key={sub.slug}
+              href={hrefFor(sub.slug)}
+              aria-current={selected === sub.slug ? "page" : undefined}
+              className={cn(
+                "filter-chip shrink-0 text-[10px]",
+                selected === sub.slug && "active"
+              )}
             >
-              {year.label}
+              {sub.label}
             </Link>
           ))}
         </nav>
@@ -92,4 +130,3 @@ export function LookbookCategoryNav({
     </div>
   );
 }
-

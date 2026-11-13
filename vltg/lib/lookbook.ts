@@ -3,28 +3,45 @@
  * the admin uploader, and the lookbook APIs.
  *
  * Built-in categories are always available; admins can also add custom
- * LookbookCategory records in the database which are merged in cleanly.
+ * LookbookCategory records in the database (both top-level categories and
+ * subtopics/tags nested under an Archive year such as "archives-2023").
  *
- * An image stores one category slug (e.g. "night-owl", "archives-2024", or a
- * custom slug). The parent "archives" slug is a virtual grouping that matches
- * every "archives-YYYY" image.
+ * An image stores one leaf category slug (e.g. "night-owl", "archives-2023",
+ * "archives-2023-lagos-popup", or a custom slug). Parent slugs ("archives" and
+ * "archives-YYYY") automatically include images from their child subtopics.
  */
+
+export interface LookbookSubtopic {
+  slug: string;
+  label: string;
+}
+
+export interface LookbookChildCategory {
+  slug: string;
+  label: string;
+  subtopics?: LookbookSubtopic[];
+}
 
 export interface LookbookCategory {
   slug: string;
   label: string;
-  /** Sub-categories that an image can actually be assigned to. */
-  children?: { slug: string; label: string }[];
+  /** Sub-categories (e.g. Archive years) that an image can be assigned to. */
+  children?: LookbookChildCategory[];
 }
 
 export interface CustomLookbookCategory {
   id: string;
   name: string;
   slug: string;
+  parentSlug?: string | null;
   order: number;
 }
 
 export const ARCHIVE_YEARS = ["2023", "2024", "2025", "2026"] as const;
+
+export const ARCHIVE_YEAR_SLUGS: string[] = ARCHIVE_YEARS.map(
+  (year) => `archives-${year}`
+);
 
 export const LOOKBOOK_CATEGORIES: LookbookCategory[] = [
   { slug: "charity-festival-1-0", label: "Charity Festival 1.0" },
@@ -44,18 +61,37 @@ export const LOOKBOOK_CATEGORIES: LookbookCategory[] = [
 /** Route of the B2B enquiry page. */
 export const B2B_ENQUIRY_HREF = "/lookbook/b2b/enquiries";
 
-/** Flattens a category list into leaf slugs that images can be saved with. */
+/** Returns true when `slug` is one of the Archive year slugs ("archives-YYYY"). */
+export function isArchiveYearSlug(slug: string | null | undefined): slug is string {
+  return typeof slug === "string" && ARCHIVE_YEAR_SLUGS.includes(slug);
+}
+
+/** Which Archive year slug ("archives-YYYY") a year or subtopic belongs to, or null. */
+export function archiveYearOf(slug: string | null | undefined): string | null {
+  if (!slug) return null;
+  for (const yearSlug of ARCHIVE_YEAR_SLUGS) {
+    if (slug === yearSlug || slug.startsWith(`${yearSlug}-`)) {
+      return yearSlug;
+    }
+  }
+  return null;
+}
+
+/** Flattens a category tree into leaf slugs that images can be saved with. */
 export function buildAssignableCategories(
   categories: LookbookCategory[] = LOOKBOOK_CATEGORIES
 ): { slug: string; label: string }[] {
-  return categories.flatMap((c) =>
-    c.children
-      ? c.children.map((child) => ({
-          slug: child.slug,
-          label: `${c.label} — ${child.label}`,
-        }))
-      : [{ slug: c.slug, label: c.label }]
-  );
+  return categories.flatMap((c) => {
+    if (!c.children) return [{ slug: c.slug, label: c.label }];
+    return c.children.flatMap((child) => {
+      const yearItem = { slug: child.slug, label: `${c.label} — ${child.label}` };
+      const subItems = (child.subtopics ?? []).map((sub) => ({
+        slug: sub.slug,
+        label: `${c.label} — ${child.label} / ${sub.label}`,
+      }));
+      return [yearItem, ...subItems];
+    });
+  });
 }
 
 /** Built-in assignable leaf categories. */
@@ -77,23 +113,53 @@ export function slugifyLookbookCategory(name: string): string {
     .replace(/^-+|-+$/g, "");
 }
 
-/** True when a slug collides with a built-in/reserved Lookbook slug. */
+/** True when a top-level slug collides with a built-in/reserved Lookbook slug. */
 export function isReservedLookbookSlug(slug: string): boolean {
   return !slug || BUILTIN_SLUGS.has(slug) || slug.startsWith("archives-");
 }
 
-/** Appends custom DB categories after the built-in ones, deduplicating by slug. */
+/**
+ * Merges DB custom categories into the built-in tree:
+ * - entries with `parentSlug` matching an Archive year become `subtopics` under that year
+ * - entries without `parentSlug` are appended as top-level categories
+ */
 export function mergeLookbookCategories(
-  custom: Pick<CustomLookbookCategory, "name" | "slug">[]
+  custom: Pick<CustomLookbookCategory, "name" | "slug" | "parentSlug">[]
 ): LookbookCategory[] {
-  const seen = new Set(BUILTIN_SLUGS);
+  const baseCategories: LookbookCategory[] = LOOKBOOK_CATEGORIES.map((c) =>
+    c.children
+      ? {
+        ...c,
+        children: c.children.map((child) => ({ ...child, subtopics: [] })),
+      }
+      : { ...c }
+  );
+
+  const archives = baseCategories.find((c) => c.slug === "archives");
+  const seenTopLevel = new Set(BUILTIN_SLUGS);
+  const seenSubtopics = new Set<string>();
   const extras: LookbookCategory[] = [];
+
   for (const item of custom) {
-    if (!item.slug || seen.has(item.slug)) continue;
-    seen.add(item.slug);
+    if (!item.slug) continue;
+
+    if (item.parentSlug && isArchiveYearSlug(item.parentSlug)) {
+      if (seenSubtopics.has(item.slug)) continue;
+      const yearNode = archives?.children?.find((y) => y.slug === item.parentSlug);
+      if (yearNode) {
+        seenSubtopics.add(item.slug);
+        yearNode.subtopics = yearNode.subtopics ?? [];
+        yearNode.subtopics.push({ slug: item.slug, label: item.name });
+      }
+      continue;
+    }
+
+    if (seenTopLevel.has(item.slug)) continue;
+    seenTopLevel.add(item.slug);
     extras.push({ slug: item.slug, label: item.name });
   }
-  return [...LOOKBOOK_CATEGORIES, ...extras];
+
+  return [...baseCategories, ...extras];
 }
 
 export function isAssignableCategory(
@@ -113,9 +179,23 @@ export function categoryLabel(
   return buildAssignableCategories(categories).find((c) => c.slug === slug)?.label ?? null;
 }
 
+/** Short subtopic tag label when an image belongs to an Archive year subtopic, else null. */
+export function archiveSubtopicLabel(
+  slug: string | null | undefined,
+  categories: LookbookCategory[] = LOOKBOOK_CATEGORIES
+): string | null {
+  if (!slug) return null;
+  const archives = categories.find((c) => c.slug === "archives");
+  for (const year of archives?.children ?? []) {
+    const sub = year.subtopics?.find((s) => s.slug === slug);
+    if (sub) return sub.label;
+  }
+  return null;
+}
+
 /**
- * Normalises the `?category=` query value into a known top-level or archive
- * slug. Unknown values fall back to "all" (empty string).
+ * Normalises the `?category=` query value into a known top-level, archive year,
+ * or archive subtopic slug. Unknown values fall back to "all" (empty string).
  */
 export function resolveCategoryParam(
   value: string | undefined,
@@ -141,5 +221,23 @@ export function matchesCategory(
   if (!selected) return true; // "All"
   if (!imageCategory) return false;
   if (selected === "archives") return imageCategory.startsWith("archives-");
+  if (isArchiveYearSlug(selected)) {
+    return imageCategory === selected || imageCategory.startsWith(`${selected}-`);
+  }
   return imageCategory === selected;
+}
+
+/** Prisma `where` filter matching `LookbookImage` rows for a resolved selection. */
+export function lookbookWhereForCategory(selected: string) {
+  if (!selected) return {};
+  if (selected === "archives") return { category: { startsWith: "archives-" } };
+  if (isArchiveYearSlug(selected)) {
+    return {
+      OR: [
+        { category: selected },
+        { category: { startsWith: `${selected}-` } },
+      ],
+    };
+  }
+  return { category: selected };
 }

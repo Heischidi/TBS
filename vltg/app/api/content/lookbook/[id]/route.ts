@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { db } from "@/lib/db";
 import { requireAdmin } from "@/lib/admin-guard";
 import { isValidAssignableLookbookCategory } from "@/lib/lookbook-server";
@@ -20,6 +21,8 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
 
   try {
     const image = await db.lookbookImage.update({ where: { id }, data: { category } });
+    revalidatePath("/lookbook");
+    revalidatePath("/");
     return NextResponse.json(image);
   } catch {
     return NextResponse.json({ error: "Image not found" }, { status: 404 });
@@ -33,6 +36,8 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
   const { id } = await params;
   try {
     await db.lookbookImage.delete({ where: { id } });
+    revalidatePath("/lookbook");
+    revalidatePath("/");
     return NextResponse.json({ success: true });
   } catch {
     return NextResponse.json({ error: "Image not found" }, { status: 404 });
